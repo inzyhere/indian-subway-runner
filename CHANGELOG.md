@@ -8,6 +8,22 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Public GitHub Release delivery (unverified)
+
+#### Added
+
+- `.github/workflows/godot-android-release.yml` for manual, artifact-independent delivery: secret-free Godot Android export, SHA-256 checksum, and GitHub Release asset upload with the automatic `GITHUB_TOKEN`.
+- Public Release delivery docs in `docs/godot-android-build.md` covering the build workflow, release workflow, permissions, and evidence boundary.
+
+#### Changed
+
+- `README.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `SECURITY.md`, `CONTRIBUTING.md`, and ADR-0004 now describe GitHub Release delivery and public repository visibility.
+- Repository visibility changed to public after owner approval; no payment method, spending limit, Unity credential, repository secret, or release key was added.
+
+#### Not implemented
+
+- No GitHub Release workflow run has completed yet, so no APK, checksum asset, installation, logcat, or device result exists.
+
 ### 2026-11-25 — Active Godot prototype foundation (unverified)
 
 #### Added

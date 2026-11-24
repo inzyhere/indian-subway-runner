@@ -19,13 +19,14 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 | Godot gameplay prototype | Implemented — unverified | Three-lane movement, jump, slide, low/high barriers, coins, score, chase gap, increasing speed, procedural track, restart, and touch/keyboard input exist in `godot/scripts/main.gd`. No runtime evidence exists yet. |
 | Godot assets | Implemented — unverified | Original OBJ/MTL models and WAV audio were copied into `godot/assets/` from the preserved Unity project. Godot import and playback are not verified. |
 | Hindi dialogue and announcements | In progress | Generated music/SFX exist; no voice pack or announcement clip exists. |
-| Android build | Blocked | `.github/workflows/godot-android.yml` provides a secret-free debug APK workflow. Run `45500464511` failed before any step because GitHub reports failed account payments or a spending-limit issue; no APK artifact, install, or device verification exists yet. |
-| GitHub remote | Implemented | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
+| Android build | Blocked — release path configured | `.github/workflows/godot-android.yml` builds a debug APK artifact and `.github/workflows/godot-android-release.yml` publishes an APK plus SHA-256 checksum to a GitHub Release using the automatic token. Run `45500464511` failed before any step under the old private-repository billing state; no APK artifact, Release asset, install, or device verification exists yet. |
+| GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
 ## What is verified
 
 - Repository files, Markdown, Mermaid, YAML, GDScript text, JSON, XML, shell commands, and folder structure can be statically checked.
-- No Unity license, Unity credential, GitHub secret, release keystore, or signing password is required by the active Godot workflow.
+- No Unity license, Unity credential, repository secret, release keystore, or signing password is required by the active Godot workflows.
+- The GitHub Release delivery workflow uses only the automatic `GITHUB_TOKEN` with `contents: write`.
 - No unauthorized third-party asset is committed.
 - `Tools/Blender/Scripts/generate_assets.py` previously generated 11 original OBJ/MTL model pairs, and copies now exist under `godot/assets/models/`.
 - `python3 Tools/Audio/generate_audio.py` previously generated one original music loop and seven original SFX WAV files, and copies now exist under `godot/assets/audio/`.
@@ -33,7 +34,7 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 ## What is not verified
 
 - Godot project import, resource import, GDScript execution, scene loading, rendering, input handling, or audio playback.
-- GitHub Actions export success or APK artifact contents.
+- GitHub Actions export success, GitHub Release creation/upload, or APK artifact contents.
 - APK installation, runtime behaviour, rendering, frame rate, battery/thermal behaviour, or touch input on a real Android device.
 - Save format, contextual voice packs, monetization, telemetry, and cloud save; all are future work.
 
@@ -41,10 +42,11 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 
 1. Static-check the new GDScript, project files, export preset, and workflow syntax. **Done.**
 2. Commit and push the Godot project, documentation, and workflow. **Done in `f981952`.**
-3. Resolve the GitHub Actions billing/spending-limit blocker, then rerun `.github/workflows/godot-android.yml` and verify the uploaded debug APK artifact.
-4. Install the APK on a real Android device, capture logcat, and verify input/rendering/audio/gameplay.
-5. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty.
-6. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
+3. Add an artifact-independent GitHub Release workflow and switch the repository to public after owner approval. **Done in this change.**
+4. Run `.github/workflows/godot-android-release.yml` and verify the Release APK and SHA-256 checksum.
+5. Install the APK on a real Android device, capture logcat, and verify input/rendering/audio/gameplay.
+6. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty.
+7. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
 
 ## Blockers requiring owner or environment action
 

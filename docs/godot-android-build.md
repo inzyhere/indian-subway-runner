@@ -4,25 +4,29 @@ The active Android build is a **debug APK** exported from the Godot 4 project un
 
 The old Unity workflow is not used for this build. The Unity project remains preserved and untouched.
 
-## Workflow
+## Workflows
 
-`.github/workflows/godot-android.yml` runs on pushes that change `godot/` or the workflow itself, and it can also be started manually.
+`.github/workflows/godot-android.yml` runs on pushes that change `godot/` or the workflow itself, and it can also be started manually. It produces and uploads a GitHub Actions artifact.
 
-The workflow:
+`.github/workflows/godot-android-release.yml` is the artifact-independent delivery path. It is started manually with a release tag and title, builds the same debug APK, writes a SHA-256 checksum, and publishes both files as assets on a GitHub Release using the automatic `GITHUB_TOKEN`. It does not use repository secrets, external credentials, or GitHub Actions artifact storage.
 
-1. Downloads Godot `4.7.2-stable` for Linux from the public Godot build release.
-2. Downloads and installs matching export templates.
-3. Installs Android SDK platform, build tools, platform tools, and licenses on the GitHub-hosted runner.
-4. Generates a fresh Android debug keystore with `keytool`.
-5. Imports the Godot project headlessly.
-6. Exports `builds/IndianSubwayRunner.apk` with `--export-debug Android`.
-7. Uploads the APK as a GitHub Actions artifact.
+Both workflows:
 
-The generated debug keystore uses the public Android debug alias and password. It is disposable CI state, not a credential or signing secret. No Unity license, Unity account, GitHub secret, or release key is required.
+1. Use `ubuntu-latest`.
+2. Download Godot `4.7.2-stable` for Linux from the public Godot build release.
+3. Download and install matching export templates.
+4. Install Android SDK platform, build tools, platform tools, and licenses on the GitHub-hosted runner.
+5. Generate a fresh Android debug keystore with `keytool`.
+6. Import the Godot project headlessly.
+7. Export `builds/IndianSubwayRunner.apk` with `--export-debug Android`.
 
-## Current CI blocker
+The generated debug keystore uses the public Android debug alias and password. It is disposable CI state, not a credential or signing secret. No Unity license, Unity account, repository secret, release key, or signing password is required.
 
-The first run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. No workflow step, Godot import, export, or artifact upload has executed yet. The repository owner must resolve Actions billing/spending limits before rerunning the workflow.
+The release workflow needs `contents: write` so that the automatic token can create a Release and upload assets. It keeps the existing build workflow unchanged with `contents: read`.
+
+## CI blocker history and current path
+
+The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. No workflow step, Godot import, export, or upload has executed yet. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The release workflow still needs a successful run before any APK or Release asset can be claimed.
 
 ## Export preset
 

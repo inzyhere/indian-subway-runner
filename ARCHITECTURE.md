@@ -51,7 +51,8 @@ The criminal always escapes in v1. The chase gap is a continuous pressure value:
 | `godot/scripts/main.gd` | Builds world, player, pursuer, camera, HUD, audio, procedural chunks, obstacles, coins, input arbitration, scoring, restart |
 | `godot/project.godot` | Project settings, main scene, Android-friendly rendering, viewport, orientation |
 | `godot/export_presets.cfg` | Android debug export preset, package ID, version, ARM64 architecture |
-| `.github/workflows/godot-android.yml` | Free secret-free Godot download, export templates, Android SDK setup, debug keystore, import, export, artifact upload |
+| `.github/workflows/godot-android.yml` | Free secret-free Godot download, export templates, Android SDK setup, debug keystore, import, export, Actions artifact upload |
+| `.github/workflows/godot-android-release.yml` | Manual secret-free rebuild plus APK and SHA-256 checksum publication as GitHub Release assets using `GITHUB_TOKEN` |
 
 ## Asset strategy
 

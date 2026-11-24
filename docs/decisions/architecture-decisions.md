@@ -243,9 +243,9 @@ Rejected for the current milestone. The immediate deliverable is a debug APK for
 
 ### Decision details
 
-The active Godot project is self-contained under `godot/` with `project.godot`, `main.tscn`, GDScript sources, exported presets, and copied engine-neutral assets. The Unity project is not modified or deleted. The Unity CI workflow is not used for active builds; a separate secret-free Godot workflow produces the Android debug APK artifact.
+The active Godot project is self-contained under `godot/` with `project.godot`, `main.tscn`, GDScript sources, exported presets, and copied engine-neutral assets. The Unity project is not modified or deleted. The Unity CI workflow is not used for active builds; separate secret-free Godot workflows produce the Android debug APK artifact and publish it as a GitHub Release asset.
 
-The GitHub Actions workflow downloads the pinned public Godot build and export templates, installs required Android SDK packages with licenses accepted, generates a fresh debug keystore with `keytool`, imports the Godot project headlessly, exports with `--export-debug Android`, and uploads the APK as a workflow artifact.
+The GitHub Actions workflows download the pinned public Godot build and export templates, install required Android SDK packages with licenses accepted, generate a fresh debug keystore with `keytool`, import the Godot project headlessly, and export with `--export-debug Android`. The build workflow uploads an Actions artifact; the manual release workflow writes a SHA-256 checksum and uses the automatic `GITHUB_TOKEN` with `contents: write` to publish the APK and checksum as GitHub Release assets, avoiding Actions artifact storage.
 
 ### Consequences
 

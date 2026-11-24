@@ -16,13 +16,14 @@ The legacy Kotlin/libGDX debug APK is not a release, not supported, and not the 
 
 ## Reporting a vulnerability
 
-Do not open a public issue. Until a GitHub remote and private reporting channel exist after `gh auth login`, contact the owner through an existing private channel. Include affected component, impact, reproduction steps, device/OS/app version if any, redacted evidence, and whether the issue is already public. Never send signing keys, tokens, credentials, or private user data with a report. Coordinate disclosure: acknowledge, triage, fix under [TESTING.md](TESTING.md) gates, then publish details only with a practical fix path and reporter consent.
+Do not open a public issue. Use GitHub private vulnerability reporting if enabled; otherwise contact the owner through an existing private channel. Include affected component, impact, reproduction steps, device/OS/app version if any, redacted evidence, and whether the issue is already public. Never send signing keys, tokens, credentials, or private user data with a report. Coordinate disclosure: acknowledge, triage, fix under [TESTING.md](TESTING.md) gates, then publish details only with a practical fix path and reporter consent.
 
 ## Secrets, signing, and GitHub
 
 - Never commit tokens, API keys, passwords, `.keystore`/`debug.keystore` files, or signed artifacts. A debug keystore exists locally in the home directory and must stay out of source control.
-- Release signing must come from secure local storage or CI secrets; never from Gradle/project files committed to the repository.
-- Keep the GitHub repository private. `gh` is authenticated as `inzyhere`; `origin` is the private `inzyhere/indian-subway-runner` repository. Verify no secret is present before each push.
+- Release signing must come from secure local storage or CI secrets; never from Gradle/project files committed to the repository. The current active deliverable is a disposable CI-signed debug APK, not a signed release build.
+- The GitHub repository is public after owner approval. `gh` is authenticated as `inzyhere`; `origin` is the public `inzyhere/indian-subway-runner` repository. Verify no secret is present before each push.
+- The GitHub Release workflow uses only the automatic `GITHUB_TOKEN` with `contents: write`; it does not use repository secrets or external credentials.
 - Do not paste credentials or unreleased licensed asset files into issues, docs, or logs.
 
 ## Asset licensing

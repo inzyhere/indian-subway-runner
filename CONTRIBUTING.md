@@ -41,7 +41,7 @@ All shipped content must be original, commissioned, or licensed for distribution
 
 ## Secrets and credentials
 
-Never commit tokens, API keys, signing passwords, `.keystore`/`debug.keystore` files, credentials, or private licensed asset bundles. Use secure local storage or CI secrets for signing; keep the GitHub remote private and scan before each push. Report suspected exposure privately as described in [SECURITY.md](SECURITY.md).
+Never commit tokens, API keys, signing passwords, `.keystore`/`debug.keystore` files, credentials, or private licensed asset bundles. Use secure local storage or CI secrets for signing; the GitHub remote is public after owner approval, so scan before each push. The Godot Release workflow uses only the automatic `GITHUB_TOKEN`; do not add repository secrets for it. Report suspected exposure privately as described in [SECURITY.md](SECURITY.md).
 
 ## Commit conventions
 

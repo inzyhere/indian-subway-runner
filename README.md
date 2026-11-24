@@ -23,7 +23,7 @@ The player runs through three lanes with swipe left/right, jump, and slide. Runs
 | Rendering | Godot 3D with compatibility-first settings |
 | 3D assets | Original OBJ/MTL models copied from the preserved Unity project where useful |
 | Audio | Original WAV music and SFX copied from the preserved Unity project where useful |
-| CI | GitHub Actions, secret-free |
+| CI | GitHub Actions, secret-free; GitHub Release delivery |
 | Signing | CI-generated Android debug keystore |
 
 The existing Unity project in `Assets/`, `Packages/`, and `ProjectSettings/` is preserved untouched as history. ADR-0003 is superseded for new work.
@@ -44,8 +44,8 @@ No Unity credential, Unity license, Unity serial, Unity password, GitHub secret,
 | Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, barriers, coins, score, chase gap, procedural track, restart, and touch/keyboard input exist in GDScript. |
 | Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
 | Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
-| Android build / device verification | Blocked | Secret-free GitHub Actions workflow exists, but run `45500464511` failed before any step because GitHub reports failed account payments or a spending-limit issue; no APK artifact or device evidence exists yet. |
-| GitHub remote | Implemented — pushed | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
+| Android build / device verification | Blocked — release path configured | Secret-free build and GitHub Release workflows exist, but run `45500464511` failed before any step under the old private-repository billing state; no APK artifact, Release asset, or device evidence exists yet. |
+| GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
 No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
@@ -53,7 +53,7 @@ No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT
 
 This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-There is therefore no installable or playable build to download yet. The first Godot Actions run was additionally blocked by GitHub account billing/spending limits before any workflow step executed. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
+There is therefore no installable or playable build to download yet. The first Godot Actions run was blocked by GitHub account billing/spending limits before any workflow step executed under the old private-repository state; the repository is now public and an artifact-independent GitHub Release workflow is configured. No payment method or spending limit was changed. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
 
 ## Quick document map
 
