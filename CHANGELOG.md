@@ -28,6 +28,7 @@
 #### Not implemented
 
 - No Godot import, GDScript runtime, resource import, rendering, input, audio playback, APK artifact, installation, logcat, performance capture, or device verification exists yet.
+- GitHub Actions run `45500464511` failed before any step because GitHub reported failed account payments or a spending-limit issue; the workflow remains unexecuted and no artifact was produced.
 
 ### 2026-11-25 — Source implementation and generated original assets (Unity-unverified)
 

@@ -20,6 +20,10 @@ The workflow:
 
 The generated debug keystore uses the public Android debug alias and password. It is disposable CI state, not a credential or signing secret. No Unity license, Unity account, GitHub secret, or release key is required.
 
+## Current CI blocker
+
+The first run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. No workflow step, Godot import, export, or artifact upload has executed yet. The repository owner must resolve Actions billing/spending limits before rerunning the workflow.
+
 ## Export preset
 
 `godot/export_presets.cfg` defines the `Android` preset:

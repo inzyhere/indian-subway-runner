@@ -44,7 +44,7 @@ No Unity credential, Unity license, Unity serial, Unity password, GitHub secret,
 | Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, barriers, coins, score, chase gap, procedural track, restart, and touch/keyboard input exist in GDScript. |
 | Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
 | Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
-| Android build / device verification | In progress | Secret-free GitHub Actions workflow exists; no APK artifact or device evidence exists yet. |
+| Android build / device verification | Blocked | Secret-free GitHub Actions workflow exists, but run `45500464511` failed before any step because GitHub reports failed account payments or a spending-limit issue; no APK artifact or device evidence exists yet. |
 | GitHub remote | Implemented — pushed | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
@@ -53,7 +53,7 @@ No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT
 
 This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-There is therefore no installable or playable build to download yet. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
+There is therefore no installable or playable build to download yet. The first Godot Actions run was additionally blocked by GitHub account billing/spending limits before any workflow step executed. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
 
 ## Quick document map
 

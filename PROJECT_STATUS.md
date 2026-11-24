@@ -19,7 +19,7 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 | Godot gameplay prototype | Implemented — unverified | Three-lane movement, jump, slide, low/high barriers, coins, score, chase gap, increasing speed, procedural track, restart, and touch/keyboard input exist in `godot/scripts/main.gd`. No runtime evidence exists yet. |
 | Godot assets | Implemented — unverified | Original OBJ/MTL models and WAV audio were copied into `godot/assets/` from the preserved Unity project. Godot import and playback are not verified. |
 | Hindi dialogue and announcements | In progress | Generated music/SFX exist; no voice pack or announcement clip exists. |
-| Android build | In progress | `.github/workflows/godot-android.yml` provides a secret-free debug APK workflow. No workflow run, APK artifact, install, or device verification exists yet. |
+| Android build | Blocked | `.github/workflows/godot-android.yml` provides a secret-free debug APK workflow. Run `45500464511` failed before any step because GitHub reports failed account payments or a spending-limit issue; no APK artifact, install, or device verification exists yet. |
 | GitHub remote | Implemented | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 ## What is verified
@@ -39,9 +39,9 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 
 ## Next milestone
 
-1. Static-check the new GDScript, project files, export preset, and workflow syntax.
-2. Commit and push the Godot project, documentation, and workflow.
-3. Run `.github/workflows/godot-android.yml` and verify the uploaded debug APK artifact.
+1. Static-check the new GDScript, project files, export preset, and workflow syntax. **Done.**
+2. Commit and push the Godot project, documentation, and workflow. **Done in `f981952`.**
+3. Resolve the GitHub Actions billing/spending-limit blocker, then rerun `.github/workflows/godot-android.yml` and verify the uploaded debug APK artifact.
 4. Install the APK on a real Android device, capture logcat, and verify input/rendering/audio/gameplay.
 5. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty.
 6. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
