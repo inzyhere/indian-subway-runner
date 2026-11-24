@@ -321,7 +321,7 @@ func _make_box(size: Vector3, material: Material) -> MeshInstance3D:
 	var box := BoxMesh.new()
 	box.size = size
 	mesh_instance.mesh = box
-	mesh_instance.material = material
+	mesh_instance.material_override = material
 	return mesh_instance
 
 func _build_character(path: String, color: Color) -> Node3D:
@@ -332,7 +332,7 @@ func _build_character(path: String, color: Color) -> Node3D:
 		var model := MeshInstance3D.new()
 		model.mesh = mesh
 		model.scale = Vector3(0.75, 0.75, 0.75)
-		model.material = _make_material(color)
+		model.material_override = _make_material(color)
 		root.add_child(model)
 	else:
 		var body := MeshInstance3D.new()
@@ -340,7 +340,7 @@ func _build_character(path: String, color: Color) -> Node3D:
 		capsule.radius = 0.42
 		capsule.height = 1.5
 		body.mesh = capsule
-		body.material = _make_material(color)
+		body.material_override = _make_material(color)
 		root.add_child(body)
 	return root
 
@@ -574,7 +574,7 @@ func _spawn_obstacle(lane: int, kind: String, z: float) -> void:
 		visual.scale = Vector3(model_scale, model_scale, model_scale)
 	else:
 		visual = _make_box(size, _make_material(color))
-	visual.material = _make_material(color)
+	visual.material_override = _make_material(color)
 	visual.position.y = visual_y
 	node.add_child(visual)
 
@@ -591,7 +591,7 @@ func _spawn_coin(lane: int, z: float) -> void:
 		var model := MeshInstance3D.new()
 		model.mesh = mesh
 		model.scale = Vector3(0.55, 0.55, 0.55)
-		model.material = _make_material(Color(1.0, 0.82, 0.18, 1.0))
+		model.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
 		node.add_child(model)
 	else:
 		var coin := MeshInstance3D.new()
@@ -601,7 +601,7 @@ func _spawn_coin(lane: int, z: float) -> void:
 		cylinder.height = 0.12
 		coin.mesh = cylinder
 		coin.rotation_degrees = Vector3(90.0, 0.0, 0.0)
-		coin.material = _make_material(Color(1.0, 0.82, 0.18, 1.0))
+		coin.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
 		node.add_child(coin)
 
 	_dynamic.add_child(node)
@@ -631,7 +631,7 @@ func _spawn_powerup() -> void:
 		sphere.radius = 0.45
 		sphere.height = 0.9
 		visual.mesh = sphere
-	visual.material = _make_material(color)
+	visual.material_override = _make_material(color)
 	node.add_child(visual)
 
 	_dynamic.add_child(node)
