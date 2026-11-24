@@ -40,7 +40,7 @@ It defines the Unity assembly layout, scene flow, data strategy, pooling strateg
 | Tested | EditMode or PlayMode tests exist and pass. |
 | Verified | Device / Profiler / build evidence is recorded. |
 
-No subsystem may be marked Implemented, Tested, or Verified without matching evidence. The current shell has **no Unity Editor, no Blender, no `dotnet`/`csc`, no `adb`/`sdkmanager`, and unauthenticated `gh`**; it can author and statically check text only.
+No subsystem may be marked Implemented, Tested, or Verified without matching evidence. The current shell has **no Unity Editor, no Blender, no `dotnet`/`csc`, and no `adb`/`sdkmanager`**; `gh` is authenticated with a private remote. It can author and statically check text only.
 
 ## 4. Unity project layout — source of truth
 

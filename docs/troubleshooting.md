@@ -16,10 +16,10 @@ This document separates **observed environment facts** from **anticipated sympto
 | `adb` `NOT_FOUND` | Same source | No device install/logcat/screen capture here |
 | `sdkmanager` `NOT_FOUND` | Same source | No SDK package management here |
 | `ANDROID_HOME` / `ANDROID_SDK_ROOT` `UNSET` | Same source | Android tooling path not configured here |
-| GitHub auth | `You are not logged into any GitHub hosts. To log in, run: gh auth login` | No authenticated GitHub operations here |
-| Git state | Pre-migration assessment recorded `fatal: not a git repository (or any parent up to mount point /)` | Recheck repo state in a Git-capable environment; do not assume history from legacy docs |
+| GitHub auth | Authenticated as `inzyhere` via `gh` | Private remote operations are available when explicitly requested |
+| Git state | Local repo initialized and `main` tracks `origin/main` | Fetch remote history before any push |
 
-Required environment to move beyond Planned: install the pinned Unity LTS version with Android/JDK/NDK modules, Blender for original assets (external to repo), `adb`/SDK configured, and GitHub auth when publishing is explicitly requested.
+Required environment to move beyond Planned: install the pinned Unity LTS version with Android/JDK/NDK modules, Blender for original assets (external to repo), and `adb`/SDK configured. GitHub auth and the private remote are already configured.
 
 ## 2. Triage rule
 

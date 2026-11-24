@@ -20,7 +20,7 @@ Indian Subway Runner is an original, offline-capable, 3D Android endless-chase g
 | Hindi dialogue and announcements | Planned | No voice assets or licensed audio exist. |
 | URP scene, lighting, post-processing | Planned | No Unity scene is claimed until created and verified in Unity Editor. |
 | Android build | Blocked | Unity Editor is required. No Android APK/AAB can be built or verified in this environment. |
-| GitHub remote | Blocked | `gh auth login` is required; the current shell is not authenticated. |
+| GitHub remote | Implemented | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 ## What is verified
 

@@ -8,6 +8,17 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Private remote connected
+
+#### Added
+
+- Private GitHub remote `inzyhere/indian-subway-runner` configured as `origin`; local `main` tracks `origin/main`.
+
+#### Changed
+
+- Remote `Initial commit` was fetched and merged into local history without force; the expanded README and owner-attributed MIT LICENSE were retained.
+- Stale docs that described GitHub auth or the remote as blocked were updated.
+
 ### 2026-11-25 — Unity foundation decision (final)
 
 #### Added
@@ -31,7 +42,7 @@
 
 #### Security
 
-- Policy restated for Unity: no secrets, tokens, or keystores in source control; no unauthorized or ripped assets; no voice cloning; GitHub remote blocked until `gh auth login`. No security audit has been performed.
+- Policy restated for Unity: no secrets, tokens, or keystores in source control; no unauthorized or ripped assets; no voice cloning; GitHub remote was blocked at that stage until `gh auth login`. No security audit has been performed.
 
 #### Not implemented
 

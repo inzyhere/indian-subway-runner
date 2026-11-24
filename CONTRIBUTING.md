@@ -1,13 +1,13 @@
 # Contributing
 
 > **Last updated:** 2026-11-25  
-> **Status:** Planned — workflow for a Unity project; no remote or pull-request workflow exists yet.
+> **Status:** Implemented — private GitHub remote connected; Unity build/test workflow remains Planned.
 
 This repository follows [ADR-0003](docs/decisions/architecture-decisions.md): Unity 6000.0.86f1+ LTS, C#, URP, Android. Contributions must use Unity terminology and must not reintroduce Kotlin/libGDX gameplay, Three.js, WebView gameplay, React Native, Flutter, or an engine switch without explicit owner approval. Kotlin is allowed only for a specialized Android-native Unity plugin.
 
 ## Current collaboration state
 
-Git is installed, but the directory was not a Git repository at assessment time and no GitHub remote exists because `gh auth login` has not been completed. Do not claim a clone, branch, pull request, or CI pass today. Work locally with focused changes; once an authenticated remote exists, create a branch from `main`, open a pull request linked to an issue, and merge only after the gates in [TESTING.md](TESTING.md) pass.
+Git is installed; the directory was not a Git repository at assessment time but now tracks the private `inzyhere/indian-subway-runner` remote. Do not claim a CI pass or release. Work with focused branches from `main`, open a pull request linked to an issue, and merge only after the gates in [TESTING.md](TESTING.md) pass.
 
 ## Workflow
 
@@ -41,7 +41,7 @@ All shipped content must be original, commissioned, or licensed for distribution
 
 ## Secrets and credentials
 
-Never commit tokens, API keys, signing passwords, `.keystore`/`debug.keystore` files, credentials, or private licensed asset bundles. Use secure local storage or CI secrets for signing; keep the GitHub remote private until authentication and a secret scan are complete. Report suspected exposure privately as described in [SECURITY.md](SECURITY.md).
+Never commit tokens, API keys, signing passwords, `.keystore`/`debug.keystore` files, credentials, or private licensed asset bundles. Use secure local storage or CI secrets for signing; keep the GitHub remote private and scan before each push. Report suspected exposure privately as described in [SECURITY.md](SECURITY.md).
 
 ## Commit conventions
 

@@ -75,7 +75,7 @@ Run the full test set after any assembly, scene, prefab, or URP setting change; 
 | Android SDK path | `/data/data/com.termux/files/home/android-sdk` exists; `aapt`, `aapt2`, `zipalign` available |
 | `ANDROID_HOME` / `ANDROID_SDK_ROOT` | Unset |
 | `adb` / `sdkmanager` | Not found; no device install or profiling |
-| Git / GitHub CLI | Git installed; repo was not a Git repository at assessment time; `gh` installed but not authenticated, so no remote |
+| Git / GitHub CLI | Git installed; local repo initialized; `gh` authenticated as `inzyhere`; `origin` is private `inzyhere/indian-subway-runner` |
 
 Markdown, JSON, XML, and directory structure can be statically checked here; nothing above should be read as a Unity build or test result. Legacy Gradle/Kotlin/libGDX commands do not apply to this project.
 

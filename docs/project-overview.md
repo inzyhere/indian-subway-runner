@@ -82,7 +82,7 @@ The former legacy `:core`, `:game`, `:android`, and `:desktop` Gradle modules ha
 - No Blender — cannot author or verify `.blend`, FBX, or GLB assets.
 - No `dotnet`/`csc` — cannot compile C# directly.
 - No `adb`/`sdkmanager` — cannot install, launch, or verify on device.
-- `gh` present but **unauthenticated**; no CI, release, or remote verification is claimed.
+- `gh` is authenticated and the private `inzyhere/indian-subway-runner` remote is configured; no CI, release, or build verification is claimed.
 - Android SDK path may exist but `ANDROID_HOME` is unset; Java 21 and Gradle are non-authoritative here.
 
 ## Source-of-truth rules

@@ -9,13 +9,13 @@
 | Item | Fact / rule |
 | --- | --- |
 | Repository | Private GitHub repository `indian-subway-runner`; default branch `main` |
-| GitHub auth here | Blocked: `You are not logged into any GitHub hosts. To log in, run: gh auth login` |
-| Git state note | Environment assessment recorded pre-migration `fatal: not a git repository`; current repo state must be rechecked in an environment with Git/GitHub available |
-| Commits/tags | No commit or tag is made by documentation rewrites; release tagging is a separate, explicit action |
+| GitHub auth here | Authenticated as `inzyhere` with repo scope via `gh` |
+| Git state note | Local Git history initialized; `main` tracks `origin/main` on the private remote |
+| Commits/tags | Foundation commits exist; release tagging is a separate, explicit action |
 | Secrets | No tokens, passwords, keystores, signing keys, or service credentials in the repo or build artifacts |
 | Signing | Signing material stays outside the repository and is supplied by the build environment/owner |
 
-No publish, push, commit, or release action is claimed here.
+No release or tag is claimed here; the private remote has received the foundation commits only.
 
 ## 2. Release preflight (Planned)
 

@@ -20,7 +20,7 @@ The final stack is fixed by ADR-0003: **Unity 6 LTS, C#, URP, Android**. Do not 
 | Git state before migration | Not a Git repository: `fatal: not a git repository (or any parent up to mount point /)` |
 | Git executable | `/data/data/com.termux/files/usr/bin/git`, `git version 2.56.1` |
 | GitHub CLI | `/data/data/com.termux/files/usr/bin/gh`, `gh version 2.105.0` |
-| GitHub authentication | Not logged in: `You are not logged into any GitHub hosts. To log in, run: gh auth login` |
+| GitHub authentication | Initially not logged in; now authenticated as `inzyhere` with repo scope via `gh` |
 | Java | `openjdk version "21.0.13.1"`; `javac 21.0.13.1` |
 | Gradle | Present at `/data/data/com.termux/files/usr/bin/gradle`; not part of the active gameplay stack |
 | Android SDK path | `/data/data/com.termux/files/home/android-sdk` exists |
@@ -282,17 +282,17 @@ No performance target is Verified until Profiler captures and device results are
 
 Target: private GitHub repository named `indian-subway-runner`, default branch `main`.
 
-Plan:
+Status:
 
-1. Keep local Git history with meaningful commits.
-2. Add a Unity-specific `.gitignore` before adding assets.
-3. Never commit `.keystore`, `debug.keystore`, tokens, credentials, API keys, or proprietary assets.
-4. Use Git LFS for large binary assets only when licensed and necessary.
-5. Create the private remote after `gh auth login`.
-6. Fetch remote before reconciliation; never overwrite unrelated remote history.
-7. Push `main` after verification that no secrets are present.
+1. Local Git history is initialized with meaningful commits.
+2. A Unity-specific `.gitignore` is in place before binary assets.
+3. `.keystore`, `debug.keystore`, tokens, credentials, API keys, and proprietary assets are excluded.
+4. Git LFS will be used for large binary assets only when licensed and necessary.
+5. Private remote `inzyhere/indian-subway-runner` was added as `origin`.
+6. Remote `main` was fetched before reconciliation; its `Initial commit` was merged without force.
+7. `main` was pushed after static secret checks and now tracks `origin/main`.
 
-Current blocker: `gh auth status` reports the shell is not logged in.
+No GitHub authentication blocker remains. Unity/Blender/Android tooling blockers remain unchanged.
 
 ## 12. Milestones
 

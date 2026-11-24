@@ -40,13 +40,13 @@ The player runs through three lanes with swipe left/right, jump, and slide. Runs
 | Hindi dialogue / announcements | Planned | No voice pack or licensed audio exists. |
 | Unity Test Framework results | Planned | No EditMode or PlayMode result exists. |
 | Android build / device verification | Planned — blocked here | Requires Unity Editor, Android modules, `adb`, and a device. |
-| GitHub remote | Planned — blocked here | `gh` is installed but unauthenticated; no remote exists. |
+| GitHub remote | Implemented — pushed | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Environment blocker summary
 
-This shell is `aarch64` Termux. It has Git and `gh` installed, an Android SDK path with `aapt`/`aapt2`/`zipalign`, and Java; it has **no Unity Editor, no Blender, no `dotnet`/`csc`, no `adb`, and no `sdkmanager`**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset, `gh` is not logged in, and the directory was not a Git repository when assessed. Markdown, JSON, XML, and directory structure can be authored and statically checked here; Unity compilation, scenes, art, audio, tests, builds, and device runs cannot.
+This shell is `aarch64` Termux. It has Git and `gh` installed, an Android SDK path with `aapt`/`aapt2`/`zipalign`, and Java; it has **no Unity Editor, no Blender, no `dotnet`/`csc`, no `adb`, and no `sdkmanager`**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. `gh` was unauthenticated at initial assessment and is now authenticated as `inzyhere`; the directory was not a Git repository when assessed but now tracks the private `inzyhere/indian-subway-runner` remote. Markdown, JSON, XML, and directory structure can be authored and statically checked here; Unity compilation, scenes, art, audio, tests, builds, and device runs cannot.
 
 There is therefore no installable or playable build to download. The old debug APK from the legacy stack is **not** the game and must not be presented as a deliverable. See [DEVELOPMENT.md](DEVELOPMENT.md) for the Unity-side prerequisites.
 

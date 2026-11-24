@@ -22,7 +22,7 @@ Do not open a public issue. Until a GitHub remote and private reporting channel 
 
 - Never commit tokens, API keys, passwords, `.keystore`/`debug.keystore` files, or signed artifacts. A debug keystore exists locally in the home directory and must stay out of source control.
 - Release signing must come from secure local storage or CI secrets; never from Gradle/project files committed to the repository.
-- Keep the intended GitHub repository private. `gh` is installed but unauthenticated and no remote exists; authenticate and verify no secret is present before creating or pushing it.
+- Keep the GitHub repository private. `gh` is authenticated as `inzyhere`; `origin` is the private `inzyhere/indian-subway-runner` repository. Verify no secret is present before each push.
 - Do not paste credentials or unreleased licensed asset files into issues, docs, or logs.
 
 ## Asset licensing
