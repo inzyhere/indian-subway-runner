@@ -1,14 +1,14 @@
 # Changelog
 
 > **Last updated:** 2026-11-25  
-> All notable changes are recorded here using Keep a Changelog conventions. No released version exists.  
+> All notable changes are recorded here using Keep a Changelog conventions. No stable release exists; debug APK releases are identified below.
 > Status vocabulary: Planned / In progress / Implemented / Tested / Verified.
 
 **No Unity gameplay, scene, art, audio, test, Android build, or device verification is claimed.** Unity and legacy Kotlin/libGDX entries below are preserved only as history; ADR-0003 is **superseded** by ADR-0004.
 
 ## [Unreleased]
 
-### 2026-11-25 — Clean-room gameplay pass (implemented, export pending)
+### 2026-11-25 — Clean-room gameplay pass (implemented and export tested)
 
 #### Added
 
@@ -30,9 +30,16 @@
 - Static scan found zero undeclared `_`-prefixed identifiers, balanced brackets/braces, and 17 existing `res://` asset references.
 - `git diff --check` found no whitespace errors.
 
+#### Tested
+
+- Release run `45510290459` exported and published `0.1.2` / code `3` from commit `a620f52`.
+- APK SHA-256 is `518b8f30d15c8335eca41fb70543a465f0cd01359805f571a6dc16b48ded5267` and matches the published checksum.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.2` / code `3`, and `arm64-v8a` native code; `aapt dump xmltree` reports `android:screenOrientation=0x1`.
+- `sha256sum -c` passed on the staged `/sdcard/Download/IndianSubwayRunner-debug.apk`.
+
 #### Not verified
 
-- No Godot import, GDScript execution, rendering, input, audio playback, export, checksum, package metadata, or device gameplay is verified for `0.1.2` yet.
+- No Godot import, GDScript execution, rendering, input, audio playback, installation, or device gameplay is verified for `0.1.2` yet.
 
 ### 2026-11-25 — Portrait runtime hotfix (export tested)
 
@@ -50,7 +57,7 @@
 #### Tested
 
 - Release run `45508181618` succeeded from commit `fb277a0` and replaced the Release assets at tag `godot-debug-apk`.
-- Current APK SHA-256: `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3`; local `sha256sum -c` passed after staging to `/sdcard/Download/IndianSubwayRunner-debug.apk`.
+- Hotfix APK SHA-256: `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3`; local `sha256sum -c` passed when it was staged to `/sdcard/Download/IndianSubwayRunner-debug.apk`.
 - `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.1` / code `2`, and `arm64-v8a` native code.
 - `aapt dump xmltree` reports `android:screenOrientation=0x1` (portrait).
 
