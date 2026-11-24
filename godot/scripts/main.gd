@@ -81,7 +81,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not _running:
 		return
-	var dt := min(delta, 0.05)
+	var dt: float = min(delta, 0.05)
 	_invulnerability = max(0.0, _invulnerability - dt)
 	_slide_timer = max(0.0, _slide_timer - dt)
 	_magnet_timer = max(0.0, _magnet_timer - dt)
@@ -511,7 +511,7 @@ func _update_world(delta: float) -> void:
 
 	_spawn_timer -= delta
 	if _spawn_timer <= 0.0:
-		var interval := max(0.38, 0.98 - float(_chapter - 1) * 0.07 - _speed * 0.012)
+		var interval: float = maxf(0.38, 0.98 - float(_chapter - 1) * 0.07 - _speed * 0.012)
 		_spawn_timer = _rng.randf_range(interval * 0.82, interval * 1.18)
 		var roll := _rng.randf()
 		if roll < 0.08:
@@ -613,7 +613,7 @@ func _spawn_coin_trail(lane: int) -> void:
 
 func _spawn_powerup() -> void:
 	var lane := _rng.randi_range(0, LANES.size() - 1)
-	var kind := POWERUP_TYPES[_rng.randi_range(0, POWERUP_TYPES.size() - 1)]
+	var kind: String = String(POWERUP_TYPES[_rng.randi_range(0, POWERUP_TYPES.size() - 1)])
 	var node := Node3D.new()
 	node.position = Vector3(LANES[lane], 1.2, -70.0)
 
