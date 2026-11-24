@@ -19,7 +19,7 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 | Godot gameplay prototype | Implemented — unverified | Three-lane movement, jump, slide, low/high barriers, coins, score, chase gap, increasing speed, procedural track, restart, and touch/keyboard input exist in `godot/scripts/main.gd`. No runtime evidence exists yet. |
 | Godot assets | Implemented — unverified | Original OBJ/MTL models and WAV audio were copied into `godot/assets/` from the preserved Unity project. Godot import and playback are not verified. |
 | Hindi dialogue and announcements | In progress | Generated music/SFX exist; no voice pack or announcement clip exists. |
-| Android build | Blocked — release path configured | `.github/workflows/godot-android.yml` builds a debug APK artifact and `.github/workflows/godot-android-release.yml` publishes an APK plus SHA-256 checksum to a GitHub Release using the automatic token. Run `45500464511` failed before any step under the old private-repository billing state; no APK artifact, Release asset, install, or device verification exists yet. |
+| Android build | Tested — release artifact | `.github/workflows/godot-android-release.yml` published the debug APK and SHA-256 checksum in run `45505392990`; the downloaded checksum and `aapt` package metadata were verified. Device install/runtime remains unverified. |
 | GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
 ## What is verified
@@ -30,12 +30,14 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 - No unauthorized third-party asset is committed.
 - `Tools/Blender/Scripts/generate_assets.py` previously generated 11 original OBJ/MTL model pairs, and copies now exist under `godot/assets/models/`.
 - `python3 Tools/Audio/generate_audio.py` previously generated one original music loop and seven original SFX WAV files, and copies now exist under `godot/assets/audio/`.
+- Release run `45505392990` succeeded after the keystore variable fix in `8c81824`; release tag `godot-debug-apk` contains the APK and checksum assets.
+- The downloaded APK SHA-256 matches the published checksum: `884a86a3dca7240cdab94e80af0ab67d254a4de6926079eaf63c0c6736b3da3e`.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.0` / code `1`, debuggable application, landscape/faketouch requirements, and `arm64-v8a` native code.
 
 ## What is not verified
 
 - Godot project import, resource import, GDScript execution, scene loading, rendering, input handling, or audio playback.
-- GitHub Actions export success, GitHub Release creation/upload, or APK artifact contents.
-- APK installation, runtime behaviour, rendering, frame rate, battery/thermal behaviour, or touch input on a real Android device.
+- APK installation, runtime behaviour, GDScript execution, rendering, audio playback, frame rate, battery/thermal behaviour, or touch input on a real Android device.
 - Save format, contextual voice packs, monetization, telemetry, and cloud save; all are future work.
 
 ## Next milestone
@@ -43,7 +45,7 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 1. Static-check the new GDScript, project files, export preset, and workflow syntax. **Done.**
 2. Commit and push the Godot project, documentation, and workflow. **Done in `f981952`.**
 3. Add an artifact-independent GitHub Release workflow and switch the repository to public after owner approval. **Done in this change.**
-4. Run `.github/workflows/godot-android-release.yml` and verify the Release APK and SHA-256 checksum.
+4. Run `.github/workflows/godot-android-release.yml` and verify the Release APK and SHA-256 checksum. **Done in `8c81824` via run `45505392990`.**
 5. Install the APK on a real Android device, capture logcat, and verify input/rendering/audio/gameplay.
 6. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty.
 7. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
@@ -51,5 +53,3 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 ## Blockers requiring owner or environment action
 
 - A connected Android device is required for runtime, performance, input, and audio verification.
-- Godot is not installed in this shell, so local headless import/export cannot be performed here.
-- `sdkmanager` is unavailable locally, so local Android SDK preparation cannot be performed here.

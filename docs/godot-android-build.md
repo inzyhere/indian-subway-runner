@@ -26,7 +26,9 @@ The release workflow needs `contents: write` so that the automatic token can cre
 
 ## CI blocker history and current path
 
-The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. No workflow step, Godot import, export, or upload has executed yet. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The release workflow still needs a successful run before any APK or Release asset can be claimed.
+The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The first public release run, `45504922295`, reached export but failed because only the debug keystore path environment variable was recognized; `8c81824` corrected the Godot 4.7.2 variable names. Release run `45505392990` then succeeded and published the APK and checksum at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk).
+
+The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunner-debug.apk.sha256`, with file names `IndianSubwayRunner.apk` and `IndianSubwayRunner.apk.sha256`. The downloaded APK SHA-256 matches the published checksum. This proves artifact export and Release delivery only; it does not prove installation or gameplay.
 
 ## Export preset
 

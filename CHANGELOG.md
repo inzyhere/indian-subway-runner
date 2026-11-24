@@ -8,7 +8,7 @@
 
 ## [Unreleased]
 
-### 2026-11-25 — Public GitHub Release delivery (unverified)
+### 2026-11-25 — Public GitHub Release delivery (tested)
 
 #### Added
 
@@ -24,9 +24,15 @@
 
 - Corrected Godot 4.7.2 debug keystore environment variable names in both Android workflows and the local build docs: `DEBUG_PATH`, `DEBUG_USER`, and `DEBUG_PASSWORD`. The first release run reached the export step but failed because only the path variable was recognized.
 
+#### Tested
+
+- Release run `45505392990` succeeded and published tag `godot-debug-apk` with the APK and SHA-256 checksum assets.
+- Downloaded APK SHA-256 matches the published checksum: `884a86a3dca7240cdab94e80af0ab67d254a4de6926079eaf63c0c6736b3da3e`.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.0` / code `1`, debuggable application, and `arm64-v8a` native code.
+
 #### Not implemented
 
-- No GitHub Release workflow run has completed yet, so no APK, checksum asset, installation, logcat, or device result exists.
+- No device installation, logcat, rendering, input, audio, performance, or gameplay verification exists yet.
 
 ### 2026-11-25 — Active Godot prototype foundation (unverified)
 

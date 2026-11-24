@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-11-25  
 > **Status vocabulary:** Planned / In progress / Implemented / Tested / Verified.  
-> **Overall position:** the Godot 4 prototype foundation is implemented but unverified; no APK artifact or device result exists yet.
+> **Overall position:** the Godot 4 prototype foundation is implemented, and the debug APK artifact is tested; device gameplay remains unverified.
 
 ## Vision
 
@@ -44,16 +44,16 @@ No Unity credential, Unity license, Unity serial, Unity password, GitHub secret,
 | Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, barriers, coins, score, chase gap, procedural track, restart, and touch/keyboard input exist in GDScript. |
 | Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
 | Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
-| Android build / device verification | Blocked — release path configured | Secret-free build and GitHub Release workflows exist, but run `45500464511` failed before any step under the old private-repository billing state; no APK artifact, Release asset, or device evidence exists yet. |
+| Android build / device verification | Tested — release artifact | Release run `45505392990` exported and published the APK plus SHA-256 checksum; the downloaded APK checksum and package metadata were verified locally. Device install/runtime remains unverified. |
 | GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
-No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
+The Android build/release path is **Tested**; no gameplay or device behaviour is **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Environment blocker summary
 
 This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-There is therefore no installable or playable build to download yet. The first Godot Actions run was blocked by GitHub account billing/spending limits before any workflow step executed under the old private-repository state; the repository is now public and an artifact-independent GitHub Release workflow is configured. No payment method or spending limit was changed. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
+A downloadable debug APK now exists at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk), with SHA-256 `884a86a3dca7240cdab94e80af0ab67d254a4de6926079eaf63c0c6736b3da3e`. It is staged locally at `/sdcard/Download/IndianSubwayRunner-debug.apk`; device installation, rendering, input, audio, and gameplay are not verified. No payment method or spending limit was changed. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
 
 ## Quick document map
 
