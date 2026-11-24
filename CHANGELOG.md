@@ -20,6 +20,10 @@
 - `README.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `SECURITY.md`, `CONTRIBUTING.md`, and ADR-0004 now describe GitHub Release delivery and public repository visibility.
 - Repository visibility changed to public after owner approval; no payment method, spending limit, Unity credential, repository secret, or release key was added.
 
+#### Fixed
+
+- Corrected Godot 4.7.2 debug keystore environment variable names in both Android workflows and the local build docs: `DEBUG_PATH`, `DEBUG_USER`, and `DEBUG_PASSWORD`. The first release run reached the export step but failed because only the path variable was recognized.
+
 #### Not implemented
 
 - No GitHub Release workflow run has completed yet, so no APK, checksum asset, installation, logcat, or device result exists.

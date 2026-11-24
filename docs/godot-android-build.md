@@ -51,8 +51,8 @@ Set these variables for local debug signing if the machine does not already have
 
 ```sh
 export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$HOME/.android/debug.keystore"
-export GODOT_ANDROID_KEYSTORE_USER="androiddebugkey"
-export GODOT_ANDROID_KEYSTORE_PASSWORD="android"
+export GODOT_ANDROID_KEYSTORE_DEBUG_USER="androiddebugkey"
+export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD="android"
 ```
 
 Do not commit generated imports, build output, keystores, or SDK files. `godot/.gitignore` excludes `.godot/`, `builds/`, and `android/`.
