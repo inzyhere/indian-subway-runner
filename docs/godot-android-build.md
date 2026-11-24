@@ -26,16 +26,16 @@ The release workflow needs `contents: write` so that the automatic token can cre
 
 ## CI blocker history and current path
 
-The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The first public release run, `45504922295`, reached export but failed because only the debug keystore path environment variable was recognized; `8c81824` corrected the Godot 4.7.2 variable names. Release run `45505392990` then succeeded and published the first APK and checksum at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk). After the blank-screen/portrait hotfix, release run `45508181618` replaced those assets with the corrected `0.1.1` / code `2` build.
+The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The first public release run, `45504922295`, reached export but failed because only the debug keystore path environment variable was recognized; `8c81824` corrected the Godot 4.7.2 variable names. Release run `45505392990` then succeeded and published the first APK and checksum at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk). After the blank-screen/portrait hotfix, release run `45508181618` replaced those assets with the corrected `0.1.1` / code `2` build. The clean-room gameplay expansion is prepared as `0.1.2` / code `3` and is not published yet.
 
-The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunner-debug.apk.sha256`, with file names `IndianSubwayRunner.apk` and `IndianSubwayRunner.apk.sha256`. The current APK SHA-256 is `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3` and matches the published checksum. The owner reported that the first APK showed the Godot splash and then a blank landscape screen; the corrected build has not yet been retested on the device. Export, checksum, package metadata, and portrait manifest value are verified; installation, gameplay, and immersive fullscreen behaviour are not.
+The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunner-debug.apk.sha256`, with file names `IndianSubwayRunner.apk` and `IndianSubwayRunner.apk.sha256`. The currently published APK SHA-256 is `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3` and matches the published checksum; it is `0.1.1` / code `2` and does not include the expanded `0.1.2` gameplay. The owner reported that the first APK showed the Godot splash and then a blank landscape screen; the corrected build has not yet been retested on the device. Export, checksum, package metadata, and portrait manifest value are verified for `0.1.1`; installation, gameplay, and immersive fullscreen behaviour are not.
 
 ## Export preset
 
 `godot/export_presets.cfg` defines the `Android` preset:
 
 - Package ID: `com.inzyhere.indiansubwayrunner`
-- Version: `version/name="0.1.1"` / `version/code=2`
+- Version target: `version/name="0.1.2"` / `version/code=3`
 - Orientation: portrait (`screen/orientation=1` and `window/handheld/orientation=1`)
 - Display: immersive fullscreen with a `720x1280` portrait viewport and `canvas_items`/`expand` stretch settings
 - Architecture: ARM64

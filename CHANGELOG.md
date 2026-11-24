@@ -8,6 +8,32 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Clean-room gameplay pass (implemented, export pending)
+
+#### Added
+
+- Story case files with original Hindi-style ACP/constable/announcer dialogue, chapter titles, hints, and a start/retry overlay in `godot/scripts/main.gd`.
+- Five rotating chapters with progressive chapter scores, backdrop changes, increasing speed, narrower spawn intervals, and two-lane waves after chapter 3.
+- Guaranteed safe-lane wave spawning so every obstacle pattern leaves one playable lane.
+- Train obstacles using the original `SM_Trains_Express_001.obj` model, train horn SFX, jump/slide barriers, coin trails, and score rewards for cleared obstacles.
+- Shield, magnet, and sprint-boost power-ups using the original power-up models, plus HUD status for active effects.
+- Distance HUD, power-up HUD, chapter HUD, timed status messages, camera shake on impact, and near-capture restart flow.
+
+#### Changed
+
+- Bumped Godot and Android versions to `0.1.2` / code `3`.
+- Corrected the clean-room research record to name ADR-0004 as the active binding decision.
+- Hardened gameplay updates with clamped delta time and explicit typed state collections.
+
+#### Checked
+
+- Static scan found zero undeclared `_`-prefixed identifiers, balanced brackets/braces, and 17 existing `res://` asset references.
+- `git diff --check` found no whitespace errors.
+
+#### Not verified
+
+- No Godot import, GDScript execution, rendering, input, audio playback, export, checksum, package metadata, or device gameplay is verified for `0.1.2` yet.
+
 ### 2026-11-25 — Portrait runtime hotfix (export tested)
 
 #### Fixed

@@ -2,12 +2,12 @@
 
 > **Last updated:** 2026-11-25  
 > **Status:** In progress; research notes are engine-neutral and do not prove implementation.  
-> **Authority:** subordinate to [ADR-0003](../decisions/architecture-decisions.md) for applicability only; this record must not adopt a different engine.  
+> **Authority:** subordinate to [ADR-0004](../decisions/architecture-decisions.md), the active Godot 4 + GDScript decision.
 > **Scope:** publicly observable endless-runner principles relevant to an original Indian railway chase game.
 
 ## 1. Purpose
 
-This record separates publicly observable gameplay principles from protected game content. It informs independent design in Unity; it is not a specification copied from another product.
+This record separates publicly observable gameplay principles from protected game content. It informs independent design under the active Godot 4 + GDScript decision; it is not a specification copied from another product.
 
 The project is an original 3D Android endless chase: an ACP-inspired pursuer chases a criminal through Indian railway environments. The criminal never remains caught in v1.
 

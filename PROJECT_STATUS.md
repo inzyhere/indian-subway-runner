@@ -16,10 +16,10 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 | Environment assessment | Implemented | See `docs/environment-assessment.md`. No local Godot binary or Android SDK environment is available. |
 | Preserved Unity project | Preserved | `Assets/`, `Packages/`, and `ProjectSettings/` are retained without modification or deletion. No Unity credentials are used. |
 | Godot project foundation | Implemented — unverified | `godot/project.godot`, `godot/main.tscn`, GDScript gameplay, HUD, camera, audio glue, and Android export preset exist. Godot import has not run locally. |
-| Godot gameplay prototype | Implemented — unverified | Three-lane movement, jump, slide, low/high barriers, coins, score, chase gap, increasing speed, procedural track, restart, and touch/keyboard input exist in `godot/scripts/main.gd`. No runtime evidence exists yet. |
+| Godot gameplay prototype | Implemented — unverified | Three-lane movement, jump, slide, safe-path low/high barriers, trains, coin trails, shield/magnet/boost power-ups, chapter banners, story intro, score, chase gap, increasing speed, procedural track, near-capture restart, and touch/keyboard input exist in `godot/scripts/main.gd`. No runtime evidence exists yet. |
 | Godot assets | Implemented — unverified | Original OBJ/MTL models and WAV audio were copied into `godot/assets/` from the preserved Unity project. Godot import and playback are not verified. |
-| Hindi dialogue and announcements | In progress | Generated music/SFX exist; no voice pack or announcement clip exists. |
-| Android build | Tested — export only | Run `45508181618` published `0.1.1` / code `2` with portrait immersive settings after the blank-screen fix; checksum and package metadata were verified locally. Device retest is pending. |
+| Hindi dialogue and announcements | Implemented — text only | Original case-file dialogue, chapter hints, and railway-announcement-style text exist in code; generated music/SFX play through the audio glue. No voice pack or recorded announcement clip exists. |
+| Android build | Tested — export only | Run `45508181618` published `0.1.1` / code `2` with portrait immersive settings after the blank-screen fix; checksum and package metadata were verified locally. The expanded `0.1.2` / code `3` build is prepared but not exported. Device retest is pending. |
 | GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
 ## What is verified
@@ -37,11 +37,13 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 - The current APK is staged at `/sdcard/Download/IndianSubwayRunner-debug.apk`; local `sha256sum -c` passed.
 - The owner reported that the earlier APK showed the Godot splash screen followed by a blank landscape screen; it was not playable.
 - Static inspection found an undeclared `_hud` identifier in `godot/scripts/main.gd`, which prevents GDScript from parsing and explains a blank main scene after splash; the declaration is now fixed.
+- Static inspection of the expanded `godot/scripts/main.gd` found zero undeclared `_`-prefixed identifiers, balanced brackets, and 17 existing `res://` asset references.
 
 ## What is not verified
 
-- Godot project import, resource import, GDScript execution, scene loading, rendering, input handling, or audio playback after the runtime hotfix.
-- Device retest of the rebuilt `0.1.1` APK, immersive fullscreen behaviour, rendering, audio playback, frame rate, battery/thermal behaviour, or touch input on a real Android device.
+- Godot project import, resource import, GDScript execution, scene loading, rendering, input handling, or audio playback after the runtime hotfix or the expanded gameplay pass.
+- Export of the expanded `0.1.2` / code `3` build.
+- Device retest of the staged `0.1.1` APK or any future `0.1.2` APK, immersive fullscreen behaviour, rendering, audio playback, frame rate, battery/thermal behaviour, or touch input on a real Android device.
 - Save format, contextual voice packs, monetization, telemetry, and cloud save; all are future work.
 
 ## Next milestone
@@ -53,8 +55,9 @@ The active implementation stack is Godot 4 + GDScript under ADR-0004. The existi
 5. Fix the undeclared `_hud` parse error, switch to portrait immersive fullscreen, and bump the version to `0.1.1` / code `2`. **Done in `8d9c3c7` and `fb277a0`.**
 6. Rebuild and publish the corrected APK and verify its checksum/package metadata. **Done in `45508181618`.**
 7. Reinstall it, capture logcat, and verify input/rendering/audio/gameplay.
-8. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty.
-9. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
+8. Expand the prototype into chapter flow, story intro, richer railway environments, trains, power-ups, and progressive difficulty. **Implemented in the working tree as `0.1.2`; export pending.**
+9. Build and publish `0.1.2` / code `3`, verify checksum/package metadata, and overwrite the staged APK.
+10. Add save format, voice-pack, monetization, and telemetry only through future ADRs.
 
 ## Blockers requiring owner or environment action
 
