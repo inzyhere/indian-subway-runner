@@ -209,8 +209,8 @@ func _build_world() -> void:
 	_camera = Camera3D.new()
 	_camera.name = "Camera"
 	_camera.position = _camera_base
-	_camera.look_at(Vector3(0.0, 1.1, -9.0), Vector3.UP)
 	add_child(_camera)
+	_camera.look_at(Vector3(0.0, 1.1, -9.0), Vector3.UP)
 
 	_dynamic = Node3D.new()
 	_dynamic.name = "Dynamic"

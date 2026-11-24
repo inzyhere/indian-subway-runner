@@ -45,7 +45,7 @@ jobs:
           set -e
           cat "$RUNNER_TEMP/godot-smoke.log"
           echo "godot_smoke_exit=$STATUS"
-          if grep -Eq "SCRIPT ERROR|Parse Error|ERROR: Failed to load script" "$RUNNER_TEMP/godot-smoke.log"; then
+          if grep -Eq "SCRIPT ERROR|Parse Error|ERROR:" "$RUNNER_TEMP/godot-smoke.log"; then
             echo "Godot smoke test found script errors"
             exit 1
           fi
