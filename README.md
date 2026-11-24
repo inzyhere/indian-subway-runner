@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-11-25  
 > **Status vocabulary:** Planned / In progress / Implemented / Tested / Verified.  
-> **Overall position:** the Godot 4 prototype foundation is implemented, but the first device run showed a blank screen in landscape; a portrait/fullscreen runtime hotfix is pending rebuild and retest.
+> **Overall position:** the Godot 4 prototype foundation is implemented; the blank-screen/landscape hotfix was rebuilt and staged as `0.1.1`, but device retest is still pending.
 
 ## Vision
 
@@ -44,16 +44,16 @@ No Unity credential, Unity license, Unity serial, Unity password, GitHub secret,
 | Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, barriers, coins, score, chase gap, procedural track, restart, and touch/keyboard input exist in GDScript. |
 | Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
 | Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
-| Android build / device verification | Tested — export only | Run `45505392990` exported and published an APK, but the owner reported Godot splash then a blank landscape screen. A runtime parse-error fix and portrait/fullscreen settings are pending rebuild and retest. |
+| Android build / device verification | Tested — export only | Run `45508181618` exported and published `0.1.1` / code `2` with portrait immersive settings after the blank-screen fix. Package metadata and checksum were verified locally; device retest is pending. |
 | GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
-The Android export/release path is **Tested**, but the first device run was not playable; no gameplay or device behaviour is **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
+The Android export/release path is **Tested**, but the corrected APK has not been retested on the device; no gameplay or device behaviour is **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Environment blocker summary
 
 This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-The first published APK at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk) had SHA-256 `884a86a3dca7240cdab94e80af0ab67d254a4de6926079eaf63c0c6736b3da3e`, but it was not playable: the owner saw the Godot splash followed by a blank landscape screen. It is superseded by a pending `0.1.1` portrait/fullscreen rebuild; do not present the old APK as ready. No payment method or spending limit was changed. The debug APK from the abandoned Unity stack is **not** the game.
+The current debug APK is at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk) with SHA-256 `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3`; it is version `0.1.1` / code `2`, portrait, immersive fullscreen, and staged at `/sdcard/Download/IndianSubwayRunner-debug.apk`. It has not been retested on the device. The earlier APK showed Godot splash then a blank landscape screen and must not be used. No payment method or spending limit was changed. The debug APK from the abandoned Unity stack is **not** the game.
 
 ## Quick document map
 

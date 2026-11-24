@@ -8,7 +8,7 @@
 
 ## [Unreleased]
 
-### 2026-11-25 — Portrait runtime hotfix (unverified)
+### 2026-11-25 — Portrait runtime hotfix (export tested)
 
 #### Fixed
 
@@ -21,9 +21,16 @@
 - Bumped the Godot/Android version to `0.1.1` / code `2` so the rebuilt debug APK can replace the earlier installed build.
 - Corrected status docs to state that the first published APK was not playable and that runtime behaviour remains unverified.
 
+#### Tested
+
+- Release run `45508181618` succeeded from commit `fb277a0` and replaced the Release assets at tag `godot-debug-apk`.
+- Current APK SHA-256: `3d7d8ed10c4ed61fab50376fe7a8f7fc6610cc7f71900793df5a9ddc682b91a3`; local `sha256sum -c` passed after staging to `/sdcard/Download/IndianSubwayRunner-debug.apk`.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.1` / code `2`, and `arm64-v8a` native code.
+- `aapt dump xmltree` reports `android:screenOrientation=0x1` (portrait).
+
 #### Not verified
 
-- No rebuilt APK, device install, logcat, rendering, touch input, audio, or gameplay evidence exists yet.
+- No device retest, logcat, rendering, touch input, audio, immersive fullscreen behaviour, or gameplay evidence exists yet for the corrected APK.
 
 ### 2026-11-25 — Public GitHub Release delivery (tested)
 
