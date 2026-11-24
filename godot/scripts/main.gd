@@ -14,6 +14,7 @@ var _camera: Camera3D
 var _dynamic: Node3D
 var _music: AudioStreamPlayer
 var _sfx: AudioStreamPlayer
+var _hud: CanvasLayer
 var _score_label: Label
 var _gap_label: Label
 var _coin_label: Label

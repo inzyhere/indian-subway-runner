@@ -28,14 +28,16 @@ The release workflow needs `contents: write` so that the automatic token can cre
 
 The first private-repository run, `45500464511`, failed before any step with GitHub's account-billing/spending-limit message. After the audit approved public visibility, the repository was switched to public so the standard hosted-runner path can be used without adding payment methods or increasing spending limits. The first public release run, `45504922295`, reached export but failed because only the debug keystore path environment variable was recognized; `8c81824` corrected the Godot 4.7.2 variable names. Release run `45505392990` then succeeded and published the APK and checksum at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk).
 
-The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunner-debug.apk.sha256`, with file names `IndianSubwayRunner.apk` and `IndianSubwayRunner.apk.sha256`. The downloaded APK SHA-256 matches the published checksum. This proves artifact export and Release delivery only; it does not prove installation or gameplay.
+The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunner-debug.apk.sha256`, with file names `IndianSubwayRunner.apk` and `IndianSubwayRunner.apk.sha256`. The downloaded APK SHA-256 matches the published checksum. This proves artifact export and Release delivery only; it does not prove installation or gameplay. The owner reported that this first APK showed the Godot splash and then a blank landscape screen, so it is not playable. A runtime parse-error fix and portrait/fullscreen settings are pending rebuild.
 
 ## Export preset
 
 `godot/export_presets.cfg` defines the `Android` preset:
 
 - Package ID: `com.inzyhere.indiansubwayrunner`
-- Version: `0.1.0` / code `1`
+- Version: `0.1.1` / code `2`
+- Orientation: portrait (`screen/orientation=1` and `window/handheld/orientation=1`)
+- Display: immersive fullscreen with a `720x1280` portrait viewport and `canvas_items`/`expand` stretch settings
 - Architecture: ARM64
 - Gradle custom build: disabled
 - Export path: `builds/IndianSubwayRunner.apk`

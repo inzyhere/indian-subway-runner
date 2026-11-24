@@ -8,6 +8,22 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Portrait runtime hotfix (unverified)
+
+#### Fixed
+
+- Declared `_hud` in `godot/scripts/main.gd`; the missing declaration prevented GDScript parsing and explains the blank main scene after the Godot splash screen.
+- Switched the Godot project and Android export preset to portrait: `720x1280` viewport, `window/handheld/orientation=1`, `screen/orientation=1`, fullscreen, and `canvas_items`/`expand` stretch settings. Android immersive mode remains enabled.
+
+#### Changed
+
+- Bumped the Godot/Android version to `0.1.1` / code `2` so the rebuilt debug APK can replace the earlier installed build.
+- Corrected status docs to state that the first published APK was not playable and that runtime behaviour remains unverified.
+
+#### Not verified
+
+- No rebuilt APK, device install, logcat, rendering, touch input, audio, or gameplay evidence exists yet.
+
 ### 2026-11-25 — Public GitHub Release delivery (tested)
 
 #### Added
