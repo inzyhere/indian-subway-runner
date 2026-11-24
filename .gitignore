@@ -1,0 +1,61 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Unity IDE files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.opendb
+*.VC.db
+*.dotsettings.user
+
+# Unity crash/debug artifacts
+sysinfo.txt
+crashlytics-build.properties
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+*.app
+*.zip
+*.tar.gz
+
+# Secrets and signing material
+*.keystore
+*.jks
+debug.keystore
+release.properties
+local.properties
+*.pepk
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Legacy/non-authoritative tool output
+.gradle/
+.kotlin/
+.idea/
+.vs/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

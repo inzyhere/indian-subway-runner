@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.Characters",
+  "rootNamespace": "IndianSubwayRunner.Characters",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

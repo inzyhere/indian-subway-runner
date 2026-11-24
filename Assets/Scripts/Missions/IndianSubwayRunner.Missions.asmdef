@@ -1,0 +1,17 @@
+{
+  "name": "IndianSubwayRunner.Missions",
+  "rootNamespace": "IndianSubwayRunner.Missions",
+  "references": [
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.Progression"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

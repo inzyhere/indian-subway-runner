@@ -1,0 +1,88 @@
+name: Feature request
+description: Propose a feature that fits the final Unity/C#/URP Android design
+title: "[Feature]: "
+labels: ["status: needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep the proposal inside the final stack: Unity 6000.0.86f1+ LTS, C#, URP, Android.
+        Ideas are not implementation claims and must not request engine changes.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Player or project problem
+      description: What problem would this feature solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed feature
+      description: Describe the smallest useful version.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Expected area
+      options:
+        - gameplay
+        - procedural generation
+        - story and dialogue
+        - audio
+        - animation
+        - ui
+        - progression
+        - android
+        - performance
+        - accessibility
+        - other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: stack-fit
+    attributes:
+      label: Final-stack fit
+      options:
+        - label: This fits Unity/C#/URP and does not require libGDX, Three.js, WebView gameplay, React Native, Flutter, or Kotlin gameplay.
+          required: true
+        - label: This does not require copied assets, scraped audio, protected game content, or celebrity voice cloning.
+          required: true
+        - label: This does not make core progression pay-to-win or require telemetry.
+          required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and references
+      description: Link public citations, design notes, or tests. Mark uncertainty honestly.
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List observable outcomes and tests that would prove the feature works.
+      placeholder: |
+        - [ ] ...
+        - [ ] EditMode test ...
+        - [ ] PlayMode test ...
+        - [ ] Device evidence ...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Decision gates
+      options:
+        - label: This may need an ADR because it changes save data, privacy, SDKs, or monetization.
+          required: false
+        - label: This can remain a future idea if it is not ready for v1.
+          required: false

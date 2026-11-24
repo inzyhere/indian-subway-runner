@@ -1,0 +1,86 @@
+name: Documentation issue
+description: Report stale, incorrect, or missing documentation
+title: "[Docs]: "
+labels: ["docs", "status: needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for documentation corrections only. ADR-0003 is the final engine decision.
+        Do not attach secrets, private assets, or protected game content.
+
+  - type: dropdown
+    id: doc-area
+    attributes:
+      label: Documentation area
+      options:
+        - architecture
+        - gameplay systems
+        - audio and voice
+        - animation and assets
+        - android and build
+        - monetization and privacy
+        - research
+        - github templates
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: path
+    attributes:
+      label: File or section
+      description: Provide the exact path or section that needs correction.
+      placeholder: "docs/android-integration.md"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue type
+      options:
+        - stale technology wording
+        - false status claim
+        - missing detail
+        - broken link
+        - mermaid diagram
+        - formatting
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed correction
+      description: Quote the replacement wording or describe the intended correction.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link authoritative docs, ADRs, tests, Unity output, or device evidence.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Documentation checks
+      options:
+        - label: ADR-0003 remains authoritative and no engine change is proposed.
+          required: true
+        - label: The correction does not claim unimplemented, untested, or unverified behaviour.
+          required: true
+        - label: No protected game content, scraped audio, or cloned voice is included.
+          required: true

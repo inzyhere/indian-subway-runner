@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.Analytics",
+  "rootNamespace": "IndianSubwayRunner.Analytics",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

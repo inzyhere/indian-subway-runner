@@ -1,0 +1,108 @@
+name: Bug report
+description: Report a Unity/C#/URP or repository issue with reproducible evidence
+title: "[Bug]: "
+labels: ["status: needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets, tokens, keystores, credentials, private assets, or personal player data.
+        Do not check evidence boxes unless the evidence is attached or linked.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Select the closest affected area.
+      options:
+        - gameplay
+        - ui
+        - audio
+        - animation
+        - android
+        - docs
+        - build
+        - performance
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: unity-version
+    attributes:
+      label: Unity version
+      description: Use `6000.0.86f1 or newer 6000.0 LTS patch` if verified, otherwise state unknown.
+      placeholder: "6000.0.86f1"
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android API
+      description: Include device model, Android API level, and build type if relevant.
+      placeholder: "Pixel device / API 36 / local APK"
+    validations:
+      required: false
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the issue clearly and concisely.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps, including scene or run state.
+      placeholder: |
+        1. Open scene ...
+        2. Start run ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-actual
+    attributes:
+      label: Expected and actual behaviour
+      value: |
+        Expected:
+        Actual:
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Attach redacted logs, Profiler captures, screenshots, or failing test output.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: This report uses the final Unity/C#/URP stack and does not request a libGDX or Kotlin gameplay fix.
+          required: true
+        - label: I removed secrets, private assets, and personal data from logs and screenshots.
+          required: true
+        - label: I checked the issue is not already reported.
+          required: false
+
+  - type: checkboxes
+    id: status
+    attributes:
+      label: Status evidence
+      options:
+        - label: Failing EditMode or PlayMode test is attached.
+          required: false
+        - label: Real-device logcat or Profiler evidence is attached.
+          required: false
+        - label: No Unity environment was available; this is a repository or documentation bug only.
+          required: false

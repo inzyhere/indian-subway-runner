@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.PowerUps",
+  "rootNamespace": "IndianSubwayRunner.PowerUps",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

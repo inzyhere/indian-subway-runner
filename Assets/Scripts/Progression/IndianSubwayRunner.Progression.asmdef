@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.Progression",
+  "rootNamespace": "IndianSubwayRunner.Progression",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

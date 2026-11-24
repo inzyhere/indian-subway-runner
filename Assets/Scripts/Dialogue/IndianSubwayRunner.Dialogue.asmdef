@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.Dialogue",
+  "rootNamespace": "IndianSubwayRunner.Dialogue",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

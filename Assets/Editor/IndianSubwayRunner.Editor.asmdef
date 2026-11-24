@@ -1,0 +1,19 @@
+{
+  "name": "IndianSubwayRunner.Editor",
+  "rootNamespace": "IndianSubwayRunner.Editor",
+  "references": [
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.GameFlow"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+  "name": "IndianSubwayRunner.ProceduralGeneration",
+  "rootNamespace": "IndianSubwayRunner.ProceduralGeneration",
+  "references": [
+    "IndianSubwayRunner.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

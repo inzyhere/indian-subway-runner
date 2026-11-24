@@ -1,0 +1,22 @@
+{
+  "name": "IndianSubwayRunner.PlayModeTests",
+  "rootNamespace": "IndianSubwayRunner.PlayModeTests",
+  "references": [
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.GameFlow",
+    "IndianSubwayRunner.Gameplay"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
