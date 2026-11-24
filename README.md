@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-11-25  
 > **Status vocabulary:** Planned / In progress / Implemented / Tested / Verified.  
-> **Overall position:** the expanded Godot 4 gameplay with story chapters, trains, power-ups, and progressive difficulty was exported and staged as `0.1.2`; device retest is still pending.
+> **Overall position:** the expanded Godot 4 gameplay with story chapters, trains, power-ups, and progressive difficulty now passes a clean headless smoke test and was exported/staged as `0.1.3`; device retest is still pending.
 
 ## Vision
 
@@ -40,20 +40,20 @@ No Unity credential, Unity license, Unity serial, Unity password, GitHub secret,
 | Architecture decision | Implemented | ADR-0004 is active; ADR-0001 through ADR-0003 are historical. |
 | Environment assessment | Implemented | [docs/environment-assessment.md](docs/environment-assessment.md) records the current shell. |
 | Preserved Unity project | Preserved | Unity files remain untouched and are not the active build target. |
-| Godot project foundation | Implemented — unverified | `godot/project.godot`, `main.tscn`, GDScript gameplay, HUD, camera, audio glue, and export preset exist. |
-| Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, safe-path barrier waves, trains, coins, power-ups, chapters, story intro, score, chase gap, procedural track, near-capture restart, and touch/keyboard input exist in GDScript. |
-| Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
-| Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
-| Android build / device verification | Tested — export only | Run `45510290459` exported and published `0.1.2` / code `3` with the expanded gameplay; package metadata and checksum were verified locally. Device retest is pending. |
+| Godot project foundation | Tested — headless smoke passed | `godot/project.godot`, `main.tscn`, GDScript gameplay, HUD, camera, audio glue, and export preset load without script/engine errors in run `45512471537`. |
+| Godot gameplay prototype | Tested — headless smoke passed | Lane movement, jump, slide, safe-path barrier waves, trains, coins, power-ups, chapters, story intro, score, chase gap, procedural track, near-capture restart, and touch/keyboard input execute without script/engine errors in headless smoke. Device input is not verified. |
+| Original 3D art | Tested — import smoke passed | Original OBJ/MTL assets were copied into `godot/assets/models/` and imported; non-fatal PBR ambient-light warnings remain. |
+| Original music and SFX | Implemented — load smoke passed | Original WAV files were copied into `godot/assets/audio/` and loaded without runtime errors; audible playback is not verified. |
+| Android build / device verification | Tested — export only | Run `45512629961` exported and published `0.1.3` / code `4` with a clean headless smoke gate; package metadata and checksum were verified locally. Device retest is pending. |
 | GitHub remote | Implemented — public | `inzyhere/indian-subway-runner` is public after owner approval; `main` tracks `origin/main`. |
 
-The Android export/release path is **Tested**, but the staged `0.1.2` APK has not been retested on the device; no gameplay or device behaviour is **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
+The headless smoke and Android export/release paths are **Tested**, but the staged `0.1.3` APK has not been retested on the device; no gameplay or device behaviour is **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Environment blocker summary
 
 This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-The current debug APK is at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk) with SHA-256 `518b8f30d15c8335eca41fb70543a465f0cd01359805f571a6dc16b48ded5267`; it is version `0.1.2` / code `3`, portrait, immersive fullscreen, and staged at `/sdcard/Download/IndianSubwayRunner-debug.apk`. It includes the clean-room story, chapter, train, power-up, and progressive-difficulty pass. It has not been retested on the device. The earlier APK showed Godot splash then a blank landscape screen and must not be used. No payment method or spending limit was changed. The debug APK from the abandoned Unity stack is **not** the game.
+The current debug APK is at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk) with SHA-256 `8347b98ca7fb4f74af26b9e591f24a0958fa3a697b79a8367037a9f180fbbf05`; it is version `0.1.3` / code `4`, portrait, immersive fullscreen, and staged at `/sdcard/Download/IndianSubwayRunner-debug.apk`. It includes the clean-room story, chapter, train, power-up, and progressive-difficulty pass. The `0.1.2` blank-screen failure was traced to GDScript parse errors, invalid `MeshInstance3D.material` assignments, and `look_at()` before the camera was in the scene tree; all are fixed and the clean headless smoke run is `45512471537`. The `0.1.3` APK has not been retested on the device. No payment method or spending limit was changed. The debug APK from the abandoned Unity stack is **not** the game.
 
 ## Quick document map
 

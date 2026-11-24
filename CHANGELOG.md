@@ -8,6 +8,32 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Runtime smoke fix (headless smoke and export tested)
+
+#### Added
+
+- `.github/workflows/godot-headless-smoke.yml` for manual headless Godot import plus a `--quit-after 120` smoke run with the log uploaded as an artifact.
+- A headless smoke gate in `.github/workflows/godot-android-release.yml` that fails the release build on `SCRIPT ERROR`, `Parse Error`, or any `ERROR:` line in the smoke log.
+
+#### Fixed
+
+- GDScript parse errors from inferred `Variant` values in `godot/scripts/main.gd`: explicit `float` for `dt`, `maxf()` for spawn interval, and explicit `String` for power-up kind.
+- Invalid Godot 4 `MeshInstance3D.material` assignments changed to `material_override`.
+- Camera `look_at()` called before the camera was added to the scene tree, changed to add the child first.
+- Bumped Godot and Android versions to `0.1.3` / code `4`.
+
+#### Tested
+
+- Smoke run `45512471537` succeeded from commit `846a065`; the smoke log contains no script errors, parse errors, or engine errors.
+- Release run `45512629961` succeeded from commit `846a065` with the smoke gate enabled and replaced the Release assets at tag `godot-debug-apk`.
+- APK SHA-256 is `8347b98ca7fb4f74af26b9e591f24a0958fa3a697b79a8367037a9f180fbbf05` and matches the published checksum.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `0.1.3` / code `4`, and `arm64-v8a` native code.
+- `sha256sum -c` passed on the staged `/sdcard/Download/IndianSubwayRunner-debug.apk`.
+
+#### Not verified
+
+- No device installation, logcat, rendering, touch input, audible audio, immersive fullscreen behaviour, or gameplay evidence exists yet for `0.1.3`.
+
 ### 2026-11-25 — Clean-room gameplay pass (implemented and export tested)
 
 #### Added
