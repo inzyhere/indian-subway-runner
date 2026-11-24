@@ -4,9 +4,30 @@
 > All notable changes are recorded here using Keep a Changelog conventions. No released version exists.  
 > Status vocabulary: Planned / In progress / Implemented / Tested / Verified.
 
-**No Unity gameplay, scene, art, audio, test, Android build, or device verification is claimed.** Legacy Kotlin/libGDX entries below are preserved only as history and are **superseded** by ADR-0003.
+**No Unity gameplay, scene, art, audio, test, Android build, or device verification is claimed.** Unity and legacy Kotlin/libGDX entries below are preserved only as history; ADR-0003 is **superseded** by ADR-0004.
 
 ## [Unreleased]
+
+### 2026-11-25 — Active Godot prototype foundation (unverified)
+
+#### Added
+
+- [ADR-0004](docs/decisions/architecture-decisions.md) as the active binding decision: Godot 4, GDScript, Android debug APK, and the preserved Unity project retained only as history. ADR-0003 and earlier are historical.
+- New Godot 4 project under `godot/`: `project.godot`, `main.tscn`, `export_presets.cfg`, `icon.svg`, `.gitignore`, and `README.md`.
+- `godot/scripts/main.gd` with an unverified playable prototype: three lanes, keyboard/touch input, jump, slide, low/high barriers, coins, increasing speed, score, chase gap, procedural track, HUD, restart, camera, and original audio glue.
+- Original OBJ/MTL models copied to `godot/assets/models/` and original WAV music/SFX copied to `godot/assets/audio/`; Godot import and playback are not verified.
+- `.github/workflows/godot-android.yml` for a secret-free debug APK: public Godot `4.7.2-stable` download, matching export templates, Android SDK setup, CI-generated debug keystore, headless import, debug export, and artifact upload.
+- [docs/godot-android-build.md](docs/godot-android-build.md) with the active build path and evidence boundary.
+
+#### Changed
+
+- Root documentation now treats Godot/GDScript as active and Unity as preserved history.
+- Android signing expectations changed to a disposable CI-generated debug keystore; no Unity credential, GitHub secret, release key, or signing password is required.
+- Status records now explicitly separate implemented source/assets from tested export and verified device evidence.
+
+#### Not implemented
+
+- No Godot import, GDScript runtime, resource import, rendering, input, audio playback, APK artifact, installation, logcat, performance capture, or device verification exists yet.
 
 ### 2026-11-25 — Source implementation and generated original assets (Unity-unverified)
 
@@ -78,8 +99,8 @@
 | --- | --- |
 | Added | New documented capability, policy, or specification. |
 | Changed | Deliberate direction, scope, or documentation change. |
-| Deprecated / removed | No longer part of the active Unity direction. |
+| Deprecated / removed | No longer part of the active direction. |
 | Security | Privacy, secrets, or asset-provenance policy. |
 | Not implemented | Explicit boundary against unsupported claims. |
 
-Versioned sections such as `[1.0.0]` will be added only when a Unity build exists, a release version is assigned, and evidence is recorded. Until then all changes remain under `[Unreleased]`, and status claims must not exceed [TESTING.md](TESTING.md) gates.
+Versioned sections such as `[1.0.0]` will be added only when an active build exists, a release version is assigned, and evidence is recorded. Until then all changes remain under `[Unreleased]`, and status claims must not exceed [TESTING.md](TESTING.md) gates.

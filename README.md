@@ -2,55 +2,58 @@
 
 > **Last updated:** 2026-11-25  
 > **Status vocabulary:** Planned / In progress / Implemented / Tested / Verified.  
-> **Overall position:** foundation decisions and source implementation are in progress; Unity compilation, tests, builds, and device work remain unverified or blocked.
+> **Overall position:** the Godot 4 prototype foundation is implemented but unverified; no APK artifact or device result exists yet.
 
 ## Vision
 
 **INDIAN SUBWAY RUNNER** is an original, offline-capable, genuine 3D Android endless-chase game. An ACP Pradyuman-inspired pursuer chases a criminal through Indian railway stations and trains. The criminal is always ahead and is **never permanently caught in v1**; chapters, clues, records, and near-captures carry the story forward.
 
-The player runs through three lanes with swipe left/right, jump, and slide. Runs include trains, obstacles, coins, power-ups, score and distance, increasing difficulty, procedural chunks, game over/restart, a story intro with chapters, contextual Hindi dialogue, and railway announcements. Identity comes from original Indian environments, humour, dialogue, trains, and station life. Visuals target URP with a sustained 60 FPS on mainstream Android hardware and graceful scaling on budget devices.
+The player runs through three lanes with swipe left/right, jump, and slide. Runs include trains, obstacles, coins, power-ups, score and distance, increasing difficulty, procedural chunks, game over/restart, a story intro with chapters, contextual Hindi dialogue, and railway announcements. Identity comes from original Indian environments, humour, dialogue, trains, and station life.
 
-## Final technology decision
+## Active technology decision
 
-[ADR-0003](docs/decisions/architecture-decisions.md) is the final, binding decision. No engine switch without explicit owner approval.
+[ADR-0004](docs/decisions/architecture-decisions.md) is the active, binding decision. The owner changed the implementation stack to Godot 4 + GDScript.
 
-| Concern | Final choice |
+| Concern | Active choice |
 | --- | --- |
-| Engine / language | Unity **6000.0.86f1 or newer 6000.0 LTS patch**, C# |
-| Rendering | Universal Render Pipeline (URP) |
-| Platform | Android (ARM64 primary, API 36 target) |
-| 3D assets | Blender source; current shell generates OBJ/MTL because its FBX operator is broken; FBX/GLB remains the desktop target |
-| Textures | PNG / JPEG and optimized runtime formats |
-| Animation / physics / audio | Unity Animator, Unity Physics, Unity Audio / AudioMixer |
-| Tooling | Git + GitHub, Markdown + Mermaid docs |
+| Engine / language | Godot 4, GDScript |
+| Pinned CI version | Godot `4.7.2-stable` |
+| Active project root | `godot/` |
+| Platform | Android debug APK for side-load verification |
+| Rendering | Godot 3D with compatibility-first settings |
+| 3D assets | Original OBJ/MTL models copied from the preserved Unity project where useful |
+| Audio | Original WAV music and SFX copied from the preserved Unity project where useful |
+| CI | GitHub Actions, secret-free |
+| Signing | CI-generated Android debug keystore |
 
-**Prohibited for gameplay:** Kotlin gameplay, libGDX, Three.js, WebView gameplay, React Native, Flutter, and any unapproved engine change. Kotlin is permitted only as a specialized Android-native Unity plugin when genuinely required. Unity-generated Gradle output is a build artifact, never gameplay source.
+The existing Unity project in `Assets/`, `Packages/`, and `ProjectSettings/` is preserved untouched as history. ADR-0003 is superseded for new work.
+
+No Unity credential, Unity license, Unity serial, Unity password, GitHub secret, release key, or unnecessary secret is required or permitted for the active Godot path.
+
+**Prohibited for active gameplay:** modifying or deleting the preserved Unity project, requesting or storing Unity credentials, and using copyrighted Subway Surfers assets, decompiled output, scraped audio, celebrity voice clones, or protected game content.
 
 ## Current status
 
 | Area | Status | Truthful note |
 | --- | --- | --- |
 | Public gameplay research | In progress | Engine-neutral, citation-based record in [docs/research/observable-gameplay-analysis.md](docs/research/observable-gameplay-analysis.md). |
-| Architecture decision | Implemented | ADR-0003 is final; ADR-0001/ADR-0002 are historical. |
+| Architecture decision | Implemented | ADR-0004 is active; ADR-0001 through ADR-0003 are historical. |
 | Environment assessment | Implemented | [docs/environment-assessment.md](docs/environment-assessment.md) records the current shell. |
-| Unity project foundation | Implemented — unverified | Scaffold, package manifest, assembly definitions, core C# source, and test source exist; Unity import/compiler verification has not happened. |
-| Legacy Kotlin/libGDX skeleton and old APK | Removed / superseded | Legacy source tree removed; any old APK remains outside the repository and is not the final build. |
-| Gameplay systems | Implemented — unverified | C# gameplay source, `RunnerSimulation`, input, HUD, and audio glue exist; no Unity compile or playtest evidence exists. |
-| Scenes, URP visuals, Animator, Physics | In progress | Scene generator source exists; Unity scenes, prefabs, URP assets, Animator controllers, and Physics behaviour are not verified. |
-| Original 3D art | Implemented — unverified | 11 original OBJ/MTL model pairs were generated; Unity import, prefab creation, rigs, and textures are not verified. |
-| Original music and SFX | Implemented — unverified | One original WAV loop and seven original WAV SFX were generated; Unity import and playback are not verified. |
-| Hindi dialogue / announcements | In progress | Runtime cue strings exist; no voice pack or generated announcement clip exists. |
-| Unity Test Framework results | Planned | EditMode source exists, but no EditMode or PlayMode result exists. |
-| Android build / device verification | Planned — blocked here | Requires Unity Editor, Android modules, SDK configuration, and a connected device. |
+| Preserved Unity project | Preserved | Unity files remain untouched and are not the active build target. |
+| Godot project foundation | Implemented — unverified | `godot/project.godot`, `main.tscn`, GDScript gameplay, HUD, camera, audio glue, and export preset exist. |
+| Godot gameplay prototype | Implemented — unverified | Lane movement, jump, slide, barriers, coins, score, chase gap, procedural track, restart, and touch/keyboard input exist in GDScript. |
+| Original 3D art | Implemented — unverified | Original OBJ/MTL assets were copied into `godot/assets/models/`; Godot import is not verified. |
+| Original music and SFX | Implemented — unverified | Original WAV files were copied into `godot/assets/audio/`; Godot playback is not verified. |
+| Android build / device verification | In progress | Secret-free GitHub Actions workflow exists; no APK artifact or device evidence exists yet. |
 | GitHub remote | Implemented — pushed | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 No subsystem is marked **Tested** or **Verified**. Full detail lives in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Environment blocker summary
 
-This shell is `aarch64` Termux. It has Git and `gh` installed, an Android SDK path with `aapt`/`aapt2`/`zipalign`, Java, `adb`, and Blender 4.5.14 LTS; it has **no Unity Editor, no C# compiler, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. `gh` was unauthenticated at initial assessment and is now authenticated as `inzyhere`; the directory was not a Git repository when assessed but now tracks the private `inzyhere/indian-subway-runner` remote. Markdown, JSON, XML, directory structure, Python-generated WAV audio, and Blender-generated OBJ/MTL models can be authored and statically checked here; Unity compilation, scenes, Unity imports, tests, builds, and device runs cannot.
+This shell is `aarch64` Termux. It has Git and `gh` installed, Android tools such as `aapt`/`aapt2`/`zipalign`, Java, and `adb`; it has **no local Godot binary, no `sdkmanager`, and no connected Android device**. `ANDROID_HOME` and `ANDROID_SDK_ROOT` are unset. GDScript, project files, YAML, Markdown, and directory structure can be authored and statically checked here; Godot import, export, and device runs cannot.
 
-There is therefore no installable or playable build to download. The old debug APK from the legacy stack is **not** the game and must not be presented as a deliverable. See [DEVELOPMENT.md](DEVELOPMENT.md) for the Unity-side prerequisites.
+There is therefore no installable or playable build to download yet. The old debug APK from the abandoned stack is **not** the game and must not be presented as a deliverable.
 
 ## Quick document map
 
@@ -59,8 +62,8 @@ There is therefore no installable or playable build to download. The old debug A
 | Authoritative decision | [docs/decisions/architecture-decisions.md](docs/decisions/architecture-decisions.md) |
 | Environment truth | [docs/environment-assessment.md](docs/environment-assessment.md) |
 | Overall status | [PROJECT_STATUS.md](PROJECT_STATUS.md) |
-| Unity project setup | [docs/unity-project-setup.md](docs/unity-project-setup.md) |
-| Android build target | [docs/android-build-instructions.md](docs/android-build-instructions.md) |
+| Active project | [godot/README.md](godot/README.md) |
+| Godot Android build | [docs/godot-android-build.md](docs/godot-android-build.md) |
 | System architecture | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Phased plan | [ROADMAP.md](ROADMAP.md) |
 | Development workflow | [DEVELOPMENT.md](DEVELOPMENT.md) |
@@ -69,7 +72,7 @@ There is therefore no installable or playable build to download. The old debug A
 | Security | [SECURITY.md](SECURITY.md) |
 | History | [CHANGELOG.md](CHANGELOG.md) |
 
-Deeper `docs/` files are written for ADR-0003; any remaining Kotlin/libGDX mention is explicitly marked as historical, prohibited, or superseded. ADR-0003 and the documents listed above take precedence.
+Deeper `docs/` files written for ADR-0003 are historical until rewritten for Godot. ADR-0004 and the documents listed above take precedence.
 
 ## License
 

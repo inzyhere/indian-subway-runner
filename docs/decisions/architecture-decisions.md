@@ -1,25 +1,26 @@
 # Architecture Decision Records
 
-> **Status:** ADR-0003 is the authoritative engine decision.  
+> **Status:** ADR-0004 is the authoritative active implementation decision.
 > **Last updated:** 2026-11-25
 
-This file records architecture decisions for **Indian Subway Runner**. ADR-0003 is the final, binding engine and platform decision. ADR-0001 and ADR-0002 are retained only as historical records and must not be used to make implementation choices.
+This file records architecture decisions for **Indian Subway Runner**. ADR-0004 is the binding engine and platform decision for new work. ADR-0001, ADR-0002, and ADR-0003 are retained only as historical records and must not be used to make active implementation choices.
 
-All other design documents are subordinate to ADR-0003. See `../../ARCHITECTURE.md` for the top-level system overview and `../../README.md` for repository context.
+All active design documents are subordinate to ADR-0004. See `../../ARCHITECTURE.md` for the top-level system overview and `../../README.md` for repository context.
 
 ## ADR index
 
 | ADR | Title | Status | Date | Notes |
 | --- | --- | --- | --- | --- |
-| ADR-0001 | Use Unity + C# | Superseded by ADR-0002, then restored by ADR-0003 | 2026-11-24 | Historical; read ADR-0003 instead. |
-| ADR-0002 | Kotlin-first native Android with libGDX 1.14.2 | Superseded by ADR-0003 | 2026-11-24 | Prohibited by the final decision; retained for history. |
-| ADR-0003 | Final platform: Unity 6 LTS, C#, URP, Android | Accepted | 2026-11-25 | Authoritative final decision. |
-| ADR-0004 | Save format and migration policy | Planned | — | Not written yet. |
-| ADR-0005 | Contextual voice-pack delivery | Planned | — | Not written yet. |
-| ADR-0006 | Monetization SDK integration | Planned | — | Not written yet. |
-| ADR-0007 | Analytics and telemetry | Planned | — | Not written yet. |
+| ADR-0001 | Use Unity + C# | Historical | 2026-11-24 | Superseded by ADR-0004; retained for history. |
+| ADR-0002 | Kotlin-first native Android with libGDX 1.14.2 | Historical | 2026-11-24 | Superseded by ADR-0004; retained for history. |
+| ADR-0003 | Final platform: Unity 6 LTS, C#, URP, Android | Superseded by ADR-0004 | 2026-11-25 | Unity project preserved, but no longer active. |
+| ADR-0004 | Active implementation: Godot 4, GDScript, Android | Accepted | 2026-11-25 | Authoritative decision for new work. |
+| ADR-0005 | Save format and migration policy | Planned | — | Not written yet. |
+| ADR-0006 | Contextual voice-pack delivery | Planned | — | Not written yet. |
+| ADR-0007 | Monetization SDK integration | Planned | — | Not written yet. |
+| ADR-0008 | Analytics and telemetry | Planned | — | Not written yet. |
 
-Only ADR-0003 is accepted. Rows marked **Planned** reserve future decisions and do not describe implemented behaviour.
+Only ADR-0004 is accepted as the active implementation decision. Rows marked **Planned** reserve future decisions and do not describe implemented behaviour.
 
 ## Decision-making rules
 
@@ -50,13 +51,13 @@ Changing a status requires updating this index, the ADR body, and `../../CHANGEL
 
 ### Relationship to other documents
 
-- `../../ARCHITECTURE.md` describes the Unity/C# target structure.
-- `../technical-architecture.md` expands Unity assembly, scene, prefab, and ScriptableObject responsibilities.
-- `../rendering-engine.md` is subordinate to ADR-0003 and specifies URP.
-- `../save-data.md` is subordinate to ADR-0004 when that ADR is written.
-- `../contextual-voice-engine.md` is subordinate to ADR-0005 when that ADR is written.
-- `../monetization-architecture.md` is subordinate to ADR-0006 when that ADR is written.
-- `../player-behaviour-system.md` is subordinate to ADR-0007 when that ADR is written.
+- `../../ARCHITECTURE.md` describes the active Godot/GDScript target structure.
+- `../technical-architecture.md` is historical Unity material until rewritten for Godot.
+- `../rendering-engine.md` is historical URP material until rewritten for Godot.
+- `../save-data.md` is subordinate to ADR-0005 when that ADR is written.
+- `../contextual-voice-engine.md` is subordinate to ADR-0006 when that ADR is written.
+- `../monetization-architecture.md` is subordinate to ADR-0007 when that ADR is written.
+- `../player-behaviour-system.md` is subordinate to ADR-0008 when that ADR is written.
 - `../research/observable-gameplay-analysis.md` records public Subway Surfers observations and must remain engine-neutral.
 
 ## ADR-0001: Use Unity + C#
@@ -99,7 +100,7 @@ All Gradle/Kotlin/libGDX gameplay modules, source trees, and build instructions 
 
 ### Status
 
-Accepted — 2026-11-25. This is the final engine decision and does not require re-evaluation.
+Superseded by ADR-0004 on 2026-11-25. Retained only as history; the Unity project must be preserved but is not the active implementation target.
 
 ### Context
 
@@ -190,3 +191,74 @@ Revisit this ADR only if:
 - A Unity package or native plugin becomes incompatible with the pinned LTS version and no compatible patch exists.
 
 Any other dissatisfaction with the stack is a implementation problem to solve inside Unity, not a reason to switch engines.
+
+## ADR-0004: Active implementation — Godot 4, GDScript, Android
+
+### Status
+
+Accepted — 2026-11-25. This decision supersedes ADR-0003 for all new implementation work.
+
+### Context
+
+The owner explicitly changed the active implementation stack to Godot 4 with GDScript. The owner also required that Unity credentials not be requested, generated, stored, or used; that Unity-specific build setup stop; that the existing Unity project be preserved without modification or deletion; and that only free tools and services be used.
+
+The game goal is unchanged: an original, offline-capable, genuinely 3D Android endless-chase game inspired only by publicly observable gameplay principles. An ACP Pradyuman-inspired pursuer chases a criminal through Indian railway environments. The criminal always escapes in v1.
+
+### Decision
+
+| Concern | Active choice |
+| --- | --- |
+| Engine | Godot 4 |
+| Pinned CI version | Godot `4.7.2-stable` |
+| Language | GDScript |
+| Initial platform | Android debug APK |
+| Active project root | `godot/` |
+| Rendering | Godot 3D renderer with compatibility-first settings |
+| 3D assets | Original OBJ/MTL models copied from the preserved Unity project where useful |
+| Audio | Original WAV music and SFX copied from the preserved Unity project where useful |
+| CI | GitHub Actions on a Linux runner |
+| Signing | CI-generated Android debug keystore; no repository secrets |
+| Distribution | Debug APK artifact for side-load verification |
+| Legacy stack | Existing `Assets/`, `Packages/`, and `ProjectSettings/` preserved untouched |
+
+No Unity license, Unity account, Unity serial, Unity password, GitHub secret, stored credential, or release signing key is required for this active path.
+
+### Options considered
+
+#### Option A — Godot 4 + GDScript with secret-free CI
+
+Accepted. It satisfies the owner’s engine change, avoids Unity licensing, uses an open engine and freely available GitHub-hosted tooling, and can produce a debug APK using a CI-generated debug keystore.
+
+#### Option B — Continue Unity + C# + URP
+
+Rejected for active work. The owner explicitly stopped Unity-specific build setup and prohibited requesting or storing Unity credentials. The existing Unity project remains preserved as history.
+
+#### Option C — Kotlin/libGDX, Three.js, WebView, React Native, or Flutter
+
+Rejected. These remain historical/prohibited directions and do not satisfy the active Godot decision.
+
+#### Option D — Release AAB or Play Store signing
+
+Rejected for the current milestone. The immediate deliverable is a debug APK for side-load verification. No release keystore or secret is introduced.
+
+### Decision details
+
+The active Godot project is self-contained under `godot/` with `project.godot`, `main.tscn`, GDScript sources, exported presets, and copied engine-neutral assets. The Unity project is not modified or deleted. The Unity CI workflow is not used for active builds; a separate secret-free Godot workflow produces the Android debug APK artifact.
+
+The GitHub Actions workflow downloads the pinned public Godot build and export templates, installs required Android SDK packages with licenses accepted, generates a fresh debug keystore with `keytool`, imports the Godot project headlessly, exports with `--export-debug Android`, and uploads the APK as a workflow artifact.
+
+### Consequences
+
+- New gameplay implementation is GDScript under `godot/scripts/**`.
+- New scenes, export presets, and project settings live under `godot/`.
+- Unity source may be read as a design reference and reused only where engine-neutral.
+- No Unity credential or GitHub secret is required or permitted for active Godot builds.
+- No subsystem is marked `Tested` or `Verified` without headless import, export, install, or runtime evidence.
+- A successful CI export proves that an APK artifact was produced; it does not prove device runtime behaviour.
+- Public research remains engine-neutral and citation-based.
+- No copyrighted Subway Surfers assets, decompiled output, scraped audio, celebrity voice clones, or protected game content may be used.
+- Save format, voice packs, monetization, and telemetry remain future ADRs.
+
+### Validation triggers
+
+Revisit this ADR only if the owner explicitly changes the active engine decision, Godot’s Android export support materially changes the secret-free workflow, or a free workflow becomes impossible. Patch upgrades within Godot 4 do not require a new ADR.

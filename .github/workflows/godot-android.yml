@@ -1,0 +1,120 @@
+name: Build Godot Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "godot/**"
+      - ".github/workflows/godot-android.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: 4.7.2-stable
+      GODOT_VERSION_DIR: 4.7.2.stable
+      EXPORT_PRESET: Android
+      APK_PATH: builds/IndianSubwayRunner.apk
+      GODOT_ANDROID_KEYSTORE_DEBUG_PATH: /home/runner/.android/debug.keystore
+      GODOT_ANDROID_KEYSTORE_USER: androiddebugkey
+      GODOT_ANDROID_KEYSTORE_PASSWORD: android
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Android SDK packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;35.0.1" \
+            "cmdline-tools;latest" \
+            "ndk;28.1.13356709"
+
+      - name: Download Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/godot"
+          curl -fsSL -o "$RUNNER_TEMP/godot/Godot.zip" \
+            "https://github.com/godotengine/godot-builds/releases/download/$GODOT_VERSION/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          unzip -q "$RUNNER_TEMP/godot/Godot.zip" -d "$RUNNER_TEMP/godot"
+          ln -sf "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+          chmod +x "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+          echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/godot/godot" --version
+
+      - name: Install Godot export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/godot/templates"
+          mkdir -p "$HOME/.local/share/godot/export_templates/$GODOT_VERSION_DIR"
+          curl -fsSL -o "$RUNNER_TEMP/godot/export_templates.tpz" \
+            "https://github.com/godotengine/godot-builds/releases/download/$GODOT_VERSION/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          unzip -q "$RUNNER_TEMP/godot/export_templates.tpz" -d "$RUNNER_TEMP/godot/templates"
+          cp -R "$RUNNER_TEMP/godot/templates/templates/." "$HOME/.local/share/godot/export_templates/$GODOT_VERSION_DIR/"
+
+      - name: Configure Godot Android export
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.config/godot" "$HOME/.android" builds
+          if [[ ! -f "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" ]]; then
+            keytool -genkeypair -v \
+              -keystore "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" \
+              -storepass "$GODOT_ANDROID_KEYSTORE_PASSWORD" \
+              -alias "$GODOT_ANDROID_KEYSTORE_USER" \
+              -keypass "$GODOT_ANDROID_KEYSTORE_PASSWORD" \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -noprompt
+          fi
+          cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          export/android/debug_keystore = "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH"
+          export/android/debug_keystore_user = "$GODOT_ANDROID_KEYSTORE_USER"
+          export/android/debug_keystore_pass = "$GODOT_ANDROID_KEYSTORE_PASSWORD"
+          EOF
+
+      - name: Import Godot project
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot --headless --path godot --editor --quit
+
+      - name: Export Android debug APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot --headless --path godot --export-debug "$EXPORT_PRESET" "$PWD/$APK_PATH"
+          test -s "$APK_PATH"
+          sha256sum "$APK_PATH"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: indian-subway-runner-debug-apk
+          path: builds/IndianSubwayRunner.apk
+          if-no-files-found: error
