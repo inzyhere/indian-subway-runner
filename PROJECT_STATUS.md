@@ -19,7 +19,7 @@ Indian Subway Runner is an original, offline-capable, 3D Android endless-chase g
 | Animations | Planned | No Animator controllers or clips are claimed. |
 | Hindi dialogue and announcements | In progress | Runtime cue strings exist in gameplay glue, and original generated music/SFX exist as WAV files. No voice pack, announcement clip, or licensed external audio exists. |
 | URP scene, lighting, post-processing | In progress | `Assets/Editor/SceneBootstrapGenerator.cs` can create Boot/MainMenu/StoryIntro/Game/Results scenes and build settings in Unity, but it has not been run or verified. |
-| Android build | In progress | `.github/workflows/build-android.yml` and `AndroidBuild.BuildCiApk()` exist for an x64 GitHub Actions debug APK build. No APK/AAB has been built, uploaded, installed, or verified yet; Unity license secrets and a pushed workflow are required. |
+| Android build | In progress | `.github/workflows/build-android.yml` and `AndroidBuild.BuildCiApk()` are pushed for an x64 GitHub Actions debug APK build. No APK/AAB has been built, uploaded, installed, or verified yet; Unity license secrets and a successful workflow run are required. |
 | GitHub remote | Implemented | Private `inzyhere/indian-subway-runner`; `main` tracks `origin/main`. |
 
 ## What is verified
@@ -52,8 +52,8 @@ Indian Subway Runner is an original, offline-capable, 3D Android endless-chase g
 
 ## Blockers requiring owner or environment action
 
-- Push the uncommitted working tree, including `.github/workflows/build-android.yml`, to the private remote.
 - Configure GitHub repository secrets `UNITY_LICENSE`, `UNITY_EMAIL`, and `UNITY_PASSWORD` for the CI build.
+- Run the pushed GitHub Actions workflow and verify the uploaded debug APK.
 - Install Unity 6000.0.86f1 or newer 6000.0 LTS patch with Android Build Support, SDK, NDK, and JDK modules when building locally.
 - Provide a connected Android device for runtime and performance verification.
 - Provide or configure Android `sdkmanager`/SDK licenses in a supported Unity environment before Android builds.

@@ -1,6 +1,6 @@
 # Android Build Instructions
 
-> Status: Planned. No Unity Android build has been produced yet. A GitHub Actions debug APK workflow source exists but has not been pushed or run.
+> Status: Planned. No Unity Android build has been produced yet. The GitHub Actions debug APK workflow is pushed but has not been run.
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ Required repository secrets:
 
 Professional/serial licenses additionally require extending the workflow with `UNITY_SERIAL`.
 
-After the workflow is pushed, run `Actions > Build Android APK > Run workflow`. The output artifact is `IndianSubwayRunner-debug-apk` containing `Builds/IndianSubwayRunner.apk`. The workflow calls `IndianSubwayRunner.Editor.AndroidBuild.BuildCiApk`, which generates scenes before building. This is a debug APK for side-load testing, not a signed release artifact.
+The workflow is pushed; run `Actions > Build Android APK > Run workflow`. The output artifact is `IndianSubwayRunner-debug-apk` containing `Builds/IndianSubwayRunner.apk`. The workflow calls `IndianSubwayRunner.Editor.AndroidBuild.BuildCiApk`, which generates scenes before building. This is a debug APK for side-load testing, not a signed release artifact.
 
 ## Player Settings target
 

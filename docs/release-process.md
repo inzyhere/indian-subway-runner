@@ -1,6 +1,6 @@
 # Indian Subway Runner — Release Process
 
-> **Status:** Planned — no release, signed build, AAB, APK, store listing, tag, or verified build hash exists in this environment. A GitHub Actions debug APK workflow source exists but has not been pushed or run.
+> **Status:** Planned — no release, signed build, AAB, APK, store listing, tag, or verified build hash exists in this environment. A GitHub Actions debug APK workflow is pushed but has not been run.
 > **Last updated:** 2026-11-25
 > **Authority:** [ADR-0003](decisions/architecture-decisions.md) is final/binding: Unity **6000.0.86f1+ LTS**, C#, URP, Android. See [android-build-instructions.md](android-build-instructions.md), [testing-strategy.md](testing-strategy.md), [performance-optimization.md](performance-optimization.md), and [PROJECT_STATUS.md](../PROJECT_STATUS.md).
 
@@ -85,4 +85,4 @@ flowchart TD
 
 ## 6. Current blockers and status
 
-This shell has no Unity Editor, `sdkmanager`, signed keystore, or connected device; `adb` and GitHub authentication are available. A CI workflow source exists but needs to be pushed, supplied with Unity license secrets, and run successfully. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no Unity build or release is implemented, tested, or verified. This document is a release procedure only; do not treat any step above as completed.
+This shell has no Unity Editor, `sdkmanager`, signed keystore, or connected device; `adb` and GitHub authentication are available. A CI workflow is pushed but needs Unity license secrets and a successful run. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no Unity build or release is implemented, tested, or verified. This document is a release procedure only; do not treat any step above as completed.
