@@ -1,7 +1,7 @@
 # Testing
 
 > **Last updated:** 2026-11-25  
-> **Status:** Planned — Unity Test Framework and device policy; no Unity test, build, or device evidence exists.
+> **Status:** In progress — Unity Test Framework and device policy; EditMode source exists, but no Unity test, build, or device evidence exists.
 
 This document defines evidence gates for **Indian Subway Runner** under [ADR-0003](docs/decisions/architecture-decisions.md). Testing exists to produce evidence, not confidence. Statuses are only **Planned**, **In progress**, **Implemented**, **Tested**, or **Verified**.
 
@@ -9,9 +9,9 @@ This document defines evidence gates for **Indian Subway Runner** under [ADR-000
 
 | Layer | Method | Scope | Status |
 | --- | --- | --- | --- |
-| EditMode | Unity Test Framework | Lane math, scoring, difficulty curves, pooling, data validation, future save-format logic. | Planned |
+| EditMode | Unity Test Framework | Lane math, scoring, difficulty curves, pooling, data validation, future save-format logic. | In progress — source exists; not run |
 | PlayMode | Unity Test Framework | Boot → menu → story → game → results flow, input, collision, chunk streaming, HUD, restart, pause/resume. | Planned |
-| Scene / prefab checks | Editor validation | Scene Build Settings order, prefab integrity, URP asset assignment, Animator controllers, missing references. | Planned |
+| Scene / prefab checks | Editor validation | Scene Build Settings order, prefab integrity, URP asset assignment, Animator controllers, missing references. | In progress — generator source exists; not run |
 | Manual playtest | Scripted device sessions | Touch feel, hazard fairness, Hindi dialogue timing, announcements, interruption/background-resume, low-memory behaviour. | Planned |
 | Device matrix | Physical Android devices + emulator sanity checks | OS versions, screen sizes/aspect ratios, refresh rates, low-memory devices, install paths. | Planned |
 | Performance | Unity Profiler + logcat | Frame time, GC allocations, GPU cost, memory growth, thermal throttling, startup, pooled entity counts. | Planned |
@@ -54,4 +54,4 @@ Owner-requested APK handoff to `/sdcard/Download/Indian-Subway-Runner-Unity.apk`
 
 ## Explicit current state
 
-No Unity Editor, C# compiler, `adb`, or device is available in this shell. No Unity project has been imported; no EditMode or PlayMode test has been run; no scene, prefab, URP render, Animator, Physics, AudioMixer, or Addressables behaviour has been observed; no AAB/APK has been built; no Profiler capture, logcat, device matrix, or licensing review exists. Every testing layer above is **Planned**.
+No Unity Editor, C# compiler, `sdkmanager`, or connected device is available in this shell. Blender 4.5.14 LTS and `adb` 1.0.41 are installed, but no Unity project has been imported; no EditMode or PlayMode test has been run; no generated scene has been executed; no prefab, URP render, Animator, Physics, AudioMixer, or Addressables behaviour has been observed; no AAB/APK has been built; no Profiler capture, logcat, device matrix, or licensing review exists. Every testing layer above remains **Planned** or **In progress**, and none is **Tested** or **Verified**.

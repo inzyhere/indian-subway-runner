@@ -1,3 +1,3 @@
 # Audio
 
-Planned original music, SFX, voice, and railway announcements. No audio asset exists yet. See `docs/audio-system.md` and `docs/story-and-narrative-design.md`.
+Original music, SFX, and railway-announcement audio is generated under `Resources/Audio/`; voice packs remain planned. Unity import/playback is not verified. See `docs/audio-system.md` and `docs/story-and-narrative-design.md`.

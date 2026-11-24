@@ -1,0 +1,64 @@
+mtllib SM_PowerUps_Multiplier_001.mtl
+o Stem
+v -0.120000 -0.700000 0.120000
+v -0.120000 0.700000 0.120000
+v -0.120000 -0.700000 -0.120000
+v -0.120000 0.700000 -0.120000
+v 0.120000 -0.700000 0.120000
+v 0.120000 0.700000 0.120000
+v 0.120000 -0.700000 -0.120000
+v 0.120000 0.700000 -0.120000
+usemtl MultiplierGold
+f 1 2 4 3
+usemtl MultiplierGold
+f 3 4 8 7
+usemtl MultiplierGold
+f 7 8 6 5
+usemtl MultiplierGold
+f 5 6 2 1
+usemtl MultiplierGold
+f 3 7 5 1
+usemtl MultiplierGold
+f 8 4 2 6
+o TopBar
+v -0.700000 0.230000 0.120000
+v -0.700000 0.470000 0.120000
+v -0.700000 0.230000 -0.120000
+v -0.700000 0.470000 -0.120000
+v 0.700000 0.230000 0.120000
+v 0.700000 0.470000 0.120000
+v 0.700000 0.230000 -0.120000
+v 0.700000 0.470000 -0.120000
+usemtl MultiplierDark
+f 9 10 12 11
+usemtl MultiplierDark
+f 11 12 16 15
+usemtl MultiplierDark
+f 15 16 14 13
+usemtl MultiplierDark
+f 13 14 10 9
+usemtl MultiplierDark
+f 11 15 13 9
+usemtl MultiplierDark
+f 16 12 10 14
+o BottomBar
+v -1.000000 -1.350000 1.000000
+v -1.000000 0.650000 1.000000
+v -1.000000 -1.350000 -1.000000
+v -1.000000 0.650000 -1.000000
+v 1.000000 -1.350000 1.000000
+v 1.000000 0.650000 1.000000
+v 1.000000 -1.350000 -1.000000
+v 1.000000 0.650000 -1.000000
+usemtl MultiplierDark
+f 17 18 20 19
+usemtl MultiplierDark
+f 19 20 24 23
+usemtl MultiplierDark
+f 23 24 22 21
+usemtl MultiplierDark
+f 21 22 18 17
+usemtl MultiplierDark
+f 19 23 21 17
+usemtl MultiplierDark
+f 24 20 18 22

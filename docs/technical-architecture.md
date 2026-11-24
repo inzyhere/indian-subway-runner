@@ -1,6 +1,6 @@
 # Technical Architecture
 
-> **Status:** In progress — design target for the final Unity stack. No gameplay code, scene, prefab, assembly, or build is Unity-verified.
+> **Status:** In progress — final Unity stack design plus source implementation exist; gameplay code, generated assets, assembly definitions, and scene-generator source are not Unity-verified.
 > **Last updated:** 2026-11-25
 > **Authoritative decision:** [ADR-0003](./decisions/architecture-decisions.md) — Unity 6000.0.86f1+ LTS, C#, URP, Android.
 > **Applies to:** Indian Subway Runner, all phases.
@@ -9,7 +9,7 @@
 
 This document is the design specification for the runtime architecture of **Indian Subway Runner**, an original, offline-capable, genuine 3D Android endless-chase game. An ACP Pradyuman-inspired pursuer chases a criminal through Indian railway environments; the criminal is always ahead and is **never permanently caught in v1**.
 
-It defines the Unity assembly layout, scene flow, data strategy, pooling strategy, the Android platform boundary, and the Unity Test Framework seams. It is subordinate to [ADR-0003](./decisions/architecture-decisions.md) and complements the top-level [ARCHITECTURE.md](../ARCHITECTURE.md). Every subsystem below is **Planned** until matching source, tests, and evidence exist.
+It defines the Unity assembly layout, scene flow, data strategy, pooling strategy, the Android platform boundary, and the Unity Test Framework seams. It is subordinate to [ADR-0003](./decisions/architecture-decisions.md) and complements the top-level [ARCHITECTURE.md](../ARCHITECTURE.md). Subsystems below move beyond **Planned** only when matching source exists; none may be marked **Tested** or **Verified** without Unity/device evidence.
 
 ## 2. Engine and platform baseline
 
@@ -26,7 +26,7 @@ It defines the Unity assembly layout, scene flow, data strategy, pooling strateg
 | Data | ScriptableObjects; Addressables for large or optional content |
 | Tests | Unity Test Framework — EditMode and PlayMode |
 | Tooling | Git + GitHub; Markdown + Mermaid documentation |
-| 3D source | Original Blender `.blend`, exported as FBX / GLB |
+| 3D source | Original Blender Python generation; desktop `.blend` and FBX/GLB target, current shell OBJ/MTL output |
 
 **Prohibited for gameplay:** Kotlin, libGDX, Three.js, WebView gameplay, React Native, Flutter, and any unapproved engine switch. Kotlin is permitted **only** inside specialized Android-native Unity plugins under `Assets/Plugins/Android/` when genuinely required. Unity-generated Gradle output is a build artefact, never gameplay source.
 
@@ -34,13 +34,13 @@ It defines the Unity assembly layout, scene flow, data strategy, pooling strateg
 
 | Status | Meaning |
 | --- | --- |
-| Planned | Specified here; not started. **All subsystems in this document are Planned.** |
-| In progress | Being built; not complete. |
+| Planned | Specified here; not started. |
+| In progress | Source or assets exist; not complete or Unity-verified. |
 | Implemented | Compilable C# and Unity assets exist in the project. |
 | Tested | EditMode or PlayMode tests exist and pass. |
 | Verified | Device / Profiler / build evidence is recorded. |
 
-No subsystem may be marked Implemented, Tested, or Verified without matching evidence. The current shell has **no Unity Editor, no Blender, no `dotnet`/`csc`, and no `adb`/`sdkmanager`**; `gh` is authenticated with a private remote. It can author and statically check text only.
+No subsystem may be marked Implemented, Tested, or Verified without matching evidence. The current shell has **no Unity Editor, no `dotnet`/`csc`, no `sdkmanager`, and no connected device**; Blender 4.5.14 LTS and `adb` are installed; `gh` is authenticated with a private remote. It can author source, generate OBJ/MTL and WAV assets, and statically check text, but cannot compile or verify Unity content.
 
 ## 4. Unity project layout — source of truth
 
@@ -137,7 +137,7 @@ Rules:
 
 ## 6. Scene flow and lifecycle
 
-Scenes are **planned**, not created. The target flow and Build Settings order match [ARCHITECTURE.md](../ARCHITECTURE.md) and [unity-project-setup.md](./unity-project-setup.md).
+Scene-generator source exists, but scene assets are **not created or Unity-verified**. The target flow and Build Settings order match [ARCHITECTURE.md](../ARCHITECTURE.md) and [unity-project-setup.md](./unity-project-setup.md).
 
 ```mermaid
 stateDiagram-v2

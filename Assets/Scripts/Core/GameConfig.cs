@@ -41,9 +41,19 @@ namespace IndianSubwayRunner.Core
                 throw new System.ArgumentOutOfRangeException(nameof(speedRampPerSecond));
             }
 
-            if (jumpDuration <= 0f || slideDuration <= 0f || laneChangeDuration <= 0f)
+            if (jumpDuration <= 0f)
             {
                 throw new System.ArgumentOutOfRangeException(nameof(jumpDuration));
+            }
+
+            if (slideDuration <= 0f)
+            {
+                throw new System.ArgumentOutOfRangeException(nameof(slideDuration));
+            }
+
+            if (laneChangeDuration <= 0f)
+            {
+                throw new System.ArgumentOutOfRangeException(nameof(laneChangeDuration));
             }
 
             if (startingLaneIndex < 0 || startingLaneIndex >= laneCount)

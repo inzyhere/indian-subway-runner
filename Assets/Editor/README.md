@@ -1,3 +1,3 @@
 # Editor
 
-Planned Unity Editor tooling and build/menu validation scripts. No editor tool is claimed until written and verified in Unity.
+Editor tooling source for scene generation and Android APK builds exists in `SceneBootstrapGenerator.cs` and `AndroidBuild.cs`. `AndroidBuild.BuildCiApk()` generates scenes before building for CI. Unity execution, compilation, and APK output are not claimed until verified in Unity.

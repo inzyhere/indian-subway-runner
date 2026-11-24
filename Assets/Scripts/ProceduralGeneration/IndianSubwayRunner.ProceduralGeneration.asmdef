@@ -2,7 +2,8 @@
   "name": "IndianSubwayRunner.ProceduralGeneration",
   "rootNamespace": "IndianSubwayRunner.ProceduralGeneration",
   "references": [
-    "IndianSubwayRunner.Core"
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.Gameplay"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

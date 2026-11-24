@@ -1,0 +1,85 @@
+mtllib SM_Obstacles_HighBarrier_001.mtl
+o Panel
+v -1.100000 0.190000 0.160000
+v -1.100000 1.910000 0.160000
+v -1.100000 0.190000 -0.160000
+v -1.100000 1.910000 -0.160000
+v 1.100000 0.190000 0.160000
+v 1.100000 1.910000 0.160000
+v 1.100000 0.190000 -0.160000
+v 1.100000 1.910000 -0.160000
+usemtl BarrierRed
+f 1 2 4 3
+usemtl BarrierRed
+f 3 4 8 7
+usemtl BarrierRed
+f 7 8 6 5
+usemtl BarrierRed
+f 5 6 2 1
+usemtl BarrierRed
+f 3 7 5 1
+usemtl BarrierRed
+f 8 4 2 6
+o Stripe
+v -0.900000 0.890000 0.200000
+v -0.900000 1.210000 0.200000
+v -0.900000 0.890000 0.140000
+v -0.900000 1.210000 0.140000
+v 0.900000 0.890000 0.200000
+v 0.900000 1.210000 0.200000
+v 0.900000 0.890000 0.140000
+v 0.900000 1.210000 0.140000
+usemtl BarrierWhite
+f 9 10 12 11
+usemtl BarrierWhite
+f 11 12 16 15
+usemtl BarrierWhite
+f 15 16 14 13
+usemtl BarrierWhite
+f 13 14 10 9
+usemtl BarrierWhite
+f 11 15 13 9
+usemtl BarrierWhite
+f 16 12 10 14
+o LeftPost
+v -1.120000 -0.020000 0.120000
+v -1.120000 1.460000 0.120000
+v -1.120000 -0.020000 -0.120000
+v -1.120000 1.460000 -0.120000
+v -0.880000 -0.020000 0.120000
+v -0.880000 1.460000 0.120000
+v -0.880000 -0.020000 -0.120000
+v -0.880000 1.460000 -0.120000
+usemtl BarrierPost
+f 17 18 20 19
+usemtl BarrierPost
+f 19 20 24 23
+usemtl BarrierPost
+f 23 24 22 21
+usemtl BarrierPost
+f 21 22 18 17
+usemtl BarrierPost
+f 19 23 21 17
+usemtl BarrierPost
+f 24 20 18 22
+o RightPost
+v 0.000000 -0.280000 1.000000
+v 0.000000 1.720000 1.000000
+v 0.000000 -0.280000 -1.000000
+v 0.000000 1.720000 -1.000000
+v 2.000000 -0.280000 1.000000
+v 2.000000 1.720000 1.000000
+v 2.000000 -0.280000 -1.000000
+v 2.000000 1.720000 -1.000000
+usemtl BarrierPost
+f 25 26 28 27
+usemtl BarrierPost
+f 27 28 32 31
+usemtl BarrierPost
+f 31 32 30 29
+usemtl BarrierPost
+f 29 30 26 25
+usemtl BarrierPost
+f 27 31 29 25
+usemtl BarrierPost
+f 32 28 26 30

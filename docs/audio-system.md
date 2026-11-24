@@ -1,22 +1,21 @@
 # Audio System
 
 > **Last updated:** 2026-11-25  
-> **Status:** Planned; no audio clip, AudioMixer, snapshot, subtitle, voice pack, or audio test result is claimed.  
+> **Status:** In progress — original WAV music/SFX exists under `Assets/Resources/Audio/`; AudioMixer, snapshots, subtitles, voice packs, Unity import, and audio test results are not claimed.
 > **Authority:** subordinate to [ADR-0003](../decisions/architecture-decisions.md). Voice delivery is reserved by ADR-0005.  
 > **Scope:** Unity Audio / AudioMixer for a 3D Android endless chase.
 
 ## 1. Target structure
 
 ```text
-Assets/Audio/
+Assets/Resources/Audio/
 ├─ Music/
-├─ Sfx/
+├─ SFX/
 ├─ Voice/
-├─ Announcements/
-└─ Mixers/
+└─ Announcements/
 ```
 
-All audio must be original, licensed, or clearly marked temporary placeholder. Copyrighted meme audio, scraped clips, protected game audio, and cloned voices are prohibited.
+Generated WAV clips exist in `Music/` and `SFX/`; `Voice/` and `Announcements/` remain planned targets. Unity AudioMixer assets belong under `Assets/Audio/Mixers/` when authored and verified. All audio must be original, licensed, or clearly marked temporary placeholder. Copyrighted meme audio, scraped clips, protected game audio, and cloned voices are prohibited.
 
 ## 2. Audio categories
 

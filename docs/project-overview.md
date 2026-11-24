@@ -65,13 +65,13 @@ The former legacy `:core`, `:game`, `:android`, and `:desktop` Gradle modules ha
 | Environment / tooling assessment | Implemented — documented | [environment-assessment.md](./environment-assessment.md) |
 | Design and architecture documents | In progress — Markdown only | This document and its siblings |
 | Unity `Assets/` / `Packages/` / `ProjectSettings/` | Implemented — unverified | Hand-authored skeleton and asmdefs exist; must be opened and verified in Unity Editor |
-| Unity scenes: Boot, MainMenu, StoryIntro, Game, Results | Planned | No `.unity` files exist |
-| Gameplay systems and C# source | In progress — unverified | Pure C# core types exist; no Unity-compiled gameplay assembly exists |
+| Unity scenes: Boot, MainMenu, StoryIntro, Game, Results | In progress — unverified | Generator source exists; no `.unity` files exist yet |
+| Gameplay systems and C# source | In progress — unverified | Core and Unity-facing gameplay source exists; no Unity-compiled gameplay assembly exists |
 | Prefabs, materials, URP settings | Planned | No Unity assets exist |
-| 3D models, textures, animations | Planned | Blender unavailable in this shell |
-| Original audio, Hindi dialogue, railway announcements | Planned | No authored assets exist |
+| 3D models, textures, animations | In progress — unverified | 11 original OBJ/MTL model pairs generated; no `.blend`, FBX/GLB, texture, rig, animation, or Unity prefab verified |
+| Original audio, Hindi dialogue, railway announcements | In progress — unverified | Original WAV music/SFX and cue strings exist; no voice pack, announcement clip, or Unity playback verified |
 | EditMode / PlayMode tests | In progress — unverified | EditMode test source exists; no Unity Test Framework result exists |
-| Android AAB / APK build | Planned | No Unity Editor, no `adb`/`sdkmanager` |
+| Android AAB / APK build | Planned | No Unity Editor, no `sdkmanager`, and no connected device |
 | Legacy Kotlin/libGDX skeleton | Removed / superseded | Non-authoritative; not part of the active project |
 
 > **No subsystem is claimed Implemented, Tested, or Verified without evidence.** Markdown describes targets; it does not create Unity content.
@@ -79,9 +79,9 @@ The former legacy `:core`, `:game`, `:android`, and `:desktop` Gradle modules ha
 ## Current environment limits
 
 - No Unity Editor — cannot compile, import, open scenes, or run tests.
-- No Blender — cannot author or verify `.blend`, FBX, or GLB assets.
+- Blender 4.5.14 LTS is installed, but only generated OBJ/MTL output is verified; `.blend`, FBX, GLB, rig, animation, and Unity import are not verified here.
 - No `dotnet`/`csc` — cannot compile C# directly.
-- No `adb`/`sdkmanager` — cannot install, launch, or verify on device.
+- `adb` is installed but no device is attached; `sdkmanager` is unavailable, so install/launch/device verification is blocked.
 - `gh` is authenticated and the private `inzyhere/indian-subway-runner` remote is configured; no CI, release, or build verification is claimed.
 - Android SDK path may exist but `ANDROID_HOME` is unset; Java 21 and Gradle are non-authoritative here.
 

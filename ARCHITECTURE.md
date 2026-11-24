@@ -36,7 +36,7 @@ Rules:
 
 ## Scene flow
 
-Scenes are **planned**, not created. The target flow is:
+Scene-generator source exists, but scene assets are **not created or Unity-verified**. The target flow is:
 
 ```mermaid
 stateDiagram-v2

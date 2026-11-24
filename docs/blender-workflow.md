@@ -1,16 +1,16 @@
 # Blender Workflow
 
-> Status: Planned. Blender is unavailable in the current shell; no model file is claimed.
+> Status: In progress. Blender 4.5.14 LTS generated OBJ/MTL models; Unity import, FBX/GLB export, rigs, and prefabs are not verified.
 
 ## Purpose
 
-Blender is the source of truth for all original 3D model assets. Unity consumes exported FBX/GLB and texture files; Unity should not be the place where mesh authoring begins.
+Blender is the source of truth for all original 3D model assets. Unity consumes validated FBX/GLB or OBJ/MTL and texture files; Unity should not be the place where mesh authoring begins.
 
 ## Tool requirement
 
-- Blender LTS version to be pinned after installation.
-- Python scripting enabled for repeatable export checks.
-- Unity FBX/GLB importer validation required after every export.
+- Current shell: Blender 4.5.14 LTS at `blender-4.5`; desktop Blender LTS may be used for FBX/GLB.
+- Python scripting enabled for repeatable generation and export checks.
+- Unity importer validation required after every FBX/GLB or OBJ/MTL export.
 
 ## Folder layout
 
@@ -68,7 +68,7 @@ Tools/Blender/
 
 ## Python helper scripts
 
-`Tools/Blender/Scripts/` will contain scripts only after Blender is available and the scripts can be tested. Do not commit untested scripts as Verified automation.
+`Tools/Blender/Scripts/generate_assets.py` is tested in this shell and generates OBJ/MTL models. Do not label scripts, imports, or prefabs Verified until Unity and desktop export evidence exists.
 
 Planned script responsibilities:
 
@@ -79,4 +79,4 @@ Planned script responsibilities:
 
 ## Current limitation
 
-This environment reports `blender NOT_FOUND`. No `.blend`, FBX, GLB, rig, animation, or texture can be produced here. If a temporary primitive is used later for logic testing, it must be labelled temporary and replaced before release.
+This Android Blender build has a broken FBX export operator, so the tested generator writes OBJ/MTL instead. No `.blend`, FBX, GLB, rig, animation, or texture is claimed here. If a temporary primitive is used later for logic testing, it must be labelled temporary and replaced before release.

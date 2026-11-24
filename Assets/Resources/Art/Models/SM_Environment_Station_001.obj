@@ -1,0 +1,148 @@
+mtllib SM_Environment_Station_001.mtl
+o Roof
+v -3.200000 2.840000 7.000000
+v -3.200000 3.160000 7.000000
+v -3.200000 2.840000 -7.000000
+v -3.200000 3.160000 -7.000000
+v 3.200000 2.840000 7.000000
+v 3.200000 3.160000 7.000000
+v 3.200000 2.840000 -7.000000
+v 3.200000 3.160000 -7.000000
+usemtl StationGreen
+f 1 2 4 3
+usemtl StationGreen
+f 3 4 8 7
+usemtl StationGreen
+f 7 8 6 5
+usemtl StationGreen
+f 5 6 2 1
+usemtl StationGreen
+f 3 7 5 1
+usemtl StationGreen
+f 8 4 2 6
+o BackWall
+v 1.480000 0.000000 7.000000
+v 1.480000 3.000000 7.000000
+v 1.480000 0.000000 -7.000000
+v 1.480000 3.000000 -7.000000
+v 1.720000 0.000000 7.000000
+v 1.720000 3.000000 7.000000
+v 1.720000 0.000000 -7.000000
+v 1.720000 3.000000 -7.000000
+usemtl StationConcrete
+f 9 10 12 11
+usemtl StationConcrete
+f 11 12 16 15
+usemtl StationConcrete
+f 15 16 14 13
+usemtl StationConcrete
+f 13 14 10 9
+usemtl StationConcrete
+f 11 15 13 9
+usemtl StationConcrete
+f 16 12 10 14
+o Pillar0
+v -1.570000 0.000000 2.920000
+v -1.570000 3.000000 2.920000
+v -1.570000 0.000000 2.680000
+v -1.570000 3.000000 2.680000
+v -1.330000 0.000000 2.920000
+v -1.330000 3.000000 2.920000
+v -1.330000 0.000000 2.680000
+v -1.330000 3.000000 2.680000
+usemtl StationConcrete
+f 17 18 20 19
+usemtl StationConcrete
+f 19 20 24 23
+usemtl StationConcrete
+f 23 24 22 21
+usemtl StationConcrete
+f 21 22 18 17
+usemtl StationConcrete
+f 19 23 21 17
+usemtl StationConcrete
+f 24 20 18 22
+o Pillar1
+v -1.570000 0.000000 1.520000
+v -1.570000 3.000000 1.520000
+v -1.570000 0.000000 1.280000
+v -1.570000 3.000000 1.280000
+v -1.330000 0.000000 1.520000
+v -1.330000 3.000000 1.520000
+v -1.330000 0.000000 1.280000
+v -1.330000 3.000000 1.280000
+usemtl StationConcrete
+f 25 26 28 27
+usemtl StationConcrete
+f 27 28 32 31
+usemtl StationConcrete
+f 31 32 30 29
+usemtl StationConcrete
+f 29 30 26 25
+usemtl StationConcrete
+f 27 31 29 25
+usemtl StationConcrete
+f 32 28 26 30
+o Pillar2
+v -1.570000 0.000000 0.120000
+v -1.570000 3.000000 0.120000
+v -1.570000 0.000000 -0.120000
+v -1.570000 3.000000 -0.120000
+v -1.330000 0.000000 0.120000
+v -1.330000 3.000000 0.120000
+v -1.330000 0.000000 -0.120000
+v -1.330000 3.000000 -0.120000
+usemtl StationConcrete
+f 33 34 36 35
+usemtl StationConcrete
+f 35 36 40 39
+usemtl StationConcrete
+f 39 40 38 37
+usemtl StationConcrete
+f 37 38 34 33
+usemtl StationConcrete
+f 35 39 37 33
+usemtl StationConcrete
+f 40 36 34 38
+o Pillar3
+v -1.570000 0.000000 -1.280000
+v -1.570000 3.000000 -1.280000
+v -1.570000 0.000000 -1.520000
+v -1.570000 3.000000 -1.520000
+v -1.330000 0.000000 -1.280000
+v -1.330000 3.000000 -1.280000
+v -1.330000 0.000000 -1.520000
+v -1.330000 3.000000 -1.520000
+usemtl StationConcrete
+f 41 42 44 43
+usemtl StationConcrete
+f 43 44 48 47
+usemtl StationConcrete
+f 47 48 46 45
+usemtl StationConcrete
+f 45 46 42 41
+usemtl StationConcrete
+f 43 47 45 41
+usemtl StationConcrete
+f 48 44 42 46
+o Pillar4
+v -2.450000 0.500000 -1.800000
+v -2.450000 2.500000 -1.800000
+v -2.450000 0.500000 -3.800000
+v -2.450000 2.500000 -3.800000
+v -0.450000 0.500000 -1.800000
+v -0.450000 2.500000 -1.800000
+v -0.450000 0.500000 -3.800000
+v -0.450000 2.500000 -3.800000
+usemtl StationConcrete
+f 49 50 52 51
+usemtl StationConcrete
+f 51 52 56 55
+usemtl StationConcrete
+f 55 56 54 53
+usemtl StationConcrete
+f 53 54 50 49
+usemtl StationConcrete
+f 51 55 53 49
+usemtl StationConcrete
+f 56 52 50 54

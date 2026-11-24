@@ -1,13 +1,14 @@
 # Asset Production Plan
 
-> Status: Planned; no final art asset is implemented.
+> Status: In progress; generated original OBJ/MTL models and WAV audio exist, but Unity import, prefabs, and in-game evidence do not.
 
 ## Principles
 
 - All shipped assets are original or explicitly licensed for this project.
 - No decompiled, ripped, scraped, or copied assets from commercial games.
 - Blender is the 3D source of truth.
-- Unity receives FBX/GLB models and PNG/JPEG or optimized textures.
+- Desktop Blender should export FBX/GLB models; the current Android Blender 4.5.14 build has a broken FBX operator, so generated assets currently use OBJ/MTL.
+- Unity receives validated FBX/GLB or OBJ/MTL models and PNG/JPEG or optimized textures.
 - Temporary primitives are acceptable only for logic tests and must be clearly labelled and replaced.
 - Asset names, scale, materials, and import settings follow `docs/blender-workflow.md`.
 
@@ -15,14 +16,14 @@
 
 | Category | Examples | Priority | Status |
 | --- | --- | --- | --- |
-| Characters | ACP pursuer, criminal, crowd variants | Critical | Planned |
-| Trains | local, express, freight, coach modules | Critical | Planned |
-| Environment | platforms, tracks, signals, footbridges, stalls | Critical | Planned |
-| Obstacles | crates, carts, barriers, gaps, debris | Critical | Planned |
-| Collectibles | coins, clue tokens, power-up icons | Critical | Planned |
+| Characters | ACP pursuer, criminal, crowd variants | Critical | In progress — generated OBJ/MTL; rig/Unity import pending |
+| Trains | local, express, freight, coach modules | Critical | In progress — express OBJ/MTL generated; Unity import pending |
+| Environment | platforms, tracks, signals, footbridges, stalls | Critical | In progress — platform/station OBJ/MTL generated |
+| Obstacles | crates, carts, barriers, gaps, debris | Critical | In progress — low/high barrier OBJ/MTL generated |
+| Collectibles | coins, clue tokens, power-up icons | Critical | In progress — coin/shield/magnet/multiplier OBJ/MTL generated |
 | UI | icons, buttons, chapter cards, HUD frames | High | Planned |
 | VFX | dust, speed lines, coin burst, shield effect | Medium | Planned |
-| Audio | original score, SFX, announcements | High | Planned |
+| Audio | original score, SFX, announcements | High | In progress — original music/SFX WAVs generated; announcements and Unity import pending |
 
 ## Source-to-import mapping template
 
@@ -30,7 +31,13 @@ Each completed asset must be recorded in a table like this:
 
 | Asset ID | Blender source | Export file | Unity prefab | Licence | Verified by |
 | --- | --- | --- | --- | --- | --- |
-| `CHAR_ACP_001` | planned | planned | planned | original project work | not yet |
+| `SM_Characters_Runner_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Runner_001.obj` + `.mtl` | not yet | original project work | not yet |
+| `SM_Characters_Pursuer_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Pursuer_001.obj` + `.mtl` | not yet | original project work | not yet |
+| `SM_Trains_Express_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Trains_Express_001.obj` + `.mtl` | not yet | original project work | not yet |
+| `SM_Obstacles_LowBarrier_001`, `SM_Obstacles_HighBarrier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
+| `SM_Collectibles_Coin_001`, `SM_PowerUps_Shield_001`, `SM_PowerUps_Magnet_001`, `SM_PowerUps_Multiplier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
+| `SM_Environment_Platform_001`, `SM_Environment_Station_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
+| `ISR_Loop_Main_001` and `ISR_SFX_*_001` | `Tools/Audio/generate_audio.py` | WAV files under `Assets/Resources/Audio/` | not applicable | original project work | not yet |
 
 No asset may be marked Verified until the source, export, Unity prefab, and in-game capture are recorded.
 

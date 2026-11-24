@@ -1,6 +1,6 @@
 # Indian Subway Runner — Troubleshooting
 
-> **Status:** Planned / Research in progress — no Unity Editor, Blender, `dotnet`, `adb`, device, or build is available in this shell, so no fix below is verified here.
+> **Status:** Planned / Research in progress — no Unity Editor, `dotnet`, `sdkmanager`, connected device, or build is available in this shell, so no fix below is verified here.
 > **Last updated:** 2026-11-25
 > **Authority:** [ADR-0003](decisions/architecture-decisions.md) is final/binding: Unity **6000.0.86f1+ LTS**, C#, URP, Android. Observed shell facts are in [environment-assessment.md](environment-assessment.md); current project truth is in [PROJECT_STATUS.md](../PROJECT_STATUS.md).
 
@@ -11,9 +11,9 @@ This document separates **observed environment facts** from **anticipated sympto
 | Observation | Evidence / note | Implication |
 | --- | --- | --- |
 | Unity Editor NOT_FOUND | Recorded in [environment-assessment.md](environment-assessment.md) | No compile, scene, prefab, PlayMode, or build verification here |
-| Blender NOT_FOUND | Same source | No asset authoring/import verification here |
+| Blender 4.5.14 LTS installed, FBX operator broken | Same source | OBJ/MTL generation works here; FBX/GLB and Unity import are not verified |
 | `dotnet` NOT_FOUND | Same source | No .NET CLI verification here |
-| `adb` `NOT_FOUND` | Same source | No device install/logcat/screen capture here |
+| `adb` installed, no device attached | Same source | No device install/logcat/screen capture here |
 | `sdkmanager` `NOT_FOUND` | Same source | No SDK package management here |
 | `ANDROID_HOME` / `ANDROID_SDK_ROOT` `UNSET` | Same source | Android tooling path not configured here |
 | GitHub auth | Authenticated as `inzyhere` via `gh` | Private remote operations are available when explicitly requested |
@@ -63,7 +63,7 @@ flowchart TD
 - Do not add hidden network calls, telemetry, or cloud claims as a workaround; ADR-0007 boundary applies ([environment-assessment.md](environment-assessment.md)).
 - Do not commit keystores, tokens, APKs, AABs, or device logs containing secrets ([release-process.md](release-process.md)).
 - Do not mark an issue Verified from a screenshot or a guess; use the status vocabulary in [testing-strategy.md](testing-strategy.md).
-- Do not claim a mechanic works because a doc describes it; every gameplay doc here is Planned.
+- Do not claim a mechanic works because source or a doc describes it; gameplay implementation is not Unity-verified.
 
 ## 5. Escalation artifacts
 
@@ -81,4 +81,4 @@ When escalating an issue, include:
 
 ## 6. Current status
 
-All items in this document are **Planned / Research in progress**. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no gameplay code, scenes, prefabs, art, audio, tests, or builds are verified, and this shell lacks the tools needed to verify them. Recorded blocker outputs in [environment-assessment.md](environment-assessment.md) are facts; all mitigations above are proposals only.
+All items in this document are **Planned / Research in progress**. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), gameplay source, generated models/audio, scene-generator source, and tests exist as source, but none are Unity-verified, and this shell lacks the tools needed to verify them. Recorded blocker outputs in [environment-assessment.md](environment-assessment.md) are facts; all mitigations above are proposals only.

@@ -2,7 +2,9 @@
   "name": "IndianSubwayRunner.UI",
   "rootNamespace": "IndianSubwayRunner.UI",
   "references": [
-    "IndianSubwayRunner.Core"
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.Gameplay",
+    "Unity.InputSystem"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

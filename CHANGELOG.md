@@ -8,6 +8,20 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Source implementation and generated original assets (Unity-unverified)
+
+#### Added
+
+- Pure C# gameplay source for action arbitration, locomotion, scoring, difficulty, power-ups, chase gap, collision, RNG, and procedural chunk validation/generation, plus EditMode test source.
+- Unity-facing gameplay glue: `RunnerSimulation`, input, runner/chunk views, HUD, audio playback, `GameBootstrap`, and an editor scene generator for Boot/MainMenu/StoryIntro/Game/Results.
+- `Tools/Blender/Scripts/generate_assets.py`, tested with Blender 4.5.14 LTS; it generated 11 original OBJ/MTL model pairs under `Assets/Resources/Art/Models`.
+- `Tools/Audio/generate_audio.py`, tested in this shell; it generated one original WAV music loop and seven original WAV SFX under `Assets/Resources/Audio`.
+
+#### Changed
+
+- Status documents now distinguish generated source/assets from Unity-compiled, Tested, or Verified content.
+- Environment notes now record installed Blender and `adb`, the broken Android Blender FBX operator, and the OBJ/MTL workaround.
+
 ### 2026-11-25 — Private remote connected
 
 #### Added

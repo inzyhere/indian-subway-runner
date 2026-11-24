@@ -2,7 +2,8 @@
   "name": "IndianSubwayRunner.Audio",
   "rootNamespace": "IndianSubwayRunner.Audio",
   "references": [
-    "IndianSubwayRunner.Core"
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.Gameplay"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

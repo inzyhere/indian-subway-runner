@@ -2,7 +2,13 @@
   "name": "IndianSubwayRunner.GameFlow",
   "rootNamespace": "IndianSubwayRunner.GameFlow",
   "references": [
-    "IndianSubwayRunner.Core"
+    "IndianSubwayRunner.Core",
+    "IndianSubwayRunner.Gameplay",
+    "IndianSubwayRunner.Player",
+    "IndianSubwayRunner.ProceduralGeneration",
+    "IndianSubwayRunner.UI",
+    "IndianSubwayRunner.Dialogue",
+    "IndianSubwayRunner.Audio"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

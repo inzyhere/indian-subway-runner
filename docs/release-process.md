@@ -1,6 +1,6 @@
 # Indian Subway Runner — Release Process
 
-> **Status:** Planned — no release, signed build, AAB, APK, store listing, tag, or verified build hash exists in this environment.
+> **Status:** Planned — no release, signed build, AAB, APK, store listing, tag, or verified build hash exists in this environment. A GitHub Actions debug APK workflow source exists but has not been pushed or run.
 > **Last updated:** 2026-11-25
 > **Authority:** [ADR-0003](decisions/architecture-decisions.md) is final/binding: Unity **6000.0.86f1+ LTS**, C#, URP, Android. See [android-build-instructions.md](android-build-instructions.md), [testing-strategy.md](testing-strategy.md), [performance-optimization.md](performance-optimization.md), and [PROJECT_STATUS.md](../PROJECT_STATUS.md).
 
@@ -26,13 +26,17 @@ No release or tag is claimed here; the private remote has received the foundatio
 | Tests | EditMode/PlayMode/build smoke/device gates recorded per [testing-strategy.md](testing-strategy.md) |
 | Performance | Profiler/thermal/evidence gates met per [performance-optimization.md](performance-optimization.md) |
 | Content | Original art/audio, no placeholder or licensed-material ambiguity, no fake buttons or dead menu items |
-| Player Settings | Package `com.indiansubwayrunner.game`, min API 24, target API 36, IL2CPP + ARM64 per build doc |
+| Player Settings | Package `com.inzyhere.indiansubwayrunner` for the first debug APK, min API 24, target API 36, IL2CPP + ARM64 per build doc |
 | 16 KB | Native libs rebuilt/verified; AAB audited |
 | Privacy | No undeclared network/telemetry; storage boundary per [save-data.md](save-data.md) |
 | Secrets scan | No credentials/keystores in assets, logs, or bundle |
 | Build identity | Version, commit/tag, build hash recorded |
 
 Any failed check blocks release; no "best effort" release is claimed.
+
+## 2a. CI debug APK build (Planned)
+
+`.github/workflows/build-android.yml` is a manual x64 GitHub Actions build path. It requires repository secrets `UNITY_LICENSE`, `UNITY_EMAIL`, and `UNITY_PASSWORD`. It produces artifact `IndianSubwayRunner-debug-apk` containing `Builds/IndianSubwayRunner.apk`. This artifact is for side-load testing only and is not a signed release or Play Store artifact.
 
 ## 3. Versioning (Planned)
 
@@ -81,4 +85,4 @@ flowchart TD
 
 ## 6. Current blockers and status
 
-This shell has no Unity Editor, Android SDK/adb, GitHub authentication, signed keystore, or device. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no build or release is implemented, tested, or verified. This document is a release procedure only; do not treat any step above as completed.
+This shell has no Unity Editor, `sdkmanager`, signed keystore, or connected device; `adb` and GitHub authentication are available. A CI workflow source exists but needs to be pushed, supplied with Unity license secrets, and run successfully. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no Unity build or release is implemented, tested, or verified. This document is a release procedure only; do not treat any step above as completed.

@@ -15,7 +15,7 @@
 | Loading | No synchronous asset load during gameplay | None |
 | Session stability | 20-minute run without leak or thermal collapse | None |
 
-These are targets, not achievements. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), no build or gameplay exists to profile here.
+These are targets, not achievements. Per [PROJECT_STATUS.md](../PROJECT_STATUS.md), gameplay source exists but no Unity build or playable gameplay exists to profile here.
 
 ## 2. URP configuration (Planned)
 

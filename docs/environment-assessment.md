@@ -28,10 +28,10 @@ The final stack is fixed by ADR-0003: **Unity 6 LTS, C#, URP, Android**. Do not 
 | `ANDROID_SDK_ROOT` | `UNSET` |
 | Debug keystore | `/data/data/com.termux/files/home/.android/debug.keystore` exists; must never be committed |
 | ARM64 Android tools | `aapt`, `aapt2`, `zipalign` available under `/data/data/com.termux/files/usr/bin/` |
-| `adb` | `NOT_FOUND` |
+| `adb` | `/data/data/com.termux/files/usr/bin/adb`; `Android Debug Bridge version 1.0.41`, `Version 37.0.0p1-android-tools` |
 | `sdkmanager` | `NOT_FOUND` |
 | Unity Editor | `NOT_FOUND` for `unity-editor`, `Unity`, `unity`, `unityhub`; no `/opt/Unity`, `/opt/unity`, `/Applications/Unity`, or `/usr/local/Unity` |
-| Blender | `blender NOT_FOUND` |
+| Blender | `blender-4.5` at `/data/data/com.termux/files/usr/bin/blender-4.5`; `Blender 4.5.14 LTS`, Android build; FBX operator is broken, so generated assets use OBJ/MTL |
 | .NET/C# compiler | `dotnet NOT_FOUND`, `csc NOT_FOUND`, `mono NOT_FOUND`, `msbuild NOT_FOUND` |
 | Native compilers | `gcc`, `clang`, `make` present; not a Unity/C# substitute |
 
@@ -40,9 +40,9 @@ Consequences:
 - Markdown, JSON, XML, YAML-like text, shell scripts, and directory structure can be authored and statically checked here.
 - C# cannot be compiled here.
 - Unity scenes, prefabs, URP assets, Animator controllers, Addressables groups, and builds cannot be created or verified here.
-- Blender models cannot be authored here.
-- GitHub remote creation and push are blocked until authentication is provided.
-- Android installation/device profiling is blocked until `adb` and a device are available.
+- Original Blender-generated OBJ/MTL models and Python-generated WAV audio can be authored here, but FBX export and Unity import cannot be verified in this shell.
+- GitHub remote creation and push are no longer blocked; authentication is present as `inzyhere`.
+- Android installation/device profiling is blocked until a device is attached and `sdkmanager`/SDK licensing is available.
 
 ## 3. Pinned Unity and Android direction
 
@@ -235,8 +235,8 @@ See `docs/asset-production-plan.md` and `docs/blender-workflow.md`.
 
 Rules:
 
-- All model source files originate in Blender as `.blend`.
-- Export final gameplay meshes as FBX or GLB with clear naming and scale conventions.
+- Current model source is the reproducible Blender Python script in `Tools/Blender/Scripts/generate_assets.py`; a desktop workflow should also save `.blend` files.
+- Current generated gameplay meshes are OBJ/MTL because this Android Blender build's FBX operator is broken; desktop Blender should export final FBX or GLB with clear naming and scale conventions.
 - Use URP-compatible materials only.
 - Use original textures in PNG/JPEG or optimized runtime formats.
 - Do not use ripped, decompiled, scraped, or unlicensed assets.
@@ -246,13 +246,13 @@ Rules:
 
 ## 9. Blender integration plan
 
-Blender is unavailable in this shell. `Tools/Blender/` may contain future scripts, but no `.blend`, FBX, GLB, rig, animation, or texture can be truthfully claimed here.
+Blender 4.5.14 LTS is installed in this shell. `Tools/Blender/Scripts/generate_assets.py` has generated OBJ/MTL models; no `.blend`, FBX, GLB, rig, animation, or texture is claimed here.
 
-Workflow when Blender is available:
+Workflow from here:
 
 1. Model in metres, Y-up export convention, single root per prefab.
-2. Keep source `.blend` in `Tools/Blender/Source/**`.
-3. Export gameplay meshes to `Assets/Art/**`.
+2. Keep the reproducible Python source under `Tools/Blender/Scripts/`; save `.blend` files in `Tools/Blender/Source/**` when a desktop Blender workstation is available.
+3. Export gameplay meshes to `Assets/Resources/Art/Models/` in this shell, or to `Assets/Art/**` as FBX/GLB from desktop Blender.
 4. Export animations separately or embedded only when Unity imports them predictably.
 5. Validate scale, normals, pivot, UVs, materials, and LODs in Unity.
 6. Create Unity prefabs from validated imports.
@@ -292,7 +292,7 @@ Status:
 6. Remote `main` was fetched before reconciliation; its `Initial commit` was merged without force.
 7. `main` was pushed after static secret checks and now tracks `origin/main`.
 
-No GitHub authentication blocker remains. Unity/Blender/Android tooling blockers remain unchanged.
+No GitHub authentication blocker remains. Blender is available with an OBJ/MTL workaround; Unity Editor, `sdkmanager`, Android build tooling, and a connected device remain blockers.
 
 ## 12. Milestones
 
@@ -301,11 +301,11 @@ No GitHub authentication blocker remains. Unity/Blender/Android tooling blockers
 | M0 — Public research | In progress | Engine-neutral research doc with citations; no protected content. |
 | M1 — Foundation | Implemented, Unity-unverified | ADR, environment assessment, folder structure, asmdefs, package manifest, truthful status, and local Git repository initialized. |
 | M2 — Unity Editor verification | Planned | Project opens in pinned Unity LTS with zero compiler/import errors. |
-| M3 — Core flow | Planned | Boot/menu/story/game/results flow passes EditMode/PlayMode tests. |
-| M4 — Core gameplay | Planned | Lanes, jump, slide, obstacles, trains, collision, scoring pass tests. |
-| M5 — Procedural world | Planned | Chunk pools, difficulty curve, guaranteed safe paths verified. |
-| M6 — Story/Hindi/audio | Planned | Original dialogue, announcements, AudioMixer, subtitles verified. |
-| M7 — Original 3D art | Planned | Blender source files, FBX/GLB imports, prefabs, Animator controllers verified. |
+| M3 — Core flow | In progress, Unity-unverified | Scene generator and boot/menu/story/game/results glue source exist; tests not run. |
+| M4 — Core gameplay | In progress, Unity-unverified | Lanes, jump, slide, obstacles, trains, collision, and scoring source exists; tests not run. |
+| M5 — Procedural world | In progress, Unity-unverified | Chunk catalog, validator, director, and chunk view source exists; safe paths not verified in Unity. |
+| M6 — Story/Hindi/audio | In progress, Unity-unverified | Cue strings and original WAV music/SFX exist; announcements, AudioMixer, subtitles, and Unity playback not verified. |
+| M7 — Original 3D art | In progress, Unity-unverified | Blender Python generator and 11 OBJ/MTL models exist; Unity imports, prefabs, Animator controllers, FBX/GLB, and `.blend` sources pending. |
 | M8 — Android build | Planned | API 36 AAB/APK built; APK copied to `/sdcard/Download`. |
 | M9 — Device verification | Planned | Real-device FPS, memory, thermal, lifecycle, and input evidence. |
 | M10 — Polish/release | Planned | Store metadata, privacy, final QA, release checklist. |

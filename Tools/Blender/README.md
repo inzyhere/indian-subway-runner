@@ -1,3 +1,3 @@
 # Blender Tooling
 
-Reserved for original Blender source files and tested Python export/validation scripts. Blender is unavailable in the current environment, so no source file, script result, FBX, or GLB is claimed. See `docs/blender-workflow.md`.
+Original Blender source files and tested Python generation scripts. Blender 4.5.14 LTS is installed, and `Scripts/generate_assets.py` generated 11 OBJ/MTL model pairs. No `.blend`, FBX, GLB, rig, animation, or Unity prefab is claimed; see `docs/blender-workflow.md`.

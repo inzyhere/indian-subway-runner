@@ -1,6 +1,6 @@
 # Indian Subway Runner — Testing Strategy
 
-> **Status:** Planned / Research in progress — no test assemblies, fixtures, results, builds, or device captures exist in this environment.
+> **Status:** In progress — EditMode test source and assembly definitions exist; no Unity test run, PlayMode tests, build, or device capture exists in this environment.
 > **Last updated:** 2026-11-25
 > **Authority:** [ADR-0003](decisions/architecture-decisions.md) is final/binding: Unity **6000.0.86f1+ LTS**, C#, URP, Android. Testing uses the **Unity Test Framework**. See [PROJECT_STATUS.md](../PROJECT_STATUS.md) for truthful status rules.
 
@@ -23,8 +23,8 @@ Legacy Kotlin/Gradle/JUnit test claims from the superseded stack are removed. No
 | --- | --- |
 | `IndianSubwayRunner.Core` | Pure C# rules; testable without scenes |
 | `IndianSubwayRunner.Gameplay` | Runtime controllers consuming `Core` |
-| `IndianSubwayRunner.Tests.EditMode` | EditMode tests with `optionalUnityReferences: TestAssemblies` |
-| `IndianSubwayRunner.Tests.PlayMode` | PlayMode tests with test fixtures/scenes |
+| `IndianSubwayRunner.Core.Tests` | EditMode tests with `optionalUnityReferences: TestAssemblies` |
+| `IndianSubwayRunner.PlayModeTests` | PlayMode test assembly prepared for fixtures/scenes |
 
 Fixtures live under `Assets/Tests/Fixtures/` as ScriptableObjects/config files. Tests inject a fixed RNG and fixed distance/input sequences; no test depends on wall-clock time or a real device id.
 
@@ -52,7 +52,7 @@ ADR-0004 and ADR-0007 are referenced in [environment-assessment.md](environment-
 | Tested | Unity Test Framework report exists and passes |
 | Verified | Tested plus device/build/Profiler evidence recorded |
 
-No layer is currently beyond Planned/Research. In particular, no claim of "tests pass" is made without a test runner report.
+EditMode test source exists, but no layer has a passing Unity Test Framework report. In particular, no claim of "tests pass" is made without a test runner report.
 
 ## 5. Device and build protocol (Planned)
 
@@ -69,7 +69,7 @@ flowchart TD
     I --> A
 ```
 
-This shell has no Unity Editor, `adb`, `sdkmanager`, or device; `adb NOT_FOUND` is recorded in [environment-assessment.md](environment-assessment.md). Device steps are therefore future work, not completed checks.
+This shell has no Unity Editor, `sdkmanager`, or connected device. `adb` is installed but reports no attached devices; see [environment-assessment.md](environment-assessment.md). Device steps are therefore future work, not completed checks.
 
 ## 6. Privacy and boundary checks (Planned)
 
@@ -80,4 +80,4 @@ This shell has no Unity Editor, `adb`, `sdkmanager`, or device; `adb NOT_FOUND` 
 
 ## 7. Current state
 
-Per [PROJECT_STATUS.md](../PROJECT_STATUS.md): no gameplay code, scenes, prefabs, art, audio, tests, or builds are verified. This document defines the test plan only. Do not mark any test layer Implemented, Tested, or Verified until the corresponding Unity/device evidence exists.
+Per [PROJECT_STATUS.md](../PROJECT_STATUS.md): gameplay source, generated models/audio, assembly definitions, and EditMode test source exist, but none are Unity-compiled, tested, built, or device-verified. This document defines the test plan and current source state. Do not mark any test layer Tested or Verified until the corresponding Unity/device evidence exists.

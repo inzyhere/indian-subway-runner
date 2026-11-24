@@ -1,6 +1,6 @@
 # Android Build Instructions
 
-> Status: Planned. No Unity Android build can be produced in the current shell.
+> Status: Planned. No Unity Android build has been produced yet. A GitHub Actions debug APK workflow source exists but has not been pushed or run.
 
 ## Prerequisites
 
@@ -11,11 +11,25 @@
 - All native plugins rebuilt for 16 KB page-size compatibility.
 - Real Android device and `adb` for verification.
 
+## GitHub Actions CI build
+
+Manual workflow `.github/workflows/build-android.yml` builds on `ubuntu-latest` with GameCI Unity Builder.
+
+Required repository secrets:
+
+- `UNITY_LICENSE`
+- `UNITY_EMAIL`
+- `UNITY_PASSWORD`
+
+Professional/serial licenses additionally require extending the workflow with `UNITY_SERIAL`.
+
+After the workflow is pushed, run `Actions > Build Android APK > Run workflow`. The output artifact is `IndianSubwayRunner-debug-apk` containing `Builds/IndianSubwayRunner.apk`. The workflow calls `IndianSubwayRunner.Editor.AndroidBuild.BuildCiApk`, which generates scenes before building. This is a debug APK for side-load testing, not a signed release artifact.
+
 ## Player Settings target
 
 | Setting | Value |
 | --- | --- |
-| Package name | `com.indiansubwayrunner.game` |
+| Package name | `com.inzyhere.indiansubwayrunner` for the first debug APK |
 | Minimum API level | 24 |
 | Target API level | 36 |
 | Scripting backend | IL2CPP |
@@ -57,14 +71,14 @@
 
 The owner requested a built APK copied to `/sdcard/Download` as the final deliverable.
 
-When Unity is available:
+When Unity or CI is available:
 
-1. Build a release APK with `com.indiansubwayrunner.game` application id.
+1. Build the debug APK with `com.inzyhere.indiansubwayrunner` application id.
 2. Verify install on a real device.
-3. Copy the APK to `/sdcard/Download/Indian-Subway-Runner-Unity.apk`.
+3. Copy the APK to `/sdcard/Download/IndianSubwayRunner.apk`.
 4. Record SHA-256, size, Unity version, build date, and tested device in `PROJECT_STATUS.md`.
 
-This shell cannot perform those steps because Unity Editor, Android build modules, `adb`, and `sdkmanager` are unavailable.
+This shell cannot perform those steps because Unity Editor, Android build modules, and `sdkmanager` are unavailable, and no device is attached.
 
 ## Verification gates before calling a build acceptable
 
