@@ -35,7 +35,7 @@ The assets are displayed as `IndianSubwayRunner-debug.apk` and `IndianSubwayRunn
 `godot/export_presets.cfg` defines the `Android` preset:
 
 - Package ID: `com.inzyhere.indiansubwayrunner`
-- Version: `0.1.1` / code `2`
+- Version: `version/name="0.1.1"` / `version/code=2`
 - Orientation: portrait (`screen/orientation=1` and `window/handheld/orientation=1`)
 - Display: immersive fullscreen with a `720x1280` portrait viewport and `canvas_items`/`expand` stretch settings
 - Architecture: ARM64

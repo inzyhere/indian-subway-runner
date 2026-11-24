@@ -14,6 +14,7 @@
 
 - Declared `_hud` in `godot/scripts/main.gd`; the missing declaration prevented GDScript parsing and explains the blank main scene after the Godot splash screen.
 - Switched the Godot project and Android export preset to portrait: `720x1280` viewport, `window/handheld/orientation=1`, `screen/orientation=1`, fullscreen, and `canvas_items`/`expand` stretch settings. Android immersive mode remains enabled.
+- Corrected the Android version-code key to Godot 4.7's `version/code`; the incorrect `version_code` key exported version code `1` instead of `2`.
 
 #### Changed
 
