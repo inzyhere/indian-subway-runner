@@ -27,7 +27,7 @@ jobs:
           ln -sf "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64" "$RUNNER_TEMP/godot/godot"
           chmod +x "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
           echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
-          godot --version
+          "$RUNNER_TEMP/godot/godot" --version
 
       - name: Import Godot project
         shell: bash
