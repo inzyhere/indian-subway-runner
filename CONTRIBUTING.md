@@ -1,15 +1,15 @@
 # Contributing
 
 > **Last updated:** 2026-11-25  
-> **Status:** Implemented — private GitHub remote connected; Unity build/test workflow remains Planned.
+> **Status:** active Godot 4 implementation; the Unity instructions below are preserved history. Godot smoke, gameplay capture, Android export, and debug APK release have CI evidence; device and human visual verification remain pending.
 
-This repository follows [ADR-0003](docs/decisions/architecture-decisions.md): Unity 6000.0.86f1+ LTS, C#, URP, Android. Contributions must use Unity terminology and must not reintroduce Kotlin/libGDX gameplay, Three.js, WebView gameplay, React Native, Flutter, or an engine switch without explicit owner approval. Kotlin is allowed only for a specialized Android-native Unity plugin.
+The active repository follows ADR-0004: Godot 4, GDScript, Android. [ADR-0003](docs/decisions/architecture-decisions.md) and the Unity rules below are historical only. Do not reintroduce Kotlin/libGDX gameplay, Three.js, WebView gameplay, React Native, Flutter, or an engine switch without explicit owner approval.
 
 ## Current collaboration state
 
-Git is installed; the directory was not a Git repository at assessment time but now tracks the private `inzyhere/indian-subway-runner` remote. Do not claim a CI pass or release. Work with focused branches from `main`, open a pull request linked to an issue, and merge only after the gates in [TESTING.md](TESTING.md) pass.
+The public `inzyhere/indian-subway-runner` remote is connected, with CI evidence recorded in [PROJECT_STATUS.md](PROJECT_STATUS.md) and a debug APK published at [godot-debug-apk](https://github.com/inzyhere/indian-subway-runner/releases/tag/godot-debug-apk). Work with focused branches from `main`, open a pull request linked to an issue, and merge only after the gates in [TESTING.md](TESTING.md) pass.
 
-## Workflow
+## Historical Unity workflow
 
 1. Identify the issue and milestone from [ROADMAP.md](ROADMAP.md) before non-trivial work.
 2. Make the smallest coherent change in the Unity project (`Assets/`, `Packages/`, `ProjectSettings/`).
@@ -18,7 +18,7 @@ Git is installed; the directory was not a Git repository at assessment time but 
 5. Verify in the pinned Editor; record evidence before moving any status beyond **Implemented**.
 6. Review for dependency rules, asset provenance, secrets, and truthfulness before merge.
 
-## Assembly definition rules
+## Historical Unity assembly definition rules
 
 - Place gameplay code in `Assets/Scripts/**` under an `IndianSubwayRunner.<Area>` `.asmdef`; areas are listed in [ARCHITECTURE.md](ARCHITECTURE.md).
 - `Core` must not depend on scene objects, UI, audio, or platform SDKs. `GameFlow` coordinates lifecycle; `AndroidIntegration` depends on `GameFlow`, never the reverse.

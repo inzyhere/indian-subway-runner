@@ -15,6 +15,13 @@ The existing Unity project in `Assets/`, `Packages/`, and `ProjectSettings/` is 
 - `main.tscn`: entry scene.
 - `scripts/main.gd`: prototype gameplay, procedural track, HUD, camera, and audio.
 - `export_presets.cfg`: Android debug APK export preset.
-- `assets/`: engine-neutral OBJ/MTL and WAV assets copied from the preserved Unity project.
+- `assets/models/`: 13 authored textured/animated GLB assets plus original OBJ/MTL fallback assets.
+- `assets/audio/`: original WAV music and SFX copied from the preserved Unity project.
 
-See [docs/godot-android-build.md](../docs/godot-android-build.md) for the secret-free Android APK workflow.
+Optional gameplay capture:
+
+```sh
+godot --path . --resolution 720x1280 -- --capture-gameplay --capture-dir=/path/to/captures
+```
+
+See [docs/visual-asset-inventory.md](../docs/visual-asset-inventory.md) for the shipped visual set and [docs/godot-android-build.md](../docs/godot-android-build.md) for the secret-free Android APK workflow.

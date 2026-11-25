@@ -8,6 +8,43 @@
 
 ## [Unreleased]
 
+### 2026-11-25 — Authored GLB visuals and gameplay capture (`1.0.0`, smoke/capture/export tested)
+
+#### Added
+
+- `Tools/Blender/Scripts/generate_visual_glbs.py`, a deterministic pure-Python generator that writes 13 original textured/animated GLB assets into `godot/assets/models/` without requiring Blender.
+- Authored GLB replacements for characters, train, low/high obstacles, coin, shield/magnet/boost power-ups, track/platform/station/props kits, with OBJ/primitive fallbacks retained in `godot/scripts/main.gd`.
+- Animation-state wiring for player idle/run/jump/slide and pursuer idle/run.
+- A polished mobile HUD with stat chips, chase-gap meter, case-file story panel, and original labels.
+- `.github/workflows/godot-gameplay-capture.yml` plus an opt-in in-game capture harness that writes five 720x1280 gameplay PNG frames and fails on script/engine errors.
+
+#### Changed
+
+- Reframed the chase camera and added fog, sun shadows, fill light, and modular GLB environment instancing.
+- Coin and power-up spin changed to the authored GLB-facing Z axis; gameplay lane, z-threshold, jump, slide, scoring, and chase-gap rules were preserved.
+- Version bumped to `1.0.0` / code `5` in `godot/project.godot` and `godot/export_presets.cfg`.
+- Status docs and the visual-asset inventory now distinguish authored GLB visuals from the rejected `0.1.3` flat placeholder build.
+
+#### Fixed
+
+- `power_text.upper()` changed to `power_text.to_upper()` after the smoke workflow caught a GDScript parse error.
+- The gameplay capture workflow now passes `--audio-driver Dummy` to avoid ALSA errors in headless runners.
+- Breakline `String`-typed names remain ASCII/underscore-safe (`Chapter`, `Score`, `ChaseGap`, `Coins`, `Distance`, `Power`) to avoid Godot 4 global-name parse errors.
+
+#### Tested
+
+- Structural GLB validation passed for all 13 assets: header/JSON/BIN chunks, accessors, bufferViews, meshes, materials, embedded PNG textures, animation channels, and bounds.
+- Headless smoke runs `45518280174` and `45519025297` succeeded with Godot `4.7.2-stable`; no script errors, parse errors, or engine errors were present.
+- Gameplay capture run `45518284923` succeeded with five 720x1280 RGBA frames; pixel analysis found nonblank frames and frame-to-frame motion.
+- Push build run `45518994775` and release run `45519025297` succeeded; the release smoke gate passed before export.
+- The `1.0.0` APK SHA-256 is `9db172007c8a9a25f1bfdb4548804e1bfd01de3c66a0d15cd751f0aedccd6bc7` and matches the published checksum.
+- `aapt dump badging` reports package `com.inzyhere.indiansubwayrunner`, version `1.0.0` / code `5`, label `Indian Subway Runner`, and `arm64-v8a` native code.
+
+#### Not verified
+
+- No device installation, logcat, touch input, audible audio, immersive fullscreen behaviour, frame rate, or gameplay verification exists for `1.0.0`.
+- No human visual sign-off exists; captured frames prove nonblank motion but not aesthetic acceptance. The old staged `/sdcard/Download/IndianSubwayRunner-debug.apk` still contains rejected `0.1.3` and must be replaced.
+
 ### 2026-11-25 — Runtime smoke fix (headless smoke and export tested)
 
 #### Added

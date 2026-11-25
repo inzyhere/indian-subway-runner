@@ -1,92 +1,98 @@
 # Asset Production Plan
 
-> Status: In progress; generated original OBJ/MTL models and WAV audio exist, but Unity import, prefabs, and in-game evidence do not.
+> Status: active Godot GLB visual pass implemented and CI-tested; device rendering and human visual sign-off pending. Preserved Unity entries below are historical only.
 
 ## Principles
 
-- All shipped assets are original or explicitly licensed for this project.
-- No decompiled, ripped, scraped, or copied assets from commercial games.
-- Blender is the 3D source of truth.
-- Desktop Blender should export FBX/GLB models; the current Android Blender 4.5.14 build has a broken FBX operator, so generated assets currently use OBJ/MTL.
-- Unity receives validated FBX/GLB or OBJ/MTL models and PNG/JPEG or optimized textures.
-- Temporary primitives are acceptable only for logic tests and must be clearly labelled and replaced.
-- Asset names, scale, materials, and import settings follow `docs/blender-workflow.md`.
+- All shipped assets are original project work or explicitly licensed assets recorded in the repository.
+- No decompiled, ripped, scraped, or copied assets from commercial games are permitted.
+- The active Godot implementation ships procedurally generated GLBs from `Tools/Blender/Scripts/generate_visual_glbs.py`.
+- Preserved Blender/Unity OBJ/MTL assets remain as fallback assets and history; no Unity import or gameplay verification is claimed.
+- Temporary primitives are acceptable only as fallbacks and must remain non-primary in release visuals.
+- Asset names, scale, materials, and import settings follow `docs/blender-workflow.md` conventions where applicable.
 
 ## Asset categories
 
-| Category | Examples | Priority | Status |
+| Category | Examples | Priority | Active Godot status |
 | --- | --- | --- | --- |
-| Characters | ACP pursuer, criminal, crowd variants | Critical | In progress — generated OBJ/MTL; rig/Unity import pending |
-| Trains | local, express, freight, coach modules | Critical | In progress — express OBJ/MTL generated; Unity import pending |
-| Environment | platforms, tracks, signals, footbridges, stalls | Critical | In progress — platform/station OBJ/MTL generated |
-| Obstacles | crates, carts, barriers, gaps, debris | Critical | In progress — low/high barrier OBJ/MTL generated |
-| Collectibles | coins, clue tokens, power-up icons | Critical | In progress — coin/shield/magnet/multiplier OBJ/MTL generated |
-| UI | icons, buttons, chapter cards, HUD frames | High | Planned |
-| VFX | dust, speed lines, coin burst, shield effect | Medium | Planned |
-| Audio | original score, SFX, announcements | High | In progress — original music/SFX WAVs generated; announcements and Unity import pending |
+| Characters | player police runner, suspect pursuer | Critical | Implemented — two animated GLBs with idle/run and jump/slide clips. Human visual sign-off pending. |
+| Trains | express coach obstacle | Critical | Implemented — detailed GLB with livery, windows, doors, roof, wheels, buffers. Human visual sign-off pending. |
+| Environment | tracks, platforms, station, railway props | Critical | Implemented — four modular GLB kits instanced in the procedural track. Human visual sign-off pending. |
+| Obstacles | low platform barrier, high luggage stack | Critical | Implemented — two authored GLBs; gameplay collision thresholds preserved. |
+| Collectibles | coin, shield, magnet, boost | Critical | Implemented — four authored GLBs with readable +Z-facing iconography. |
+| UI | stat chips, chase-gap meter, case-file story panel | High | Implemented in code-generated Godot HUD styling; no external theme file is claimed. |
+| VFX | dust, speed lines, coin burst, shield effect | Medium | Planned. |
+| Audio | original score, SFX, announcements | High | Original WAV music/SFX load-smoke tested; recorded announcements and voice packs are not implemented. |
 
-## Source-to-import mapping template
+## Active source-to-build mapping
 
-Each completed asset must be recorded in a table like this:
+| Asset group | Source | Shipped file(s) | Evidence |
+| --- | --- | --- | --- |
+| Characters | `Tools/Blender/Scripts/generate_visual_glbs.py` | `godot/assets/models/SM_Character_PoliceRunner_Animated.glb`, `SM_Character_Suspect_Animated.glb` | Structural validation, Godot smoke, gameplay capture, Android export. |
+| Train | `Tools/Blender/Scripts/generate_visual_glbs.py` | `godot/assets/models/SM_Train_Express_Detailed.glb` | Structural validation, Godot smoke, gameplay capture, Android export. |
+| Obstacles | `Tools/Blender/Scripts/generate_visual_glbs.py` | `SM_Obstacle_PlatformBarrier_Low.glb`, `SM_Obstacle_LuggageStack_High.glb` | Structural validation, Godot smoke, gameplay capture, Android export. |
+| Collectibles / power-ups | `Tools/Blender/Scripts/generate_visual_glbs.py` | `SM_Collectible_Coin_Polished.glb`, `SM_Powerup_Shield.glb`, `SM_Powerup_Magnet.glb`, `SM_Powerup_Boost.glb` | Structural validation, Godot smoke, gameplay capture, Android export. |
+| Environment kits | `Tools/Blender/Scripts/generate_visual_glbs.py` | `SM_Track_Kit.glb`, `SM_Platform_Kit.glb`, `SM_Station_Kit.glb`, `SM_Props_RailwayKit.glb` | Structural validation, Godot smoke, gameplay capture, Android export. |
+| Audio | `Tools/Audio/generate_audio.py` | WAV files under `godot/assets/audio/` | Load smoke only; audible playback is not verified. |
 
-| Asset ID | Blender source | Export file | Unity prefab | Licence | Verified by |
-| --- | --- | --- | --- | --- | --- |
-| `SM_Characters_Runner_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Runner_001.obj` + `.mtl` | not yet | original project work | not yet |
-| `SM_Characters_Pursuer_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Pursuer_001.obj` + `.mtl` | not yet | original project work | not yet |
-| `SM_Trains_Express_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Trains_Express_001.obj` + `.mtl` | not yet | original project work | not yet |
-| `SM_Obstacles_LowBarrier_001`, `SM_Obstacles_HighBarrier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
-| `SM_Collectibles_Coin_001`, `SM_PowerUps_Shield_001`, `SM_PowerUps_Magnet_001`, `SM_PowerUps_Multiplier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
-| `SM_Environment_Platform_001`, `SM_Environment_Station_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not yet | original project work | not yet |
-| `ISR_Loop_Main_001` and `ISR_SFX_*_001` | `Tools/Audio/generate_audio.py` | WAV files under `Assets/Resources/Audio/` | not applicable | original project work | not yet |
+No active Godot asset may be marked `Verified` until source/export identity, in-game capture, human visual review, and device evidence are recorded.
 
-No asset may be marked Verified until the source, export, Unity prefab, and in-game capture are recorded.
+## Historical Unity mapping
 
-## Model budget targets
+The preserved Unity project contains the older OBJ/MTL assets generated by `Tools/Blender/Scripts/generate_assets.py`. These are not active deliverables.
 
-Targets to validate with Unity Profiler, not claims of current compliance:
+| Asset ID | Historical source | Historical export | Unity prefab |
+| --- | --- | --- | --- |
+| `SM_Characters_Runner_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Runner_001.obj` + `.mtl` | not created |
+| `SM_Characters_Pursuer_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Characters_Pursuer_001.obj` + `.mtl` | not created |
+| `SM_Trains_Express_001` | `Tools/Blender/Scripts/generate_assets.py` | `Assets/Resources/Art/Models/SM_Trains_Express_001.obj` + `.mtl` | not created |
+| `SM_Obstacles_LowBarrier_001`, `SM_Obstacles_HighBarrier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not created |
+| `SM_Collectibles_Coin_001`, `SM_PowerUps_Shield_001`, `SM_PowerUps_Magnet_001`, `SM_PowerUps_Multiplier_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not created |
+| `SM_Environment_Platform_001`, `SM_Environment_Station_001` | `Tools/Blender/Scripts/generate_assets.py` | matching OBJ/MTL under `Assets/Resources/Art/Models/` | not created |
+| `ISR_Loop_Main_001` and `ISR_SFX_*_001` | `Tools/Audio/generate_audio.py` | WAV files under `Assets/Resources/Audio/` | not applicable |
 
-- Character gameplay mesh: low-poly stylized; exact triangle budget set after first Profiler pass.
-- Crowd variants: shared materials, LODs, minimal rig complexity.
-- Train coaches: modular, pooled, reduced collider count.
-- Station chunks: reuse modular props and materials.
-- Textures: compressed mobile formats; atlas UI and small props.
-- Materials: URP/Lit or URP/Unlit where appropriate; avoid expensive custom shaders unless measured.
+## Model budget
+
+Shipped GLB triangle counts are recorded in `docs/visual-asset-inventory.md`. Targets still require real-device profiling:
+
+- Characters target at most 4k triangles each; shipped 1620 and 1520.
+- Train target at most 8k triangles; shipped 1636.
+- Obstacles target at most 2k triangles; shipped 120 and 156.
+- Coin target at most 700 triangles; shipped 432.
+- Power-ups target at most 800 triangles each; shipped 72, 72, and 228.
+- Track kit target at most 12k triangles per segment; shipped 2428.
+- Platform kit target at most 10k triangles per segment; shipped 3280.
+- Station kit target at most 10k triangles per segment; shipped 612.
+- Props kit target at most 8k triangles per kit; shipped 708.
 
 ## Texture policy
 
-- Store source textures outside Unity or under clearly marked source folders.
-- Runtime textures use compressed formats appropriate to target devices.
-- Avoid overly large texture dimensions; validate visually on device.
-- All signage and UI text must be original.
-- Do not use screenshots or ripped images from protected games.
+- GLB textures are embedded procedural PNGs generated from original code; no ripped screenshots, scraped images, or protected-game assets are used.
+- Runtime material variation uses embedded PBR-style textures and authored flat/accent materials.
+- All signage and UI text are original.
+- Texture compression, memory use, and mobile visual quality require real-device profiling.
 
 ## Audio policy
 
-- Music and SFX must be original or licensed with written permission recorded in the repository.
-- No scraped meme audio.
-- No celebrity voice cloning.
-- No copied railway announcements from protected media.
+- Music and SFX are original generated WAV files.
+- No scraped meme audio, celebrity voice cloning, or copied railway announcements from protected media are permitted.
 - Dialogue and announcements use `docs/story-and-narrative-design.md` as the source of tone.
+- Audible playback remains unverified.
 
 ## Placeholder policy
 
-Temporary primitive objects may be used only to validate movement, collision, and spawning. Each temporary object must:
-
-- live in a clearly named temporary prefab folder;
-- be excluded from release builds;
-- be listed in `PROJECT_STATUS.md`;
-- be replaced by original Blender-authored art before release.
+Primitive OBJ/box/cylinder assets remain only as fallbacks if a GLB import fails. Primary visuals are authored GLBs. Any future temporary primitive must be clearly labelled, excluded from release as the primary visual, listed in `PROJECT_STATUS.md`, and replaced before release.
 
 ## Verification evidence required
 
-For every asset group:
+For every active asset group:
 
-1. Blender source file path.
-2. Export file path and digest.
-3. Unity import screenshot or inspector note.
-4. Prefab path.
-5. In-game scene capture.
-6. Profiler impact note.
+1. Generator source path and deterministic command.
+2. Generated file path and structural validation result.
+3. Godot import/smoke evidence.
+4. In-game gameplay capture.
+5. Human visual review.
+6. Device performance evidence.
 7. Licence/provenance statement.
 
-Until these exist, status remains Planned or In progress.
+Smoke, capture, export, checksum, and package metadata exist for `1.0.0`. Human visual review and device evidence do not.

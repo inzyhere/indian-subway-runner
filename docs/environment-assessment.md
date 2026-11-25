@@ -1,13 +1,13 @@
 # Environment Assessment
 
 > Last updated: 2026-11-25  
-> Status: Implemented for the current shell. This is environment evidence, not a claim that Unity builds are verified.
+> Status: historical Unity environment assessment, superseded by ADR-0004 and the active Godot 4 implementation. This is environment evidence, not a claim that Unity builds are verified.
 
 ## 1. Purpose
 
-This document records the exact tooling available for Indian Subway Runner, the pinned Unity/Android direction, the final folder structure, and the milestones that can be attempted in the current environment.
+This document records the tooling available when the original Unity/Android direction was assessed, the historical folder structure, and the milestones that were considered in that environment. The active Godot 4 implementation and evidence are recorded in `README.md`, `PROJECT_STATUS.md`, and `docs/godot-android-build.md`.
 
-The final stack is fixed by ADR-0003: **Unity 6 LTS, C#, URP, Android**. Do not switch engines without explicit owner approval.
+ADR-0003 historically fixed **Unity 6 LTS, C#, URP, Android**. The authoritative active decision is ADR-0004: **Godot 4, GDScript, Android**. The Unity stack is preserved as history only.
 
 ## 2. Current shell facts
 
@@ -246,9 +246,9 @@ Rules:
 
 ## 9. Blender integration plan
 
-Blender 4.5.14 LTS is installed in this shell. `Tools/Blender/Scripts/generate_assets.py` has generated OBJ/MTL models; no `.blend`, FBX, GLB, rig, animation, or texture is claimed here.
+Historical Unity shell note: Blender 4.5.14 LTS was reported installed, and `Tools/Blender/Scripts/generate_assets.py` generated OBJ/MTL models; no Unity `.blend`, FBX, prefab, or Unity import is claimed here. In the active Godot path, `Tools/Blender/Scripts/generate_visual_glbs.py` generated 13 original textured/animated GLBs with embedded procedural PNG textures; structural validation, Godot smoke, five-frame gameplay capture, and Android export passed. Human visual sign-off and device verification are pending. Desktop Blender is not available in the current shell.
 
-Workflow from here:
+Historical workflow from here:
 
 1. Model in metres, Y-up export convention, single root per prefab.
 2. Keep the reproducible Python source under `Tools/Blender/Scripts/`; save `.blend` files in `Tools/Blender/Source/**` when a desktop Blender workstation is available.

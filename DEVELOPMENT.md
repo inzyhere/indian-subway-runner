@@ -1,11 +1,11 @@
 # Development Guide
 
 > **Last updated:** 2026-11-25  
-> **Status:** Planned for Editor work; foundation decisions are Implemented but Unity-unverified.
+> **Status:** active Godot 4 implementation; the Unity Editor guidance below is preserved history. Godot smoke, gameplay capture, Android export, and debug APK release have CI evidence; device and human visual verification remain pending.
 
-This guide describes how to work on **Indian Subway Runner** as a Unity project. The source of truth is `Assets/`, `Packages/manifest.json`, and `ProjectSettings/`. Unity-generated Gradle output is a build artifact and must never be hand-edited as gameplay source. See [ADR-0003](docs/decisions/architecture-decisions.md) and [docs/unity-project-setup.md](docs/unity-project-setup.md).
+This guide originally described **Indian Subway Runner** as a Unity project, with source of truth in `Assets/`, `Packages/manifest.json`, and `ProjectSettings/`. That stack is historical under ADR-0003. The active source of truth is `godot/`, the Godot workflows in `.github/workflows/`, and [PROJECT_STATUS.md](PROJECT_STATUS.md). See ADR-0004 and [docs/godot-android-build.md](docs/godot-android-build.md) for active work.
 
-## Required Editor and packages
+## Historical Unity Editor and packages
 
 - Pin **Unity 6000.0.86f1 or a newer 6000.0 LTS patch**.
 - Install modules: Android Build Support, Android SDK & NDK Tools, OpenJDK 17 (Unity 6000.0 uses JDK 17 and NDK r27c).
@@ -75,10 +75,10 @@ Run the full test set after any assembly, scene, prefab, or URP setting change; 
 | Android SDK path | `/data/data/com.termux/files/home/android-sdk` exists; `aapt`, `aapt2`, `zipalign` available |
 | `ANDROID_HOME` / `ANDROID_SDK_ROOT` | Unset |
 | `adb` / `sdkmanager` | Not found; no device install or profiling |
-| Git / GitHub CLI | Git installed; local repo initialized; `gh` authenticated as `inzyhere`; `origin` is private `inzyhere/indian-subway-runner` |
+| Git / GitHub CLI | Git installed; `gh` authenticated as `inzyhere`; `origin` is public `inzyhere/indian-subway-runner`; active Godot CI/release evidence is in `PROJECT_STATUS.md` |
 
 Markdown, JSON, XML, and directory structure can be statically checked here; nothing above should be read as a Unity build or test result. Legacy Gradle/Kotlin/libGDX commands do not apply to this project.
 
 ## Definition of done
 
-**Planned → In progress:** accepted scope. **In progress → Implemented:** real files/assets in Unity with docs updated. **Implemented → Tested:** EditMode/PlayMode results recorded. **Tested → Verified:** build hash, device/Profiler evidence, licensing and privacy checks, and reviewer acceptance. See [TESTING.md](TESTING.md) and [PROJECT_STATUS.md](PROJECT_STATUS.md).
+**Planned → In progress:** accepted scope. **In progress → Implemented:** real files/assets in the active Godot project with docs updated. **Implemented → Tested:** smoke/capture/build evidence and logs recorded. **Tested → Verified:** build hash, device/Profiler evidence, licensing and privacy checks, and reviewer acceptance. The Unity EditMode/PlayMode wording above was historical. See [TESTING.md](TESTING.md) and [PROJECT_STATUS.md](PROJECT_STATUS.md).
