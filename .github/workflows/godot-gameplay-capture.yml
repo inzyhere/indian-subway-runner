@@ -1,0 +1,63 @@
+name: Godot Gameplay Capture
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: 4.7.2-stable
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Xvfb
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+
+      - name: Download Godot
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/godot.zip" "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          chmod +x "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+          ln -sf "$RUNNER_TEMP/godot/Godot_v${GODOT_VERSION}_linux.x86_64" "$RUNNER_TEMP/godot/godot"
+
+      - name: Import project
+        run: |
+          "$RUNNER_TEMP/godot/godot" --headless --path godot --editor --quit
+
+      - name: Capture gameplay
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/gameplay-captures"
+          timeout 240 xvfb-run -a -s "-screen 0 1280x1600x24" "$RUNNER_TEMP/godot/godot" \
+            --path godot \
+            --resolution 720x1280 \
+            --rendering-method gl_compatibility \
+            --rendering-driver opengl3 \
+            --quit-after 900 \
+            -- \
+            --capture-gameplay \
+            --capture-dir="$RUNNER_TEMP/gameplay-captures" 2>&1 | tee godot-capture.log
+          if grep -E "SCRIPT ERROR|Parse Error|ERROR:" godot-capture.log; then
+            echo "Godot gameplay capture reported errors" >&2
+            exit 1
+          fi
+          shopt -s nullglob
+          pngs=("$RUNNER_TEMP/gameplay-captures"/gameplay_*.png)
+          test "${#pngs[@]}" -ge 5
+
+      - name: Upload gameplay captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot-gameplay-captures
+          path: |
+            godot-capture.log
+            ${{ runner.temp }}/gameplay-captures/*.png

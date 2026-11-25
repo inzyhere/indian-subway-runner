@@ -15,7 +15,28 @@ const CHAPTERS = [
 	{"title": "BRIDGE JUNCTION", "line": "ACP: Idhar se kahin nahi bachega!", "hint": "Stay sharp. The gap is closing fast."}
 ]
 const POWERUP_TYPES = ["shield", "magnet", "boost"]
+const MODEL_PLAYER := "res://assets/models/SM_Character_PoliceRunner_Animated.glb"
+const MODEL_PURSUER := "res://assets/models/SM_Character_Suspect_Animated.glb"
+const MODEL_TRAIN := "res://assets/models/SM_Train_Express_Detailed.glb"
+const MODEL_LOW_BARRIER := "res://assets/models/SM_Obstacle_PlatformBarrier_Low.glb"
+const MODEL_HIGH_BARRIER := "res://assets/models/SM_Obstacle_LuggageStack_High.glb"
+const MODEL_COIN := "res://assets/models/SM_Collectible_Coin_Polished.glb"
+const MODEL_TRACK_KIT := "res://assets/models/SM_Track_Kit.glb"
+const MODEL_PLATFORM_KIT := "res://assets/models/SM_Platform_Kit.glb"
+const MODEL_STATION_KIT := "res://assets/models/SM_Station_Kit.glb"
+const MODEL_PROPS_KIT := "res://assets/models/SM_Props_RailwayKit.glb"
 const POWERUP_MODELS = {
+	"shield": "res://assets/models/SM_Powerup_Shield.glb",
+	"magnet": "res://assets/models/SM_Powerup_Magnet.glb",
+	"boost": "res://assets/models/SM_Powerup_Boost.glb"
+}
+const FALLBACK_MODELS = {
+	"player": "res://assets/models/SM_Characters_Runner_001.obj",
+	"pursuer": "res://assets/models/SM_Characters_Pursuer_001.obj",
+	"train": "res://assets/models/SM_Trains_Express_001.obj",
+	"low": "res://assets/models/SM_Obstacles_LowBarrier_001.obj",
+	"high": "res://assets/models/SM_Obstacles_HighBarrier_001.obj",
+	"coin": "res://assets/models/SM_Collectibles_Coin_001.obj",
 	"shield": "res://assets/models/SM_PowerUps_Shield_001.obj",
 	"magnet": "res://assets/models/SM_PowerUps_Magnet_001.obj",
 	"boost": "res://assets/models/SM_PowerUps_Multiplier_001.obj"
@@ -23,9 +44,11 @@ const POWERUP_MODELS = {
 
 var _player: Node3D
 var _player_body: Node3D
+var _player_anim: AnimationPlayer
 var _pursuer: Node3D
+var _pursuer_anim: AnimationPlayer
 var _camera: Camera3D
-var _camera_base := Vector3(0.0, 5.2, 9.5)
+var _camera_base := Vector3(0.0, 4.8, 9.0)
 var _dynamic: Node3D
 var _environment: Environment
 var _music: AudioStreamPlayer
@@ -38,6 +61,7 @@ var _coin_label: Label
 var _distance_label: Label
 var _power_label: Label
 var _status_label: Label
+var _gap_bar: ProgressBar
 var _start_button: Button
 var _story_panel: PanelContainer
 var _story_title: Label
@@ -69,6 +93,11 @@ var _spawn_timer: float = 1.0
 var _running: bool = false
 var _rng := RandomNumberGenerator.new()
 var _touch_start := Vector2.ZERO
+var _capture_requested := false
+var _capture_dir := ""
+var _capture_elapsed := 0.0
+var _capture_index := 0
+var _capture_times: Array[float] = [1.0, 3.0, 5.0, 8.0, 11.0]
 
 func _ready() -> void:
 	randomize()
@@ -77,8 +106,11 @@ func _ready() -> void:
 	_build_hud()
 	_reset_run(false)
 	_show_story(1)
+	_setup_capture()
 
 func _process(delta: float) -> void:
+	if _capture_requested:
+		_update_capture(delta)
 	if not _running:
 		return
 	var dt: float = min(delta, 0.05)
@@ -158,13 +190,22 @@ func _build_world() -> void:
 	_environment.background_color = Color(0.02, 0.03, 0.06, 1.0)
 	_environment.ambient_light_color = Color(0.45, 0.52, 0.65, 1.0)
 	_environment.ambient_light_energy = 0.85
+	_environment.fog_enabled = true
+	_environment.fog_light_color = Color(0.05, 0.07, 0.12, 1.0)
+	_environment.fog_density = 0.012
 	environment.environment = _environment
 	world.add_child(environment)
 
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-48.0, -28.0, 0.0)
-	sun.light_energy = 1.7
+	sun.light_energy = 1.9
+	sun.shadow_enabled = true
 	world.add_child(sun)
+
+	var fill := DirectionalLight3D.new()
+	fill.rotation_degrees = Vector3(-24.0, 152.0, 0.0)
+	fill.light_energy = 0.55
+	world.add_child(fill)
 
 	var track_material := _make_material(Color(0.22, 0.25, 0.30, 1.0))
 	var rail_material := _make_material(Color(0.95, 0.62, 0.12, 1.0))
@@ -173,44 +214,67 @@ func _build_world() -> void:
 
 	for i in range(TRACK_COUNT):
 		var segment := Node3D.new()
+		segment.name = "TrackSegment%d" % i
 		segment.position.z = -144.0 + float(i) * TRACK_LENGTH
 		world.add_child(segment)
 		_track_segments.append(segment)
 
-		var floor_mesh := _make_box(Vector3(8.4, 0.3, TRACK_LENGTH), track_material)
-		floor_mesh.position.y = -0.15
-		segment.add_child(floor_mesh)
+		var track_kit := _instance_model(MODEL_TRACK_KIT)
+		if track_kit != null:
+			segment.add_child(track_kit)
+		else:
+			var floor_mesh := _make_box(Vector3(8.4, 0.3, TRACK_LENGTH), track_material)
+			floor_mesh.position.y = -0.15
+			segment.add_child(floor_mesh)
+			for side in [-1.0, 1.0]:
+				var rail := _make_box(Vector3(0.24, 0.55, TRACK_LENGTH), rail_material)
+				rail.position = Vector3(side * 4.05, 0.28, 0.0)
+				segment.add_child(rail)
 
-		for side in [-1.0, 1.0]:
-			var rail := _make_box(Vector3(0.24, 0.55, TRACK_LENGTH), rail_material)
-			rail.position = Vector3(side * 4.05, 0.28, 0.0)
-			segment.add_child(rail)
+		var platform_kit := _instance_model(MODEL_PLATFORM_KIT)
+		if platform_kit != null:
+			segment.add_child(platform_kit)
+		else:
+			for offset in [-6.35, 6.35]:
+				var station := _make_box(Vector3(2.6, 2.4, TRACK_LENGTH), station_material)
+				station.position = Vector3(offset, 1.2, 0.0)
+				segment.add_child(station)
+				var lamp := _make_box(Vector3(0.25, 0.25, 1.2), lamp_material)
+				lamp.position = Vector3(offset * 0.72, 3.1, -7.0)
+				segment.add_child(lamp)
 
-		for offset in [-5.4, 5.4]:
-			var station := _make_box(Vector3(2.6, 2.4, 5.0), station_material)
-			station.position = Vector3(offset, 1.2, -6.0)
-			segment.add_child(station)
-			var lamp := _make_box(Vector3(0.25, 0.25, 1.2), lamp_material)
-			lamp.position = Vector3(offset * 0.72, 3.1, -7.0)
-			segment.add_child(lamp)
+		if i % 2 == 0:
+			var station_kit := _instance_model(MODEL_STATION_KIT)
+			if station_kit != null:
+				segment.add_child(station_kit)
+			var props_kit := _instance_model(MODEL_PROPS_KIT)
+			if props_kit != null:
+				segment.add_child(props_kit)
 
 	_player = Node3D.new()
 	_player.name = "Player"
 	_player.position = Vector3(0.0, PLAYER_Y, 0.0)
 	add_child(_player)
-	_player_body = _build_character("res://assets/models/SM_Characters_Runner_001.obj", Color(0.10, 0.35, 0.95, 1.0))
+	_player_body = _instance_model(MODEL_PLAYER)
+	if _player_body == null:
+		_player_body = _build_character(String(FALLBACK_MODELS["player"]), Color(0.10, 0.35, 0.95, 1.0))
 	_player.add_child(_player_body)
+	_player_anim = _find_animation_player(_player_body)
 
-	_pursuer = _build_character("res://assets/models/SM_Characters_Pursuer_001.obj", Color(0.95, 0.15, 0.12, 1.0))
+	_pursuer = _instance_model(MODEL_PURSUER)
+	if _pursuer == null:
+		_pursuer = _build_character(String(FALLBACK_MODELS["pursuer"]), Color(0.95, 0.15, 0.12, 1.0))
 	_pursuer.name = "Pursuer"
 	_pursuer.position = Vector3(0.0, PLAYER_Y, 9.0)
 	add_child(_pursuer)
+	_pursuer_anim = _find_animation_player(_pursuer)
 
 	_camera = Camera3D.new()
 	_camera.name = "Camera"
 	_camera.position = _camera_base
+	_camera.fov = 66.0
 	add_child(_camera)
-	_camera.look_at(Vector3(0.0, 1.1, -9.0), Vector3.UP)
+	_camera.look_at(Vector3(0.0, 1.25, -10.0), Vector3.UP)
 
 	_dynamic = Node3D.new()
 	_dynamic.name = "Dynamic"
@@ -236,59 +300,118 @@ func _build_hud() -> void:
 	_hud.name = "Hud"
 	add_child(_hud)
 
-	var margin := MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_top", 20)
-	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_bottom", 20)
-	_hud.add_child(margin)
+	var root := Control.new()
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hud.add_child(root)
 
-	var vbox := VBoxContainer.new()
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_theme_constant_override("separation", 8)
-	margin.add_child(vbox)
+	var top := HBoxContainer.new()
+	top.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	top.offset_left = 18.0
+	top.offset_right = -18.0
+	top.offset_top = 18.0
+	top.offset_bottom = 96.0
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_theme_constant_override("separation", 10)
+	root.add_child(top)
 
-	_chapter_label = _make_label("Chapter 1 — PLATFORM 7")
-	_score_label = _make_label("Score: 0")
-	_gap_label = _make_label("Chase gap: 20.0 m")
-	_coin_label = _make_label("Coins: 0")
-	_distance_label = _make_label("Distance: 0 m")
-	_power_label = _make_label("Power: none")
-	_status_label = _make_label("Swipe, use arrows, or press Enter to start.")
+	_chapter_label = _make_chip(top, "CASE 01 — PLATFORM 7", 260.0, 17)
+	_score_label = _make_chip(top, "SCORE 0", 150.0, 19)
+	_coin_label = _make_chip(top, "COINS 0", 130.0, 19)
 
-	vbox.add_child(_chapter_label)
-	vbox.add_child(_score_label)
-	vbox.add_child(_gap_label)
-	vbox.add_child(_coin_label)
-	vbox.add_child(_distance_label)
-	vbox.add_child(_power_label)
-	vbox.add_child(_status_label)
+	var gap_row := VBoxContainer.new()
+	gap_row.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	gap_row.offset_left = 18.0
+	gap_row.offset_right = -18.0
+	gap_row.offset_top = 104.0
+	gap_row.offset_bottom = 196.0
+	gap_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gap_row.add_theme_constant_override("separation", 6)
+	root.add_child(gap_row)
+
+	var gap_head := HBoxContainer.new()
+	gap_head.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gap_row.add_child(gap_head)
+	_gap_label = _make_label("CHASE GAP 20.0 m", 16, Color(0.86, 0.93, 1.0, 1.0))
+	gap_head.add_child(_gap_label)
+
+	_gap_bar = ProgressBar.new()
+	_gap_bar.min_value = 0.0
+	_gap_bar.max_value = 24.0
+	_gap_bar.step = 0.1
+	_gap_bar.value = 20.0
+	_gap_bar.show_percentage = false
+	_gap_bar.custom_minimum_size = Vector2(0.0, 16.0)
+	_gap_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_gap_bar.add_theme_stylebox_override("background", _panel_style(Color(0.03, 0.06, 0.11, 0.85), Color(0.24, 0.36, 0.48, 1.0), 1, 7, 2))
+	var fill_style := _panel_style(Color(0.10, 0.72, 0.92, 0.95), Color(0.70, 0.95, 1.0, 1.0), 1, 7, 2)
+	_gap_bar.add_theme_stylebox_override("fill", fill_style)
+	gap_row.add_child(_gap_bar)
+
+	var bottom := VBoxContainer.new()
+	bottom.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	bottom.offset_left = 18.0
+	bottom.offset_right = -18.0
+	bottom.offset_top = -204.0
+	bottom.offset_bottom = -86.0
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bottom.add_theme_constant_override("separation", 8)
+	root.add_child(bottom)
+
+	var stats := HBoxContainer.new()
+	stats.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stats.add_theme_constant_override("separation", 10)
+	bottom.add_child(stats)
+	_distance_label = _make_chip(stats, "DISTANCE 0 m", 168.0, 17)
+	_power_label = _make_chip(stats, "POWER NONE", 190.0, 17)
+
+	_status_label = _make_label("Swipe, use arrows, or press Enter to start.", 16, Color(1.0, 0.90, 0.62, 1.0))
+	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bottom.add_child(_status_label)
+
+	var button_row := CenterContainer.new()
+	button_row.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	button_row.offset_top = -84.0
+	button_row.offset_bottom = -14.0
+	button_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(button_row)
 
 	_start_button = Button.new()
 	_start_button.text = "START CASE"
-	_start_button.custom_minimum_size = Vector2(220.0, 52.0)
+	_start_button.custom_minimum_size = Vector2(270.0, 58.0)
 	_start_button.pressed.connect(_on_start_pressed)
-	vbox.add_child(_start_button)
+	_style_button(_start_button, Color(0.92, 0.62, 0.12, 0.96), Color(0.12, 0.08, 0.03, 1.0))
+	button_row.add_child(_start_button)
 
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_hud.add_child(center)
+	root.add_child(center)
 
 	_story_panel = PanelContainer.new()
-	_story_panel.custom_minimum_size = Vector2(620.0, 260.0)
+	_story_panel.custom_minimum_size = Vector2(620.0, 330.0)
 	_story_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_story_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.02, 0.05, 0.10, 0.96), Color(0.95, 0.70, 0.22, 1.0), 3, 16, 26))
 	center.add_child(_story_panel)
 
-	var story_box := VBoxContainer.new()
-	story_box.add_theme_constant_override("separation", 12)
-	_story_panel.add_child(story_box)
+	var story_margin := MarginContainer.new()
+	story_margin.add_theme_constant_override("margin_left", 26)
+	story_margin.add_theme_constant_override("margin_right", 26)
+	story_margin.add_theme_constant_override("margin_top", 22)
+	story_margin.add_theme_constant_override("margin_bottom", 22)
+	_story_panel.add_child(story_margin)
 
-	_story_title = _make_label("CASE FILE 01 — PLATFORM 7")
-	_story_line = _make_label("ACP: Ticket check, sab clear? Toh daud!")
-	_story_hint = _make_label("Dodge the crowd and reach the next coach.")
+	var story_box := VBoxContainer.new()
+	story_box.add_theme_constant_override("separation", 14)
+	story_margin.add_child(story_box)
+
+	var kicker := _make_label("DELHI SUBURBAN // CASE BRIEF", 14, Color(0.42, 0.82, 0.96, 1.0))
+	kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	story_box.add_child(kicker)
+
+	_story_title = _make_label("CASE FILE 01 — PLATFORM 7", 27, Color(1.0, 0.84, 0.28, 1.0))
+	_story_line = _make_label("ACP: Ticket check, sab clear? Toh daud!", 20, Color(0.96, 0.97, 1.0, 1.0))
+	_story_hint = _make_label("Dodge the crowd and reach the next coach.", 17, Color(0.72, 0.82, 0.92, 1.0))
 	_story_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_story_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_story_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -298,15 +421,50 @@ func _build_hud() -> void:
 
 	_story_button = Button.new()
 	_story_button.text = "BEGIN CHASE"
-	_story_button.custom_minimum_size = Vector2(220.0, 52.0)
+	_story_button.custom_minimum_size = Vector2(260.0, 58.0)
 	_story_button.pressed.connect(_begin_chase)
+	_style_button(_story_button, Color(0.92, 0.62, 0.12, 0.96), Color(0.12, 0.08, 0.03, 1.0))
 	story_box.add_child(_story_button)
 	_story_panel.visible = false
 
-func _make_label(text: String) -> Label:
+func _panel_style(bg: Color, border: Color, border_width: int = 2, radius: int = 10, margin: int = 12) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(border_width)
+	style.set_corner_radius_all(radius)
+	style.content_margin_left = float(margin)
+	style.content_margin_right = float(margin)
+	style.content_margin_top = float(margin)
+	style.content_margin_bottom = float(margin)
+	return style
+
+func _style_button(button: Button, bg: Color, text_color: Color) -> void:
+	var normal := _panel_style(bg, Color(1.0, 0.88, 0.46, 1.0), 2, 12, 12)
+	var hover := _panel_style(bg.lightened(0.12), Color(1.0, 0.96, 0.72, 1.0), 2, 12, 12)
+	var pressed := _panel_style(bg.darkened(0.12), Color(0.95, 0.70, 0.22, 1.0), 2, 12, 12)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_color_override("font_color", text_color)
+	button.add_theme_font_size_override("font_size", 20)
+
+func _make_chip(parent: Node, text: String, min_width: float, font_size: int) -> Label:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(min_width, 44.0)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.02, 0.05, 0.10, 0.82), Color(0.22, 0.38, 0.52, 1.0), 1, 9, 10))
+	parent.add_child(panel)
+	var label := _make_label(text, font_size, Color(0.92, 0.96, 1.0, 1.0))
+	panel.add_child(label)
+	return label
+
+func _make_label(text: String, font_size: int = 18, color: Color = Color(1.0, 1.0, 1.0, 1.0)) -> Label:
 	var label := Label.new()
 	label.text = text
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
 	return label
 
 func _make_material(color: Color) -> StandardMaterial3D:
@@ -344,6 +502,70 @@ func _build_character(path: String, color: Color) -> Node3D:
 		root.add_child(body)
 	return root
 
+func _instance_model(path: String) -> Node3D:
+	var packed := load(path) as PackedScene
+	if packed == null:
+		return null
+	return packed.instantiate() as Node3D
+
+func _find_animation_player(node: Node) -> AnimationPlayer:
+	if node is AnimationPlayer:
+		return node as AnimationPlayer
+	for child in node.get_children():
+		var found := _find_animation_player(child)
+		if found != null:
+			return found
+	return null
+
+func _play_animation(player: AnimationPlayer, anim_name: String, speed: float) -> void:
+	if player == null or not player.has_animation(anim_name):
+		return
+	player.speed_scale = maxf(0.1, speed)
+	if player.current_animation != anim_name or not player.is_playing():
+		player.play(anim_name, 0.12)
+
+func _setup_capture() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg == "--capture-gameplay":
+			_capture_requested = true
+		elif arg.begins_with("--capture-dir="):
+			_capture_dir = arg.substr("--capture-dir=".length())
+	if not _capture_requested:
+		return
+	if _capture_dir == "":
+		_capture_dir = ProjectSettings.globalize_path("res://builds/captures")
+	elif not _capture_dir.is_absolute_path():
+		_capture_dir = ProjectSettings.globalize_path(_capture_dir)
+	DirAccess.make_dir_recursive_absolute(_capture_dir)
+	_capture_elapsed = 0.0
+	_capture_index = 0
+	_story_panel.visible = false
+	_begin_chase()
+	_status_label.text = "GAMEPLAY CAPTURE ACTIVE"
+
+func _update_capture(delta: float) -> void:
+	_capture_elapsed += delta
+	if _capture_index >= _capture_times.size():
+		_capture_requested = false
+		return
+	if _capture_elapsed >= _capture_times[_capture_index]:
+		_capture_frame(_capture_index)
+		_capture_index += 1
+		if _capture_index >= _capture_times.size():
+			_capture_requested = false
+
+func _capture_frame(index: int) -> void:
+	await RenderingServer.frame_post_draw
+	var viewport_texture := get_viewport().get_texture()
+	if viewport_texture == null:
+		return
+	var image := viewport_texture.get_image()
+	if image == null:
+		return
+	var path := _capture_dir.path_join("gameplay_%02d.png" % (index + 1))
+	image.save_png(path)
+	print("captured gameplay frame: ", path)
+
 func _reset_run(auto_start: bool) -> void:
 	for child in _dynamic.get_children():
 		child.queue_free()
@@ -374,6 +596,12 @@ func _reset_run(auto_start: bool) -> void:
 	_player.position = Vector3(LANES[_lane], PLAYER_Y, 0.0)
 	_player_body.scale = Vector3.ONE
 	_pursuer.position = Vector3(0.0, PLAYER_Y, 9.0)
+	if auto_start:
+		_play_animation(_player_anim, "run", 1.0)
+		_play_animation(_pursuer_anim, "run", 1.15)
+	else:
+		_play_animation(_player_anim, "idle", 1.0)
+		_play_animation(_pursuer_anim, "idle", 1.0)
 	_update_hud()
 
 	_running = auto_start
@@ -434,7 +662,7 @@ func _end_run() -> void:
 		return
 	_running = false
 	_gap = 0.0
-	_gap_label.text = "Chase gap: 0.0 m"
+	_gap_label.text = "CHASE GAP 0.0 m"
 	_status_label.text = "Near capture! The criminal slipped away again."
 	_music.stop()
 	_play_sfx("res://assets/audio/sfx/ISR_SFX_Crash_001.wav")
@@ -472,6 +700,14 @@ func _update_player(delta: float) -> void:
 	_player_body.scale = _player_body.scale.lerp(target_scale, min(1.0, delta * 16.0))
 	_pursuer.position.z = 9.0 - (20.0 - _gap) * 0.18
 
+	var anim_name := "run"
+	if sliding:
+		anim_name = "slide"
+	elif _jump_y > 0.0 or _jump_velocity > 0.0:
+		anim_name = "jump"
+	_play_animation(_player_anim, anim_name, clampf(_speed / START_SPEED, 0.85, 1.6))
+	_play_animation(_pursuer_anim, "run", clampf((_speed + 5.0) / START_SPEED, 1.0, 1.8))
+
 	_camera.position = _camera_base
 	if _camera_shake > 0.0:
 		_camera.position += Vector3(
@@ -479,6 +715,7 @@ func _update_player(delta: float) -> void:
 			_rng.randf_range(-0.10, 0.10),
 			0.0
 		)
+	_camera.look_at(Vector3(_player.position.x * 0.16, 1.25, -10.0), Vector3.UP)
 
 func _update_world(delta: float) -> void:
 	for segment in _track_segments:
@@ -496,7 +733,7 @@ func _update_world(delta: float) -> void:
 	for i in range(_coins.size() - 1, -1, -1):
 		var node := _coins[i]["node"] as Node3D
 		node.position.z += _speed * delta
-		node.rotation_degrees.y += delta * 180.0
+		node.rotation_degrees.z += delta * 180.0
 		if node.position.z > 18.0:
 			node.queue_free()
 			_coins.remove_at(i)
@@ -504,7 +741,7 @@ func _update_world(delta: float) -> void:
 	for i in range(_powerups.size() - 1, -1, -1):
 		var node := _powerups[i]["node"] as Node3D
 		node.position.z += _speed * delta
-		node.rotation_degrees.y += delta * 120.0
+		node.rotation_degrees.z += delta * 120.0
 		if node.position.z > 18.0:
 			node.queue_free()
 			_powerups.remove_at(i)
@@ -547,35 +784,45 @@ func _spawn_obstacle(lane: int, kind: String, z: float) -> void:
 	node.position = Vector3(LANES[lane], 0.0, z)
 
 	var color := Color(0.95, 0.45, 0.10, 1.0)
-	var model_path := "res://assets/models/SM_Obstacles_LowBarrier_001.obj"
+	var glb_path := MODEL_LOW_BARRIER
+	var model_path := String(FALLBACK_MODELS["low"])
 	var model_scale := 0.75
+	var visual_scale := 1.0
 	var visual_y := 0.43
 	var half_length := 1.25
 	var size := Vector3(1.9, 0.85, 0.7)
 	if kind == "high":
 		color = Color(0.85, 0.12, 0.45, 1.0)
-		model_path = "res://assets/models/SM_Obstacles_HighBarrier_001.obj"
+		glb_path = MODEL_HIGH_BARRIER
+		model_path = String(FALLBACK_MODELS["high"])
 		visual_y = 1.55
 	elif kind == "train":
 		color = Color(0.10, 0.48, 0.62, 1.0)
-		model_path = "res://assets/models/SM_Trains_Express_001.obj"
+		glb_path = MODEL_TRAIN
+		model_path = String(FALLBACK_MODELS["train"])
 		model_scale = 0.6
+		visual_scale = 0.92
 		visual_y = 1.15
 		half_length = 3.2
 		size = Vector3(2.2, 2.4, 8.0)
 		_play_sfx("res://assets/audio/sfx/ISR_SFX_TrainHorn_001.wav")
 
-	var loaded = load(model_path)
-	var mesh := loaded as Mesh
-	var visual: MeshInstance3D
-	if mesh != null:
-		visual = MeshInstance3D.new()
-		visual.mesh = mesh
-		visual.scale = Vector3(model_scale, model_scale, model_scale)
+	var visual: Node3D = _instance_model(glb_path)
+	if visual != null:
+		visual.scale = Vector3(visual_scale, visual_scale, visual_scale)
 	else:
-		visual = _make_box(size, _make_material(color))
-	visual.material_override = _make_material(color)
-	visual.position.y = visual_y
+		var loaded = load(model_path)
+		var mesh := loaded as Mesh
+		var fallback: MeshInstance3D
+		if mesh != null:
+			fallback = MeshInstance3D.new()
+			fallback.mesh = mesh
+			fallback.scale = Vector3(model_scale, model_scale, model_scale)
+		else:
+			fallback = _make_box(size, _make_material(color))
+		fallback.material_override = _make_material(color)
+		fallback.position.y = visual_y
+		visual = fallback
 	node.add_child(visual)
 
 	_dynamic.add_child(node)
@@ -585,24 +832,29 @@ func _spawn_coin(lane: int, z: float) -> void:
 	var node := Node3D.new()
 	node.position = Vector3(LANES[lane], 0.95, z)
 
-	var loaded = load("res://assets/models/SM_Collectibles_Coin_001.obj")
-	var mesh := loaded as Mesh
-	if mesh != null:
-		var model := MeshInstance3D.new()
-		model.mesh = mesh
-		model.scale = Vector3(0.55, 0.55, 0.55)
-		model.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
+	var model := _instance_model(MODEL_COIN)
+	if model != null:
+		model.scale = Vector3(0.85, 0.85, 0.85)
 		node.add_child(model)
 	else:
-		var coin := MeshInstance3D.new()
-		var cylinder := CylinderMesh.new()
-		cylinder.top_radius = 0.38
-		cylinder.bottom_radius = 0.38
-		cylinder.height = 0.12
-		coin.mesh = cylinder
-		coin.rotation_degrees = Vector3(90.0, 0.0, 0.0)
-		coin.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
-		node.add_child(coin)
+		var loaded = load(String(FALLBACK_MODELS["coin"]))
+		var mesh := loaded as Mesh
+		if mesh != null:
+			var fallback := MeshInstance3D.new()
+			fallback.mesh = mesh
+			fallback.scale = Vector3(0.55, 0.55, 0.55)
+			fallback.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
+			node.add_child(fallback)
+		else:
+			var coin := MeshInstance3D.new()
+			var cylinder := CylinderMesh.new()
+			cylinder.top_radius = 0.38
+			cylinder.bottom_radius = 0.38
+			cylinder.height = 0.12
+			coin.mesh = cylinder
+			coin.rotation_degrees = Vector3(90.0, 0.0, 0.0)
+			coin.material_override = _make_material(Color(1.0, 0.82, 0.18, 1.0))
+			node.add_child(coin)
 
 	_dynamic.add_child(node)
 	_coins.append({"node": node, "lane": lane})
@@ -618,21 +870,24 @@ func _spawn_powerup() -> void:
 	node.position = Vector3(LANES[lane], 1.2, -70.0)
 
 	var color := _powerup_color(kind)
-	var loaded = load(String(POWERUP_MODELS[kind]))
-	var mesh := loaded as Mesh
-	var visual: MeshInstance3D
-	if mesh != null:
-		visual = MeshInstance3D.new()
-		visual.mesh = mesh
-		visual.scale = Vector3(0.6, 0.6, 0.6)
+	var model := _instance_model(String(POWERUP_MODELS[kind]))
+	if model != null:
+		model.scale = Vector3(0.9, 0.9, 0.9)
+		node.add_child(model)
 	else:
-		visual = MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = 0.45
-		sphere.height = 0.9
-		visual.mesh = sphere
-	visual.material_override = _make_material(color)
-	node.add_child(visual)
+		var visual := MeshInstance3D.new()
+		var loaded = load(String(FALLBACK_MODELS[kind]))
+		var mesh := loaded as Mesh
+		if mesh != null:
+			visual.mesh = mesh
+			visual.scale = Vector3(0.6, 0.6, 0.6)
+		else:
+			var sphere := SphereMesh.new()
+			sphere.radius = 0.45
+			sphere.height = 0.9
+			visual.mesh = sphere
+		visual.material_override = _make_material(color)
+		node.add_child(visual)
 
 	_dynamic.add_child(node)
 	_powerups.append({"node": node, "lane": lane, "kind": kind})
@@ -704,6 +959,8 @@ func _apply_powerup(kind: String) -> void:
 func _hit_obstacle() -> void:
 	if _invulnerability > 0.0:
 		return
+	if _capture_requested:
+		return
 	_invulnerability = 1.1
 	_camera_shake = 0.35
 	if _shield_charges > 0:
@@ -719,11 +976,12 @@ func _hit_obstacle() -> void:
 		_end_run()
 
 func _update_hud() -> void:
-	_chapter_label.text = "Chapter %d — %s" % [_chapter, String(_chapter_entry(_chapter)["title"])]
-	_score_label.text = "Score: %d" % int(_score)
-	_gap_label.text = "Chase gap: %.1f m" % max(0.0, _gap)
-	_coin_label.text = "Coins: %d" % _coin_count
-	_distance_label.text = "Distance: %d m" % int(_distance)
+	_chapter_label.text = "CASE %02d — %s" % [_chapter, String(_chapter_entry(_chapter)["title"])]
+	_score_label.text = "SCORE %d" % int(_score)
+	_gap_label.text = "CHASE GAP %.1f m" % max(0.0, _gap)
+	_gap_bar.value = clampf(_gap, 0.0, _gap_bar.max_value)
+	_coin_label.text = "COINS %d" % _coin_count
+	_distance_label.text = "DISTANCE %d m" % int(_distance)
 
 	var parts: Array[String] = []
 	if _shield_charges > 0:
@@ -739,7 +997,7 @@ func _update_hud() -> void:
 		power_text += part
 	if power_text == "":
 		power_text = "none"
-	_power_label.text = "Power: %s" % power_text
+	_power_label.text = "POWER %s" % power_text.upper()
 
 func _play_sfx(path: String) -> void:
 	var stream := load(path) as AudioStream
