@@ -48,16 +48,16 @@ func _add_segment_assets(segment: Node3D, index: int) -> void:
 
 	match index % 3:
 		0:
-			var side := -6.5 if index % 2 == 0 else 6.5
-			_add_model(segment, PACK_ROOT + CHAI_STALL, Vector3(side, 0.0, -8.0), -PI / 2.0, 0.9)
+			var chai_side := -6.5 if index % 2 == 0 else 6.5
+			_add_model(segment, PACK_ROOT + CHAI_STALL, Vector3(chai_side, 0.0, -8.0), -PI / 2.0, 0.9)
 		1:
-			var side := 6.25 if index % 2 == 1 else -6.25
-			_add_model(segment, PACK_ROOT + STATION_BENCH, Vector3(side, 0.0, 1.5), -PI / 2.0, 1.0)
-			_add_model(segment, PACK_ROOT + SUITCASE, Vector3(side - 0.7, 0.0, -1.0), -PI / 2.0, 1.0)
+			var bench_side_a := 6.25 if index % 2 == 1 else -6.25
+			_add_model(segment, PACK_ROOT + STATION_BENCH, Vector3(bench_side_a, 0.0, 1.5), -PI / 2.0, 1.0)
+			_add_model(segment, PACK_ROOT + SUITCASE, Vector3(bench_side_a - 0.7, 0.0, -1.0), -PI / 2.0, 1.0)
 		2:
-			var side := -6.25 if index % 2 == 0 else 6.25
-			_add_model(segment, PACK_ROOT + STATION_BENCH, Vector3(side, 0.0, -5.0), -PI / 2.0, 1.0)
-			_add_model(segment, PACK_ROOT + SUITCASE, Vector3(side + 0.75, 0.0, -2.8), -PI / 2.0, 1.0)
+			var bench_side_b := -6.25 if index % 2 == 0 else 6.25
+			_add_model(segment, PACK_ROOT + STATION_BENCH, Vector3(bench_side_b, 0.0, -5.0), -PI / 2.0, 1.0)
+			_add_model(segment, PACK_ROOT + SUITCASE, Vector3(bench_side_b + 0.75, 0.0, -2.8), -PI / 2.0, 1.0)
 
 func _add_model(parent: Node3D, path: String, position: Vector3, rotation_x: float, scale_factor: float) -> void:
 	if not ResourceLoader.exists(path):
