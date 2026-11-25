@@ -65,6 +65,7 @@ The current debug APK is at [godot-debug-apk](https://github.com/inzyhere/indian
 | Active project | [godot/README.md](godot/README.md) |
 | Godot Android build | [docs/godot-android-build.md](docs/godot-android-build.md) |
 | Visual asset inventory | [docs/visual-asset-inventory.md](docs/visual-asset-inventory.md) |
+| Starter asset pack import | [docs/asset-pack-integration.md](docs/asset-pack-integration.md) |
 | System architecture | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Phased plan | [ROADMAP.md](ROADMAP.md) |
 | Development workflow | [DEVELOPMENT.md](DEVELOPMENT.md) |
