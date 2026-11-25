@@ -38,6 +38,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/gameplay-captures"
           timeout 240 xvfb-run -a -s "-screen 0 1280x1600x24" "$RUNNER_TEMP/godot/godot" \
             --path godot \
+            --audio-driver Dummy \
             --resolution 720x1280 \
             --rendering-method gl_compatibility \
             --rendering-driver opengl3 \

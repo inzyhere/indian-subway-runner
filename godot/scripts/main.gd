@@ -997,7 +997,7 @@ func _update_hud() -> void:
 		power_text += part
 	if power_text == "":
 		power_text = "none"
-	_power_label.text = "POWER %s" % power_text.upper()
+	_power_label.text = "POWER %s" % power_text.to_upper()
 
 func _play_sfx(path: String) -> void:
 	var stream := load(path) as AudioStream
