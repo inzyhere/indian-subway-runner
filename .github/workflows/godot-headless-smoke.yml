@@ -2,6 +2,18 @@ name: Godot Headless Smoke Test
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "godot/**"
+      - "Tools/Assets/**"
+      - ".github/workflows/godot-headless-smoke.yml"
+  push:
+    branches: [main, "feature/**"]
+    paths:
+      - "godot/**"
+      - "Tools/Assets/**"
+      - ".github/workflows/godot-headless-smoke.yml"
 
 permissions:
   contents: read
@@ -52,10 +64,3 @@ jobs:
           if [[ "$STATUS" -ne 0 ]]; then
             exit "$STATUS"
           fi
-
-      - name: Upload smoke log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: godot-smoke-log
-          path: ${{ runner.temp }}/godot-smoke.log

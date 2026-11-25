@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/indian_asset_pack_runtime.gd" id="2_asset_pack"]
+[ext_resource type="Script" path="res://scripts/voice_pack_runtime.gd" id="3_voice_pack"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
+
+[node name="IndianAssetPackRuntime" type="Node" parent="."]
+script = ExtResource("2_asset_pack")
+
+[node name="VoicePackRuntime" type="Node" parent="."]
+script = ExtResource("3_voice_pack")

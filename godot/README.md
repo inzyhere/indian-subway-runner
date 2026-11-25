@@ -17,6 +17,8 @@ The existing Unity project in `Assets/`, `Packages/`, and `ProjectSettings/` is 
 - `export_presets.cfg`: Android debug APK export preset.
 - `assets/models/`: 13 authored textured/animated GLB assets plus original OBJ/MTL fallback assets.
 - `assets/audio/`: original WAV music and SFX copied from the preserved Unity project.
+- `assets/indian_pack_v01/`: optional original starter pack import (GLB props, environment blocks, and temporary voice guides); import it with `python3 Tools/Assets/import_starter_asset_pack.py /path/to/IndianSubwayRunner_AssetPack_v0.1.zip`.
+- `scripts/indian_asset_pack_runtime.gd` and `scripts/voice_pack_runtime.gd`: optional prop/environment and voice hooks; missing pack files are safely skipped.
 
 Optional gameplay capture:
 
